@@ -1,0 +1,927 @@
+{
+  "_meta": {
+    "source": "kbthink.com/investment.html",
+    "collected_at": "2026-10-12",
+    "note": "제목·URL·섹션은 실제 공개 페이지 기준. tags/level 은 프로토타입용 임의 매핑이며 현업 해시태그 테이블로 교체할 것. 2026-10-12 최신화: 9~10월 콘텐츠 14건 추가, summary 필드 신설.",
+    "tag_vocabulary": [
+      "#국내증시",
+      "#해외증시",
+      "#환율",
+      "#환헤지",
+      "#반도체",
+      "#AI",
+      "#ETF",
+      "#퇴직연금",
+      "#ISA",
+      "#절세",
+      "#채권",
+      "#금리",
+      "#배당",
+      "#자산배분",
+      "#분산투자",
+      "#투자입문",
+      "#투자성향",
+      "#원자재",
+      "#가상자산",
+      "#정책이슈"
+    ],
+    "level": [
+      "입문",
+      "중급",
+      "심화"
+    ],
+    "format": [
+      "시황",
+      "전망",
+      "이슈",
+      "칼럼",
+      "가이드",
+      "시리즈",
+      "리포트"
+    ],
+    "display_fields": {
+      "summary": "대고객 출처 칩에 노출되는 1~2줄 요약. 없으면 title 만 쓴다",
+      "url": "클릭 시 이동할 엔드서비스. kbthink.com 공개 페이지"
+    },
+    "count": 50,
+    "exclude_from_followup": {
+      "section": [
+        "1분 브리핑"
+      ],
+      "format": [
+        "시황"
+      ],
+      "note": "당일 시장동향은 브리핑 본문·근거에서 이미 다룬다. '이어서 읽어볼 콘텐츠'로 다시 노출하면 같은 내용이 두 번 나온다."
+    },
+    "link_policy": "link_ok=false 였던 목데이터 글은 url 을 https://kbthink.com/investment.html 로 돌리고 url_intended 에 원래 경로를 남긴다. 실서비스 전환 시 복원한다."
+  },
+  "contents": [
+    {
+      "id": "c001",
+      "title": "반도체 투심 위축에 코스피 하락",
+      "url": "https://kbthink.com/investment/today-pick/2608/260828-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-28",
+      "tags": [
+        "#국내증시",
+        "#반도체"
+      ],
+      "summary": "반도체 투자심리 약화가 지수에 부담으로 작용한 하루입니다. 업종별 차별화와 수급 흐름을 함께 짚습니다",
+      "link_ok": true
+    },
+    {
+      "id": "c002",
+      "title": "엔비디아·AI 훈풍에 미 증시 상승",
+      "url": "https://kbthink.com/investment/today-pick/2608/260828-1.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-28",
+      "tags": [
+        "#해외증시",
+        "#AI",
+        "#반도체"
+      ],
+      "summary": "AI 관련 기대와 엔비디아 강세가 뉴욕증시 분위기를 이끌었습니다. 주요 지수와 반도체주 흐름을 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c003",
+      "title": "엔비디아 훈풍에 양 지수 동반 상승",
+      "url": "https://kbthink.com/investment/today-pick/2608/260827-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-27",
+      "tags": [
+        "#국내증시",
+        "#AI"
+      ],
+      "summary": "엔비디아발 AI 기대가 국내 증시에도 영향을 준 하루입니다. 대형주와 성장주 반응을 중심으로 살펴봅니다",
+      "link_ok": true
+    },
+    {
+      "id": "c004",
+      "title": "코스피↑와 코스닥↓의 엇갈린 움직임",
+      "url": "https://kbthink.com/investment/today-pick/2608/260821-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-21",
+      "tags": [
+        "#국내증시"
+      ],
+      "summary": "코스피와 코스닥이 서로 다른 방향을 보인 배경을 짚습니다. 업종별 수급과 투자심리 변화를 함께 확인합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c005",
+      "title": "PPI 둔화에 S&P 500 최고치",
+      "url": "https://kbthink.com/investment/today-pick/2608/260814-1.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-14",
+      "tags": [
+        "#해외증시",
+        "#금리"
+      ],
+      "summary": "생산자물가 둔화가 금리 부담 완화 기대를 키운 흐름입니다. S&P 500 최고치 배경과 섹터 반응을 살핍니다",
+      "link_ok": true
+    },
+    {
+      "id": "c006",
+      "title": "코스피 4일 연속↑ 7,000선 목전",
+      "url": "https://kbthink.com/investment/today-pick/2608/260814-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-14",
+      "tags": [
+        "#국내증시"
+      ],
+      "summary": "코스피가 4일 연속 상승하며 7,000선에 가까워진 흐름입니다. 지수 상승을 이끈 업종과 수급을 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c007",
+      "title": "삼성전자 반등에 코스피 상승 전환",
+      "url": "https://kbthink.com/investment/today-pick/2608/260811-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-11",
+      "tags": [
+        "#국내증시",
+        "#반도체"
+      ],
+      "summary": "삼성전자 반등이 지수 분위기 전환에 영향을 준 하루입니다. 반도체 업종과 코스피 수급 변화를 함께 짚습니다",
+      "link_ok": true
+    },
+    {
+      "id": "c008",
+      "title": "흔들린 코스피, 코스닥은 800선 돌파",
+      "url": "https://kbthink.com/investment/today-pick/2608/260806-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-06",
+      "tags": [
+        "#국내증시"
+      ],
+      "summary": "코스피는 변동성이 커졌지만 코스닥은 800선을 넘어섰습니다. 중소형주와 대형주 온도 차를 살펴봅니다",
+      "link_ok": true
+    },
+    {
+      "id": "c009",
+      "title": "종목 차별화 지속, 국내증시 소폭 하락",
+      "url": "https://kbthink.com/investment/today-pick/2608/260807-2.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-07",
+      "tags": [
+        "#국내증시",
+        "#분산투자"
+      ],
+      "summary": "종목별 차별화가 이어지며 국내 증시가 소폭 약세를 보였습니다. 분산 관점에서 업종별 흐름을 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c010",
+      "title": "미-이란 협상 난항, 뉴욕증시 주춤",
+      "url": "https://kbthink.com/investment/today-pick/2608/260807-1.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-08-07",
+      "tags": [
+        "#해외증시",
+        "#원자재"
+      ],
+      "summary": "미국과 이란 협상 난항이 위험자산 선호를 제한한 흐름입니다. 뉴욕증시와 원자재 가격 반응을 살핍니다",
+      "link_ok": true
+    },
+    {
+      "id": "c011",
+      "title": "2026년 7월 31일 금융시장 동향",
+      "url": "https://kbthink.com/investment/trend/daily/260731.html",
+      "section": "금융 시장 동향",
+      "format": "시황",
+      "level": "심화",
+      "published": "2026-07-31",
+      "tags": [
+        "#국내증시",
+        "#해외증시",
+        "#금리"
+      ],
+      "summary": "국내외 증시와 채권·환율 흐름을 한 번에 정리한 일일 점검입니다. 주요 지표의 시장 반응을 살핍니다",
+      "link_ok": true
+    },
+    {
+      "id": "c012",
+      "title": "[환율 전망] 소문난 잔치 잭슨홀, 먹을 게 있을까?",
+      "url": "https://kbthink.com/investment/fx/daily/260828.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "심화",
+      "published": "2026-08-28",
+      "tags": [
+        "#환율",
+        "#금리"
+      ],
+      "summary": "잭슨홀 회의를 앞두고 달러와 원화가 어떤 변수에 반응했는지 점검합니다. 금리 발언의 시장 해석도 다룹니다",
+      "link_ok": true
+    },
+    {
+      "id": "c013",
+      "title": "[환율 전망] 수급 듬뿍 원화 레시피에 금통위 한 스푼 추가",
+      "url": "https://kbthink.com/investment/fx/daily/260827.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "심화",
+      "published": "2026-08-27",
+      "tags": [
+        "#환율",
+        "#금리"
+      ],
+      "summary": "원화 수급 여건에 금융통화위원회 이벤트가 더해진 구간입니다. 환율 변동 요인과 시장 관심사를 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c014",
+      "title": "[환율 전망] 유가와 금리 하락, 원화에는 더욱 긍정적",
+      "url": "https://kbthink.com/investment/fx/daily/260826.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "심화",
+      "published": "2026-08-26",
+      "tags": [
+        "#환율",
+        "#원자재",
+        "#금리"
+      ],
+      "summary": "유가와 금리 하락이 원화 흐름에 미친 영향을 살펴봅니다. 달러 약세와 대외 변수의 연결고리도 점검합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c015",
+      "title": "[환율 전망] 쏟아지는 악재들, 수급으로 버티는 원화",
+      "url": "https://kbthink.com/investment/fx/daily/260819.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "심화",
+      "published": "2026-08-19",
+      "tags": [
+        "#환율"
+      ],
+      "summary": "대외 악재가 이어지는 가운데 원화가 수급 요인으로 버틴 흐름을 분석합니다. 환율 변동성의 배경을 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c016",
+      "title": "달러 환율 하락 | 어느새 1,300원대를 앞두고 있어요",
+      "url": "https://kbthink.com/investment/issues/usd-krw-drop.html",
+      "section": "경제 이슈",
+      "format": "이슈",
+      "level": "입문",
+      "published": "2026-08-20",
+      "tags": [
+        "#환율",
+        "#투자입문"
+      ],
+      "summary": "달러 환율이 1,300원대에 가까워진 배경을 쉽게 설명합니다. 환율 하락이 생활과 투자에 미치는 영향도 짚습니다",
+      "link_ok": true
+    },
+    {
+      "id": "c017",
+      "title": "원화 국제화 로드맵 | 외환거래 규제 완화해요",
+      "url": "https://kbthink.com/investment/issues/krw-internationalization-roadmap.html",
+      "section": "경제 이슈",
+      "format": "이슈",
+      "level": "중급",
+      "published": "2026-08-18",
+      "tags": [
+        "#환율",
+        "#정책이슈"
+      ],
+      "summary": "원화 국제화를 위한 외환거래 규제 완화 방향을 소개합니다. 개인과 기업의 외환 접근성 변화도 함께 살핍니다",
+      "link_ok": true
+    },
+    {
+      "id": "c018",
+      "title": "중고차 소비자 보호대책 | 숨은 수수료를 없애요",
+      "url": "https://kbthink.com/investment/issues/korea-used-car-buyer-protection.html",
+      "section": "경제 이슈",
+      "format": "이슈",
+      "level": "입문",
+      "published": "2026-08-22",
+      "tags": [
+        "#정책이슈"
+      ],
+      "summary": "중고차 거래에서 소비자가 확인하기 어려웠던 수수료 문제를 다룹니다. 정책 변화와 기대 효과를 쉽게 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c019",
+      "title": "한국은행 금융통화위원회 Comments",
+      "url": "https://kbthink.com/investment/deepdive/tip/260828.html",
+      "section": "심층 분석",
+      "format": "리포트",
+      "level": "심화",
+      "published": "2026-08-28",
+      "tags": [
+        "#금리",
+        "#채권",
+        "#정책이슈"
+      ],
+      "summary": "한국은행 금융통화위원회 결과를 채권시장 관점에서 해석합니다. 기준금리 판단 배경과 향후 변수도 점검합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c020",
+      "title": "[8월 4주차] 환율(FX) 전망",
+      "url": "https://kbthink.com/investment/deepdive/weekly/260824-4.html",
+      "section": "심층 분석",
+      "format": "전망",
+      "level": "심화",
+      "published": "2026-08-24",
+      "tags": [
+        "#환율",
+        "#환헤지"
+      ],
+      "summary": "8월 4주차 환율 흐름을 좌우할 달러, 원화 수급, 대외 이벤트를 점검합니다. 환헤지 관점의 변수도 다룹니다",
+      "link_ok": true
+    },
+    {
+      "id": "c021",
+      "title": "[미리보기] 8월 4주차 금융시장 전망",
+      "url": "https://kbthink.com/investment/deepdive/weekly/260824-1.html",
+      "section": "심층 분석",
+      "format": "전망",
+      "level": "심화",
+      "published": "2026-08-24",
+      "tags": [
+        "#국내증시",
+        "#해외증시",
+        "#자산배분"
+      ],
+      "summary": "8월 4주차 주요 금융시장 이슈를 미리 살펴봅니다. 국내외 증시와 금리, 자산배분 관련 변수들을 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c022",
+      "title": "지정학적 리스크가 상존하는 구간에서의 합리적 자산배분 전략",
+      "url": "https://kbthink.com/investment/tips/management/260807.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-08-07",
+      "tags": [
+        "#자산배분",
+        "#분산투자",
+        "#투자성향"
+      ],
+      "summary": "지정학적 불확실성이 남아 있는 국면에서 자산배분을 점검하는 글입니다. 위험 분산과 투자성향의 중요성을 다룹니다",
+      "link_ok": true
+    },
+    {
+      "id": "c023",
+      "title": "AI 투자, 회수 시점이 관건",
+      "url": "https://kbthink.com/investment/tips/column/2607011.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-07-01",
+      "tags": [
+        "#AI",
+        "#해외증시"
+      ],
+      "summary": "AI 투자 열풍 속에서 수익 회수 시점이 왜 중요한지 살펴봅니다. 기업 실적과 인프라 투자 흐름을 함께 점검합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c024",
+      "title": "베라 루빈이 연 AI 인프라 시장",
+      "url": "https://kbthink.com/investment/tips/column/260701.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "심화",
+      "published": "2026-07-01",
+      "tags": [
+        "#AI",
+        "#반도체"
+      ],
+      "summary": "베라 루빈 플랫폼이 AI 인프라 시장에 던진 의미를 분석합니다. 반도체와 데이터센터 수요의 연결을 다룹니다",
+      "link_ok": true
+    },
+    {
+      "id": "c025",
+      "title": "투자하면서 세금 줄이는 방법은? 서민형 ISA 조건부터 확인해 보세요",
+      "url": "https://kbthink.com/investment/101/low-to-middle-income-isa.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-08-27",
+      "tags": [
+        "#ISA",
+        "#절세",
+        "#투자입문"
+      ],
+      "summary": "ISA의 절세 구조와 서민형 가입 조건을 쉽게 정리합니다. 투자 초보자가 확인할 계좌 활용 포인트를 소개합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c026",
+      "title": "퇴직연금 ETF 상품 투자 방법 | 매수 방법부터 상품 종류까지",
+      "url": "https://kbthink.com/etf/pension-etf.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-06-15",
+      "tags": [
+        "#ETF",
+        "#퇴직연금",
+        "#투자입문"
+      ],
+      "summary": "퇴직연금 계좌에서 ETF를 거래하는 기본 절차를 안내합니다. 상품 유형과 유의할 점을 입문자 눈높이로 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c027",
+      "title": "매수 매도 뜻부터 투자자 유형까지, 주식 거래에 필요한 기초 상식",
+      "url": "https://kbthink.com/stock/trading.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-05-20",
+      "tags": [
+        "#투자입문",
+        "#국내증시"
+      ],
+      "summary": "주식 거래를 시작할 때 알아야 할 주문 용어와 투자자 유형을 설명합니다. 기본 개념을 사례 중심으로 정리합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c028",
+      "title": "투자성향분석 왜 하는 걸까? 투자자 유형별 위험등급과 상품 선택 기준",
+      "url": "https://kbthink.com/fund/investment-profile.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-04-10",
+      "tags": [
+        "#투자성향",
+        "#분산투자",
+        "#투자입문"
+      ],
+      "summary": "투자성향분석이 필요한 이유와 위험등급의 의미를 설명합니다. 상품 선택 전 확인할 기준을 입문자에게 안내합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c029",
+      "title": "미국채 사는 법",
+      "url": "https://kbthink.com/bond/us-treasury.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "중급",
+      "published": "2026-06-02",
+      "tags": [
+        "#채권",
+        "#해외증시",
+        "#금리"
+      ],
+      "summary": "미국채 투자에 필요한 계좌, 환전, 이자 구조를 정리합니다. 금리 변화가 채권 가격에 미치는 영향도 설명합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c030",
+      "title": "주식 증거금",
+      "url": "https://kbthink.com/investment.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-03-18",
+      "tags": [
+        "#투자입문",
+        "#국내증시"
+      ],
+      "summary": "주식 증거금의 개념과 주문 가능 금액이 정해지는 방식을 설명합니다. 미수거래와 결제일 관련 유의점도 다룹니다",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/stock/margin.html",
+      "mock_article": true
+    },
+    {
+      "id": "c031",
+      "title": "코인 종류와 특징: 비트코인, 알트코인, 가상화폐 분류 총정리",
+      "url": "https://kbthink.com/crypto.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-07-08",
+      "tags": [
+        "#가상자산",
+        "#투자입문"
+      ],
+      "summary": "비트코인과 알트코인 등 가상자산 분류를 쉽게 정리합니다. 각 코인의 역할과 특징을 입문자 관점에서 설명합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c032",
+      "title": "처음 배우는 투자지표와 전략",
+      "url": "https://kbthink.com/series/investment-indicators.html",
+      "section": "시리즈",
+      "format": "시리즈",
+      "level": "입문",
+      "published": "2026-02-01",
+      "tags": [
+        "#투자입문",
+        "#투자성향"
+      ],
+      "summary": "투자지표와 기본 전략을 차근차근 배우는 입문 시리즈입니다. 본인의 투자성향을 이해하는 데 필요한 개념을 담았습니다",
+      "link_ok": true
+    },
+    {
+      "id": "c033",
+      "title": "만능통장 ISA 총정리",
+      "url": "https://kbthink.com/series/isa.html",
+      "section": "시리즈",
+      "format": "시리즈",
+      "level": "입문",
+      "published": "2026-01-15",
+      "tags": [
+        "#ISA",
+        "#절세"
+      ],
+      "summary": "ISA의 가입 요건, 세제 혜택, 계좌 유형을 모아 정리한 시리즈입니다. 절세 계좌 활용 전 기초를 확인할 수 있습니다",
+      "link_ok": true
+    },
+    {
+      "id": "c034",
+      "title": "ETF 가이드",
+      "url": "https://kbthink.com/series/etf.html",
+      "section": "시리즈",
+      "format": "시리즈",
+      "level": "입문",
+      "published": "2026-01-20",
+      "tags": [
+        "#ETF",
+        "#퇴직연금",
+        "#분산투자"
+      ],
+      "summary": "ETF의 구조와 분산투자 효과, 퇴직연금 활용법을 다루는 입문 시리즈입니다. 상품 비교에 필요한 기준을 설명합니다",
+      "link_ok": true
+    },
+    {
+      "id": "c035",
+      "title": "알기 쉬운 금융생활 외환편",
+      "url": "https://kbthink.com/series/exchange.html",
+      "section": "시리즈",
+      "format": "시리즈",
+      "level": "입문",
+      "published": "2026-03-05",
+      "tags": [
+        "#환율",
+        "#환헤지",
+        "#투자입문"
+      ],
+      "summary": "환율과 환헤지의 기본 개념을 쉽게 배우는 외환 입문 시리즈입니다. 일상 속 외환거래 이해에도 도움이 됩니다",
+      "link_ok": true
+    },
+    {
+      "id": "c036",
+      "title": "[요약본] 2025 한국 부자보고서",
+      "url": "https://kbthink.com/investment/deepdive/research/251214.html",
+      "section": "심층 분석",
+      "format": "리포트",
+      "level": "심화",
+      "published": "2025-12-14",
+      "tags": [
+        "#자산배분",
+        "#투자성향"
+      ],
+      "summary": "2025 한국 부자의 자산 구성과 투자 인식을 요약한 리포트입니다. 자산배분과 투자성향 변화를 함께 살펴봅니다",
+      "link_ok": true
+    },
+    {
+      "id": "c101",
+      "title": "반도체 조정 국면, 비중이 큰 투자자가 먼저 점검할 것",
+      "url": "https://kbthink.com/investment/today-pick/2610/261012-1.html",
+      "section": "1분 브리핑",
+      "format": "시황",
+      "level": "중급",
+      "published": "2026-10-12",
+      "tags": [
+        "#국내증시",
+        "#반도체",
+        "#분산투자"
+      ],
+      "summary": "한 종목 비중이 40%를 넘으면 지수보다 큰 폭으로 움직입니다. 집중도를 숫자로 확인하는 방법.",
+      "link_ok": true
+    },
+    {
+      "id": "c102",
+      "title": "원·달러 1,330원대, 해외자산 평가액은 어떻게 달라지나",
+      "url": "https://kbthink.com/investment/today-pick/2610/261012-2.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "중급",
+      "published": "2026-10-12",
+      "tags": [
+        "#환율",
+        "#환헤지",
+        "#해외증시"
+      ],
+      "summary": "환율이 내리면 달러자산 환산액은 줄고 신규 환전 비용은 낮아집니다. 환헤지 여부로 체감이 갈립니다.",
+      "link_ok": true
+    },
+    {
+      "id": "c103",
+      "title": "'AI 거품론'을 어떻게 읽어야 할까",
+      "url": "https://kbthink.com/investment.html",
+      "section": "심층 분석",
+      "format": "칼럼",
+      "level": "심화",
+      "published": "2026-10-09",
+      "tags": [
+        "#AI",
+        "#반도체",
+        "#해외증시"
+      ],
+      "summary": "밸류에이션 논쟁이 반복되는 이유와, 업종 집중도가 높은 포트폴리오가 받는 영향.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2610/261009-1.html",
+      "mock_article": true
+    },
+    {
+      "id": "c104",
+      "title": "국내는 약세, 해외는 강세 — 지역 분산이 수익률을 가른 달",
+      "url": "https://kbthink.com/investment.html",
+      "section": "금융 시장 동향",
+      "format": "리포트",
+      "level": "중급",
+      "published": "2026-10-08",
+      "tags": [
+        "#국내증시",
+        "#해외증시",
+        "#자산배분",
+        "#분산투자"
+      ],
+      "summary": "코스피와 S&P500의 방향이 갈린 구간에서 지역 비중이 체감 수익률을 얼마나 바꾸는지.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2610/261008-1.html",
+      "mock_article": true
+    },
+    {
+      "id": "c105",
+      "title": "KB 하우스뷰 2026년 10월 — 위험자산 선호도 유지",
+      "url": "https://kbthink.com/investment.html",
+      "section": "심층 분석",
+      "format": "리포트",
+      "level": "중급",
+      "published": "2026-10-01",
+      "tags": [
+        "#자산배분",
+        "#투자성향",
+        "#채권"
+      ],
+      "summary": "주식 비중은 중립 대비 소폭 상위. 지역·업종 분산 강화를 권고합니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/houseview/2610.html",
+      "mock_article": true
+    },
+    {
+      "id": "c106",
+      "title": "투자성향별 위험자산 권고 비중, 내 자리는 어디인가",
+      "url": "https://kbthink.com/investment.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-09-30",
+      "tags": [
+        "#투자성향",
+        "#자산배분",
+        "#투자입문"
+      ],
+      "summary": "안정추구 20% · 위험중립 40% · 적극투자 60% · 공격투자 75% 기준으로 현재 비중을 비교해 봅니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/guide/risk-profile.html",
+      "mock_article": true
+    },
+    {
+      "id": "c107",
+      "title": "단기자금은 어디에 두나 — MMF·단기채·파킹형 비교",
+      "url": "https://kbthink.com/investment.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-09-26",
+      "tags": [
+        "#채권",
+        "#금리",
+        "#투자입문"
+      ],
+      "summary": "위험자산 비중이 낮은 포트폴리오가 금리 구간에서 선택할 수 있는 현금성 자산들.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/guide/short-term-cash.html",
+      "mock_article": true
+    },
+    {
+      "id": "c108",
+      "title": "위험자산 비중이 너무 낮을 때 생기는 일",
+      "url": "https://kbthink.com/investment.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-09-25",
+      "tags": [
+        "#자산배분",
+        "#투자성향",
+        "#채권",
+        "#금리"
+      ],
+      "summary": "손실을 피하려는 선택도 비용이 있습니다. 하우스뷰 권고 대비 갭을 보는 관점.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260925-1.html",
+      "mock_article": true
+    },
+    {
+      "id": "c109",
+      "title": "반도체 ETF 한 종목에 몰렸을 때 — 분산의 실제 효과",
+      "url": "https://kbthink.com/investment.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-09-22",
+      "tags": [
+        "#반도체",
+        "#분산투자",
+        "#ETF"
+      ],
+      "summary": "같은 하락장에서 집중 포트폴리오와 분산 포트폴리오의 변동폭 차이를 숫자로 비교합니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260922-1.html",
+      "mock_article": true
+    },
+    {
+      "id": "c110",
+      "title": "처음 투자를 시작할 때 고르는 세 가지",
+      "url": "https://kbthink.com/investment.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-09-18",
+      "tags": [
+        "#투자입문",
+        "#분산투자",
+        "#ETF"
+      ],
+      "summary": "금액·기간·분산. 첫 상품을 고르기 전에 정해야 하는 것들.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/guide/first-step.html",
+      "mock_article": true
+    },
+    {
+      "id": "c111",
+      "title": "ISA와 연금계좌, 어디부터 채울까",
+      "url": "https://kbthink.com/investment.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-09-15",
+      "tags": [
+        "#ISA",
+        "#절세",
+        "#퇴직연금"
+      ],
+      "summary": "세액공제 한도와 인출 조건을 기준으로 한 납입 순서.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/guide/isa-pension.html",
+      "mock_article": true
+    },
+    {
+      "id": "c112",
+      "title": "환헤지형과 언헤지형, 지금 국면에서의 차이",
+      "url": "https://kbthink.com/investment/today-pick/2609/260911-1.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "중급",
+      "published": "2026-09-11",
+      "tags": [
+        "#환율",
+        "#환헤지",
+        "#해외증시"
+      ],
+      "summary": "원화 강세 구간에서 두 유형의 수익률이 어떻게 갈리는지.",
+      "link_ok": true
+    },
+    {
+      "id": "c113",
+      "title": "코스닥은 오르고 코스피는 내린 달 — 지수 간 괴리 읽기",
+      "url": "https://kbthink.com/investment.html",
+      "section": "금융 시장 동향",
+      "format": "리포트",
+      "level": "중급",
+      "published": "2026-09-08",
+      "tags": [
+        "#국내증시",
+        "#자산배분"
+      ],
+      "summary": "단일 지수로 국내 증시를 설명하기 어려운 구간. 보유 종목 구성이 더 중요해집니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260908-1.html",
+      "mock_article": true
+    },
+    {
+      "id": "c114",
+      "title": "퇴직연금 ETF, 적립식으로 담는 방법",
+      "url": "https://kbthink.com/investment.html",
+      "section": "기초부터 실전까지",
+      "format": "가이드",
+      "level": "입문",
+      "published": "2026-09-04",
+      "tags": [
+        "#퇴직연금",
+        "#ETF",
+        "#투자입문"
+      ],
+      "summary": "계좌 유형별 매수 가능 상품과 적립식 설정 절차.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/guide/pension-etf.html",
+      "mock_article": true
+    }
+  ],
+  "situation_to_tag": {
+    "_note": "(change_type, gap_type) → 우선 태그. 현업 케이스 테이블 확정 시 교체.",
+    "급락|과편중": [
+      "#분산투자",
+      "#자산배분",
+      "#투자성향"
+    ],
+    "급락|과보수": [
+      "#자산배분",
+      "#채권",
+      "#금리"
+    ],
+    "급락|정합": [
+      "#국내증시",
+      "#자산배분"
+    ],
+    "상승|과편중": [
+      "#분산투자",
+      "#투자성향"
+    ],
+    "상승|과보수": [
+      "#자산배분",
+      "#ETF"
+    ],
+    "상승|정합": [
+      "#국내증시",
+      "#해외증시"
+    ],
+    "유지|과편중": [
+      "#분산투자",
+      "#자산배분"
+    ],
+    "유지|과보수": [
+      "#ETF",
+      "#퇴직연금",
+      "#자산배분"
+    ],
+    "유지|정합": [
+      "#절세",
+      "#ISA"
+    ],
+    "자산없음|정합": [
+      "#투자입문",
+      "#ETF",
+      "#투자성향"
+    ],
+    "자산생김|정합": [
+      "#투자입문",
+      "#분산투자",
+      "#ISA"
+    ]
+  },
+  "overlay_rules": {
+    "_note": "포트폴리오 구성에서 파생되는 보조 태그. situation 태그에 더해 가산한다.",
+    "해외비중_30퍼센트_이상": [
+      "#환율",
+      "#환헤지"
+    ],
+    "반도체_보유": [
+      "#반도체",
+      "#AI"
+    ],
+    "채권_보유": [
+      "#채권",
+      "#금리"
+    ],
+    "연금계좌_보유": [
+      "#퇴직연금",
+      "#절세"
+    ]
+  }
+}

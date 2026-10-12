@@ -1,0 +1,171 @@
+{
+  "case_id": "CASE7",
+  "card_type": "content",
+  "selected_over": [
+    "personal_briefing",
+    "domestic_market",
+    "fx"
+  ],
+  "selection_reason": "자산생김 · 최대비중 100% · 국내시황 -3.65%",
+  "card_scores": {
+    "personal_briefing": 1.5,
+    "domestic_market": 3.09,
+    "fx": 0.0,
+    "content": 5.0
+  },
+  "advice": "투자자산이 새로 생기며 30,000원이 늘었어요 [portfolio]. 변동은 KB밸런스포트폴리오가 전부 만들었고, 현재 비중도 100%예요 [portfolio]. 같은 날 코스피는 3.65% 하락해 국내 자산의 시장 배경은 약했어요 [시장-^KS11].",
+  "advice_display": "투자자산이 새로 생기며 30,000원이 늘었어요. 변동은 KB밸런스포트폴리오가 전부 만들었고, 현재 비중도 100%예요. 같은 날 코스피는 3.65% 하락해 국내 자산의 시장 배경은 약했어요.",
+  "advice_plain": "투자자산이 새로 생기며 30,000원이 늘었어요. 변동은 KB밸런스포트폴리오가 전부 만들었고, 현재 비중도 100%예요. 같은 날 코스피는 3.65% 하락해 국내 자산의 시장 배경은 약했어요.",
+  "sources": [],
+  "서브조언": "포트폴리오도 알려 드릴게요",
+  "버튼명": "케이봇쌤 포트폴리오 이동하기",
+  "end_service": {
+    "name": "케이봇쌤 포트폴리오 이동하기",
+    "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+    "element": "상품_디지털PB_투자브리핑_SVC_G"
+  },
+  "diagnosis": {
+    "change_type": "자산생김",
+    "gap_type": "과편중",
+    "days_since": 2,
+    "outlook_region": "국내",
+    "outlook": "나쁨"
+  },
+  "metrics": {
+    "delta": 30000,
+    "rate": 1.0,
+    "max_weight": 1.0,
+    "total": 3000000,
+    "region_mix": {
+      "국내": 1.0
+    }
+  },
+  "contributions": [
+    {
+      "name": "KB밸런스포트폴리오",
+      "delta": 30000,
+      "weight": 1.0,
+      "region": "국내"
+    }
+  ],
+  "market": {
+    "국내": {
+      "outlook": "나쁨",
+      "change_1d": -3.65,
+      "지표": "코스피"
+    },
+    "해외": {
+      "outlook": "좋음",
+      "change_1d": 0.59,
+      "지표": "S&P500"
+    },
+    "stale": false,
+    "region_used": "국내",
+    "outlook_used": "나쁨",
+    "환율": {
+      "price": 1331.75,
+      "change_1d": -0.84
+    }
+  },
+  "news": [],
+  "contents": [
+    {
+      "id": "c109",
+      "title": "반도체 ETF 한 종목에 몰렸을 때 — 분산의 실제 효과",
+      "url": "https://kbthink.com/investment.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-09-22",
+      "tags": [
+        "#반도체",
+        "#분산투자",
+        "#ETF"
+      ],
+      "summary": "같은 하락장에서 집중 포트폴리오와 분산 포트폴리오의 변동폭 차이를 숫자로 비교합니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260922-1.html",
+      "mock_article": true,
+      "_score": 4.4,
+      "_why": "열람 #ETF·#반도체"
+    },
+    {
+      "id": "c103",
+      "title": "'AI 거품론'을 어떻게 읽어야 할까",
+      "url": "https://kbthink.com/investment.html",
+      "section": "심층 분석",
+      "format": "칼럼",
+      "level": "심화",
+      "published": "2026-10-09",
+      "tags": [
+        "#AI",
+        "#반도체",
+        "#해외증시"
+      ],
+      "summary": "밸류에이션 논쟁이 반복되는 이유와, 업종 집중도가 높은 포트폴리오가 받는 영향.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2610/261009-1.html",
+      "mock_article": true,
+      "_score": 2.5,
+      "_why": "열람 #반도체"
+    }
+  ],
+  "review": {
+    "compliance": {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 변동 사실, 포트폴리오 비중, 당일 시장 하락 배경을 설명하는 문구로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+    },
+    "format": {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 107,
+      "sentences": 3
+    },
+    "grounding": {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "exempt": true
+    }
+  },
+  "review_rounds": 1,
+  "review_history": [
+    {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 변동 사실, 포트폴리오 비중, 당일 시장 하락 배경을 설명하는 문구로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+    },
+    {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 107,
+      "sentences": 3
+    },
+    {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "exempt": true
+    }
+  ],
+  "fallback_used": false,
+  "llm": {
+    "used": true,
+    "model": "gpt-5.5",
+    "calls": 16
+  },
+  "generated_at": "2026-10-12 17:57:53"
+}

@@ -1,0 +1,23 @@
+# Python 3.10 이상 필요 (PEP 585 빌트인 제네릭 사용)
+# 설치:  python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
+
+langgraph
+langchain[openai]
+langchain-openai
+langchain-core
+langchain-text-splitters
+python-dotenv
+pydantic
+
+# Observability (선택). 키가 없으면 자동으로 비활성
+langfuse
+
+# 시황 Tool 과 리포트 로딩은 표준 라이브러리만 쓴다 (urllib, json, re)
+
+# MCP — 시황·뉴스 Tool 서버 (교육과정과 동일하게 v1 계열 고정)
+# mcp 2.x 는 FastMCP 를 MCPServer 로 rename 했다
+mcp<2
+langchain-mcp-adapters
+
+# 데모 앱
+streamlit

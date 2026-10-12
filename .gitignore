@@ -1,0 +1,36 @@
+# 비밀값 — 절대 커밋하지 말 것
+.env
+.env.local
+*.key
+
+# 파이썬
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# 교육과정 자료 — 저작권. 저장소에 올리지 않는다
+code/
+
+# 사내 화면 캡처 · 교재 PDF
+*.png
+*.jpg
+*.pdf
+
+# 검수 대기분 (실행마다 바뀜)
+output/pending/
+
+# 벡터 인덱스
+.chroma/
+
+# macOS
+.DS_Store
+
+# ─────────────────────────────────────────────
+# 일부러 커밋하는 것 (자동 생성물이지만 데모에 필요)
+#   output/approved/*.json  — 키 없이 뷰어·앱을 돌리기 위한 샘플 (목데이터)
+#   demo/viewer.html        — 클론 후 바로 열 수 있게
+data/_service_id_map.local.json
+*.local.json

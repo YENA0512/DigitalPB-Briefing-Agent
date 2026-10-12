@@ -1,0 +1,635 @@
+{
+  "_meta": {
+    "note": "CASE10~41 은 원본 그대로. CASE1~9 는 화면 캡처에서 옮긴 값이라 대조 필요.",
+    "history": {
+      "before": "케이스당 3문구 로테이션 + 추천펀드 제안 CASE42~45 매월 갱신",
+      "2026-08-20": "수기 관리 부담으로 3문구 → 1문구(긴 버전) 축소, CASE42~45 삭제, 카드 4종 랜덤 도입"
+    },
+    "slots": {
+      "days": "직전 접속일로부터 경과일수",
+      "diffAmt": "직전 접속 시점 대비 총금액 증감액",
+      "curAmt": "현재 투자자산 총금액"
+    },
+    "limits": {
+      "상세조언": [
+        13,
+        74
+      ],
+      "서브조언": [
+        14,
+        18
+      ],
+      "버튼명": [
+        11,
+        15
+      ]
+    },
+    "amount_format": "억원 미만은 원 단위(99,031,7483원), 억원 이상은 X억 X만원(205억 6,230만원)",
+    "open_questions": [
+      "국내/해외 전망 중 무엇을 쓸지 결정하는 기준 (보유자산 지역 비중 추정)",
+      "X→X 케이스(CASE1~6)에서 국내/해외 선택 기준",
+      "단기시장전망 6종의 데이터 출처와 갱신 방식"
+    ],
+    "source_note": "현업 투자브리핑 문구 정의서(사내 엑셀)에서 옮김. 파일명·서비스 화면ID·내부 분석태그는 공개 저장소용으로 마스킹했다.",
+    "masking": {
+      "service_id": "실제 화면ID → SVC_A~SVC_H",
+      "link": "실제 경로 → {service_id} 템플릿",
+      "클릭요소명": "내부 분석태그 → SVC_* 기반으로 일반화",
+      "note": "문구 41건은 그대로 둔다 — 데모 품질에 필요하고 식별자가 아니다",
+      "restore": "data/_service_id_map.local.json (gitignore). 사내 반입 시 복원"
+    }
+  },
+  "services": {
+    "SVC_A": {
+      "서브조언": "요즘 트렌드도 알려 드릴게요",
+      "버튼명": "투자 트렌드 이동하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_A",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_A"
+    },
+    "SVC_B": {
+      "서브조언": "지금 수익률이 좋은 상품은?",
+      "버튼명": "수익률 베스트 확인하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_B",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_B"
+    },
+    "SVC_C": {
+      "서브조언": "2026년 시장동향을 알아볼까요?",
+      "버튼명": "투자 인사이트 확인하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_C",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_C"
+    },
+    "SVC_D": {
+      "서브조언": "자산 분석하고 진단해 드릴게요",
+      "버튼명": "자산분석 진단 확인하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_D",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_D"
+    },
+    "SVC_E": {
+      "서브조언": "투자 꿀팁 확인해 볼까요?",
+      "버튼명": "투자 자산관리팁 확인하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_E",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_E"
+    },
+    "SVC_E_ALT": {
+      "서브조언": "자산관리 방법을 확인해 볼까요?",
+      "버튼명": "투자 자산관리팁 확인하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_E_ALT",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_E_ALT"
+    },
+    "SVC_F": {
+      "서브조언": "AI가 투자를 점검해 드릴게요",
+      "버튼명": "AI투자솔루션홈 이동하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_F",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_F"
+    },
+    "SVC_G": {
+      "서브조언": "포트폴리오도 알려 드릴게요",
+      "버튼명": "케이봇쌤 포트폴리오 이동하기",
+      "클릭요소명": "상품_디지털PB_투자브리핑_SVC_G",
+      "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+      "service_id": "SVC_G"
+    }
+  },
+  "cases": [
+    {
+      "id": "CASE1",
+      "cond": {
+        "asset": "X>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": "국내좋음"
+      },
+      "service": "SVC_A",
+      "advice": "전문가가 전망하는 국내 시장은 긍정적이에요. 지금 주목받는 투자 트렌드 상품을 확인해볼까요?",
+      "verified": false
+    },
+    {
+      "id": "CASE2",
+      "cond": {
+        "asset": "X>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": "국내보통"
+      },
+      "service": "SVC_B",
+      "advice": "국내 시장은 큰 변동없이 유지되고 있어요. 수익률 베스트 상품을 확인하고 투자를 시작해보세요.",
+      "verified": false
+    },
+    {
+      "id": "CASE3",
+      "cond": {
+        "asset": "X>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": "국내나쁨"
+      },
+      "service": "SVC_C",
+      "advice": "전문가는 국내 시장을 신중하게 살펴 봐야 할 시기라고 전망했어요. 전문가가 살펴 본 시장등락 함께 알아봐요.",
+      "verified": false
+    },
+    {
+      "id": "CASE4",
+      "cond": {
+        "asset": "X>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": "해외좋음"
+      },
+      "service": "SVC_A",
+      "advice": "전문가가 전망하는 미국 시장은 긍정적이에요. 지금 인기있는 투자 트렌드 상품은 무엇인지 확인해볼까요?",
+      "verified": false
+    },
+    {
+      "id": "CASE5",
+      "cond": {
+        "asset": "X>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": "해외보통"
+      },
+      "service": "SVC_B",
+      "advice": "미국 시장은 뚜렷한 변동없이 유지되고 있어요. 수익률 베스트 상품을 확인하고 투자를 시작해보세요.",
+      "verified": false
+    },
+    {
+      "id": "CASE6",
+      "cond": {
+        "asset": "X>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": "해외나쁨"
+      },
+      "service": "SVC_C",
+      "advice": "전문가는 미국 시장을 신중하게 살펴 봐야 할 시기라고 전망했어요. 꼭 확인해야 할 핵심포인트를 확인해보세요.",
+      "verified": false
+    },
+    {
+      "id": "CASE7",
+      "cond": {
+        "asset": "X>O",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_G",
+      "advice": "최근 투자자산이 추가 되었어요! 투자를 새롭게 시작한 지금, 포트폴리오 상품으로 다양한 자산에 분산투자를 시작해보세요.",
+      "verified": false
+    },
+    {
+      "id": "CASE8",
+      "cond": {
+        "asset": "O>X",
+        "access": null,
+        "change": null,
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_C",
+      "advice": "현재 조회되는 투자자산이 없어요. 확인해야 할 시장 등락을 살펴보고, 다시 투자를 시작해볼까요?",
+      "verified": false
+    },
+    {
+      "id": "CASE9",
+      "cond": {
+        "asset": "O>O",
+        "access": "동일일자",
+        "change": null,
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_C",
+      "advice": "투자자산 관리에 진심인 고객님! 투자자산 변동 사항을 꼼꼼히 체크하고 계시네요! 현재 시장 등락도 확인해보세요.",
+      "verified": false
+    },
+    {
+      "id": "CASE10",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "증가",
+        "access_detail": null,
+        "market": "국내좋음"
+      },
+      "service": "SVC_A",
+      "advice": "국내 시장 전망이 긍정적이에요. 고객님의 투자자산도 지난 방문 때보다 {diffAmt}원 늘었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE11",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "증가",
+        "access_detail": null,
+        "market": "국내보통"
+      },
+      "service": "SVC_E",
+      "advice": "국내 시장은 숨고르기 중이에요. 지난 {days}일 동안 투자자산이 {diffAmt}원 늘었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE12",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "증가",
+        "access_detail": null,
+        "market": "국내나쁨"
+      },
+      "service": "SVC_D",
+      "advice": "국내 시장은 잠시 주춤하고 있지만, 고객님의 투자자산은 {days}일 전보다 {diffAmt}원 증가했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE13",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "증가",
+        "access_detail": null,
+        "market": "해외좋음"
+      },
+      "service": "SVC_A",
+      "advice": "미국 시장 전망이 긍정적이에요. 고객님의 투자자산도 지난 방문 때보다 {diffAmt}원 늘었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE14",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "증가",
+        "access_detail": null,
+        "market": "해외보통"
+      },
+      "service": "SVC_E_ALT",
+      "advice": "미국 시장은 숨고르기 중이에요. 지난 {days}일 동안 투자자산이 {diffAmt}원 늘었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE15",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "증가",
+        "access_detail": null,
+        "market": "해외나쁨"
+      },
+      "service": "SVC_D",
+      "advice": "미국 시장은 잠시 주춤하고 있지만, 고객님의 투자자산은 {days}일 전보다 {diffAmt}원 증가했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE16",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "감소",
+        "access_detail": null,
+        "market": "국내좋음"
+      },
+      "service": "SVC_D",
+      "advice": "국내 시장 전망은 긍정적이지만, 투자자산은 {days}일 전보다 감소했어요. 자산 변동 내역을 확인해 보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE17",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "감소",
+        "access_detail": null,
+        "market": "국내보통"
+      },
+      "service": "SVC_E",
+      "advice": "국내 시장은 숨고르기 중이에요. 지난 {days}일 동안 투자자산이 {diffAmt}원 줄었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE18",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "감소",
+        "access_detail": null,
+        "market": "국내나쁨"
+      },
+      "service": "SVC_D",
+      "advice": "국내 시장이 다소 주춤하고 있어요. 고객님 자산도 {days}일 전보다 {diffAmt}원 감소했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE19",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "감소",
+        "access_detail": null,
+        "market": "해외좋음"
+      },
+      "service": "SVC_D",
+      "advice": "미국 시장 전망은 긍정적이지만, 투자자산은 {days}일 전보다 {diffAmt}원 감소했어요. 자산 변동 내역을 확인해 보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE20",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "감소",
+        "access_detail": null,
+        "market": "해외보통"
+      },
+      "service": "SVC_E",
+      "advice": "미국 시장은 숨고르기 중이에요. 지난 {days}일 동안 투자자산이 {diffAmt}원 줄었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE21",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "감소",
+        "access_detail": null,
+        "market": "해외나쁨"
+      },
+      "service": "SVC_D",
+      "advice": "미국 시장이 다소 주춤하고 있어요. 고객님 자산도 {days}일 전보다 {diffAmt}원 감소했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE22",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "변동없음",
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_C",
+      "advice": "지난 {days}일 동안 투자자산 금액에 큰 변화가 없어요. 시장의 움직임은 어떤지 확인해 볼까요?",
+      "verified": true
+    },
+    {
+      "id": "CASE23",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "급등",
+        "access_detail": "1~10",
+        "market": null
+      },
+      "service": "SVC_D",
+      "advice": "{days}일 만에 투자자산이 {diffAmt}원이나 크게 늘었어요. 어느 자산이 늘었는지 지금 확인해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE24",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "급등",
+        "access_detail": "11~30",
+        "market": null
+      },
+      "service": "SVC_F",
+      "advice": "지난 {days}일간 투자자산이 {diffAmt}원 증가하면서 큰 폭의 자산 증가가 확인되었어요. 지금 점검해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE25",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "급락",
+        "access_detail": "1~10",
+        "market": null
+      },
+      "service": "SVC_D",
+      "advice": "{days}일 만에 투자자산이 {diffAmt}원이나 크게 줄었어요. 어느 자산이 감소했는지 지금 확인해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE26",
+      "cond": {
+        "asset": "O>O",
+        "access": "1~30",
+        "change": "급락",
+        "access_detail": "11~30",
+        "market": null
+      },
+      "service": "SVC_D",
+      "advice": "지난 {days}일간 투자자산이 {diffAmt}원 감소하면서 큰 폭의 자산 감소가 확인되었어요. 지금 점검해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE27",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "증가",
+        "access_detail": null,
+        "market": "국내좋음"
+      },
+      "service": "SVC_A",
+      "advice": "오랜만에 방문하셨네요. 지난 방문 대비 투자자산은 {diffAmt}원 늘었어요. 요즘 투자 트렌드 확인해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE28",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "증가",
+        "access_detail": null,
+        "market": "국내보통"
+      },
+      "service": "SVC_B",
+      "advice": "국내 시장은 전반적으로 평이한 흐름이나, 지난 {days}일 동안 투자자산이 {diffAmt}원 증가했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE29",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "증가",
+        "access_detail": null,
+        "market": "국내나쁨"
+      },
+      "service": "SVC_D",
+      "advice": "국내 시장은 잠시 주춤하고 있지만, 고객님의 투자자산은 {days}일 전보다 {diffAmt}원 증가했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE30",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "증가",
+        "access_detail": null,
+        "market": "해외좋음"
+      },
+      "service": "SVC_A",
+      "advice": "오랜만에 방문하셨네요. 미국 시장 전망이 긍정적이에요. 고객님의 투자자산도 지난 방문 때보다 {diffAmt}원 늘었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE31",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "증가",
+        "access_detail": null,
+        "market": "해외보통"
+      },
+      "service": "SVC_B",
+      "advice": "미국 시장은 전반적으로 평이한 흐름이지만, 지난 {days}일 동안 투자자산이 {diffAmt}원 증가했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE32",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "증가",
+        "access_detail": null,
+        "market": "해외나쁨"
+      },
+      "service": "SVC_D",
+      "advice": "미국 시장은 잠시 주춤하고 있지만, 고객님의 투자자산은 {days}일 전보다 {diffAmt}원 증가했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE33",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "감소",
+        "access_detail": null,
+        "market": "국내좋음"
+      },
+      "service": "SVC_D",
+      "advice": "국내 시장 전망은 긍정적이지만, 투자자산은 {days}일 전보다 {diffAmt}원 감소했어요. 자산 변동 내역을 확인해 보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE34",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "감소",
+        "access_detail": null,
+        "market": "국내보통"
+      },
+      "service": "SVC_B",
+      "advice": "오랜만에 방문하셨네요. 국내 시장은 숨고르기 중이에요. 지난 {days}일 동안 투자자산이 {diffAmt}원 줄었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE35",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "감소",
+        "access_detail": null,
+        "market": "국내나쁨"
+      },
+      "service": "SVC_C",
+      "advice": "국내 시장이 다소 주춤하고 있어요. 고객님 자산도 {days}일 전보다 {diffAmt}원 감소했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE36",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "감소",
+        "access_detail": null,
+        "market": "해외좋음"
+      },
+      "service": "SVC_D",
+      "advice": "미국 시장 전망은 긍정적이지만, 투자자산은 {days}일 전보다 {diffAmt}원 감소했어요. 현재 포트폴리오를 점검해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE37",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "감소",
+        "access_detail": null,
+        "market": "해외보통"
+      },
+      "service": "SVC_B",
+      "advice": "오랜만에 방문하셨네요. 미국 시장은 숨고르기 중이에요. 지난 {days}일 동안 투자자산이 {diffAmt}원 줄었어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE38",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "감소",
+        "access_detail": null,
+        "market": "해외나쁨"
+      },
+      "service": "SVC_C",
+      "advice": "미국 시장이 다소 주춤하고 있어요. 고객님 자산도 {days}일 전보다 {diffAmt}원 감소했어요.",
+      "verified": true
+    },
+    {
+      "id": "CASE39",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "변동없음",
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_C",
+      "advice": "{days}일 동안 투자자산이 지난 방문일과 비슷하게 유지되고 있어요. 시장의 움직임은 어떤지 확인해 볼까요?",
+      "verified": true
+    },
+    {
+      "id": "CASE40",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "급등",
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_C",
+      "advice": "오랜만에 방문하셨는데 {days}일 만에 투자자산이 {diffAmt}원이나 크게 늘었어요. 어느 자산이 증가했는지 지금 확인해보세요.",
+      "verified": true
+    },
+    {
+      "id": "CASE41",
+      "cond": {
+        "asset": "O>O",
+        "access": "30+",
+        "change": "급락",
+        "access_detail": null,
+        "market": null
+      },
+      "service": "SVC_D",
+      "advice": "오랜만에 방문하셨는데 {days}일 만에 투자자산이 {diffAmt}원이나 크게 줄었어요. 어느 자산이 감소했는지 지금 확인해보세요.",
+      "verified": true
+    }
+  ]
+}
