@@ -33,6 +33,7 @@ from pathlib import Path
 from langgraph.types import Command
 
 import briefing_agent as ba
+import case_labels
 import case_router
 import config
 import llm
@@ -164,7 +165,8 @@ def batch(case_ids: list[str], auto_approve: bool) -> dict:
         else:
             stat["errors"].append(payload)
             extra = payload["error"][:50]
-        print(f"  [{i:2d}/{len(case_ids)}] {cid:<7} {time.perf_counter()-t:5.1f}초  {extra}")
+        print(f"  [{i:2d}/{len(case_ids)}] {cid:<7} {time.perf_counter()-t:5.1f}초  "
+              f"{extra:<16} {case_labels.label(cid)}")
 
     stat["elapsed"] = time.perf_counter() - t0
     tracing.flush()
@@ -208,7 +210,8 @@ def review_pending() -> None:
         p = json.loads(f.read_text(encoding="utf-8"))
         cid = p.get("case_id", f.stem)
         print("=" * 66)
-        print(f"{cid}  ·  {p.get('change_type','')} / {p.get('gap_type','')}")
+        print(f"{cid}  ·  {p.get('case_label', '')}")
+        print(f"{'':11}  진단 {p.get('change_type','')} / {p.get('gap_type','')}")
         print("=" * 66)
         print(f"  {p.get('advice_display', p.get('advice',''))}")
         print(f"\n  카드 {p.get('selected_card')} "

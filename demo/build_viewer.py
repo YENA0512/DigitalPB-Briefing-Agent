@@ -17,7 +17,7 @@ TEMPLATE_SRC = ROOT / "demo" / "_viewer_template.html"
 APPROVED = ROOT / "output" / "approved"
 
 #  뷰어가 쓰지 않는 무거운 칸은 뺀다. 파일이 커지면 발표장 로딩이 느려진다.
-DROP = {"review_history", "evidence"}
+DROP = {"review_history", "evidence"}   # logs 는 남긴다 — 하단 타임라인이 쓴다
 
 
 def main() -> int:

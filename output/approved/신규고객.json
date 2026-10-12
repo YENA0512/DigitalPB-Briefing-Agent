@@ -1,5 +1,6 @@
 {
   "case_id": "CASE3",
+  "case_label": "자산 미보유 · 국내 전망 나쁨",
   "card_type": "content",
   "selected_over": [
     "personal_briefing",
@@ -13,9 +14,9 @@
     "fx": 0.0,
     "content": 5.0
   },
-  "advice": "고객님 투자자산 평가액은 변동 없이 0원이에요 [portfolio]. 보유 종목이 없어 변동에 기여한 종목도 없어요 [portfolio]. 국내 시장은 10월 12일 코스피가 전일 대비 3.65% 하락했어요 [시장-^KS11]. KB House View는 10월 위험자산 선호도 유지를 제시했어요 [월간-2610].",
-  "advice_display": "고객님 투자자산 평가액은 변동 없이 0원이에요. 보유 종목이 없어 변동에 기여한 종목도 없어요. 국내 시장은 10월 12일 코스피가 전일 대비 3.65% 하락했어요. KB House View는 10월 위험자산 선호도 유지를 제시했어요 ①.",
-  "advice_plain": "고객님 투자자산 평가액은 변동 없이 0원이에요. 보유 종목이 없어 변동에 기여한 종목도 없어요. 국내 시장은 10월 12일 코스피가 전일 대비 3.65% 하락했어요. KB House View는 10월 위험자산 선호도 유지를 제시했어요.",
+  "advice": "현재 보유 투자자산이 없어 총 변동액은 0원이에요 [portfolio]. 보유 종목이 없어 변동에 기여한 종목도 없어요 [portfolio]. 같은 날 코스피는 전일 대비 3.65% 하락해 국내 시장 변동은 컸어요 [시장-^KS11]. KB 하우스뷰는 특정 업종 집중도가 높아진 포트폴리오는 지수와 다른 변동을 겪을 수 있다고 설명했어요 [월간-2610].",
+  "advice_display": "현재 보유 투자자산이 없어 총 변동액은 0원이에요. 보유 종목이 없어 변동에 기여한 종목도 없어요. 같은 날 코스피는 전일 대비 3.65% 하락해 국내 시장 변동은 컸어요. KB 하우스뷰는 특정 업종 집중도가 높아진 포트폴리오는 지수와 다른 변동을 겪을 수 있다고 설명했어요 ①.",
+  "advice_plain": "현재 보유 투자자산이 없어 총 변동액은 0원이에요. 보유 종목이 없어 변동에 기여한 종목도 없어요. 같은 날 코스피는 전일 대비 3.65% 하락해 국내 시장 변동은 컸어요. KB 하우스뷰는 특정 업종 집중도가 높아진 포트폴리오는 지수와 다른 변동을 겪을 수 있다고 설명했어요.",
   "sources": [
     {
       "marker": "①",
@@ -117,14 +118,14 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "고객 보유 현황과 시장 하락 사실, KB House View의 제시 내용을 서술한 것으로 직접·우회적 행동 유도나 미래 수익 단정으로 보기 어렵습니다."
+      "reason": "보유 현황과 시장 변동, 포트폴리오 집중도에 따른 변동 가능성을 설명한 문구로 투자 행동 유도나 수익 기대 조성은 없습니다."
     },
     "format": {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 131,
+      "length": 154,
       "sentences": 4
     },
     "grounding": {
@@ -143,14 +144,14 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "고객 보유 현황과 시장 하락 사실, KB House View의 제시 내용을 서술한 것으로 직접·우회적 행동 유도나 미래 수익 단정으로 보기 어렵습니다."
+      "reason": "보유 현황과 시장 변동, 포트폴리오 집중도에 따른 변동 가능성을 설명한 문구로 투자 행동 유도나 수익 기대 조성은 없습니다."
     },
     {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 131,
+      "length": 154,
       "sentences": 4
     },
     {
@@ -165,13 +166,26 @@
   "approval": {
     "action": "approve",
     "by": "자동승인(데모)",
-    "at": "2026-10-12 18:40:25"
+    "at": "2026-10-12 18:54:25"
   },
   "llm": {
     "used": true,
     "model": "gpt-5.5",
-    "calls": 16
+    "calls": 20
   },
-  "generated_at": "2026-10-12 18:40:25",
-  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/2569d14deb6674f68464ac19e68fa0e4"
+  "generated_at": "2026-10-12 18:54:25",
+  "logs": [
+    "진단: 자산없음 / 정합 / +0.00% → CASE3 (전망 국내나쁨 · 시황 MCP)",
+    "시황 지표 2건 (MCP · Yahoo Finance)",
+    "월간 House View 검색 2건",
+    "카드 선택: content {'personal_briefing': 0.0, 'domestic_market': 0.0, 'fx': 0.0, 'content': 5.0} (제친 카드 3개)",
+    "LLM 생성 (gpt-5.5)",
+    "컴플라이언스(LLM 2차): 통과",
+    "형식: 통과 (154자 · 4문장)",
+    "근거 결속: 면제 (시황 미인용 케이스)",
+    "심사 종합(rev 0): 통과 [3축 판정]",
+    "콘텐츠 2건 (후보 29건 · 당일시황 12건 제외) · 상황태그 ['#투자입문', '#ETF', '#투자성향']",
+    "검수 승인 (자동승인(데모))"
+  ],
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/9b221e3c0151fb54b0baf4e755874ff6"
 }

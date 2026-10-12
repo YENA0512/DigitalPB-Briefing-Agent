@@ -38,6 +38,7 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS approvals (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     case_id      TEXT    NOT NULL,
+    case_label   TEXT,                   -- CASE19 가 무슨 상황인지
     served_date  TEXT    NOT NULL,          -- 이 문구가 나갈 영업일
     card_type    TEXT,
     advice       TEXT    NOT NULL,          -- 고객에게 나간 문장 (태그 제외)
@@ -83,6 +84,7 @@ def record(spec: dict, served_date: str | None = None) -> int:
     dg = spec.get("diagnosis", {}) or {}
     row = (
         spec.get("case_id", "?"),
+        spec.get("case_label", ""),
         served_date or datetime.now().strftime("%Y-%m-%d"),
         spec.get("card_type"),
         spec.get("advice_plain", ""),
@@ -104,11 +106,11 @@ def record(spec: dict, served_date: str | None = None) -> int:
     try:
         with conn() as c:
             cur = c.execute(
-                "INSERT INTO approvals (case_id, served_date, card_type, advice,"
+                "INSERT INTO approvals (case_id, case_label, served_date, card_type, advice,"
                 " advice_tagged, change_type, gap_type, revisions, fallback,"
                 " compliance, grounding, format_ok, evidence, approver,"
                 " approval_act, approved_at, model, llm_calls, trace_url, created_at)"
-                " VALUES (" + ",".join("?" * 20) + ")", row)
+                " VALUES (" + ",".join("?" * 21) + ")", row)
             return cur.lastrowid or 0
     except Exception:                            # noqa: BLE001
         return 0
@@ -121,7 +123,7 @@ def history(case_id: str, limit: int = 10) -> list[dict]:
     매일 다르다**는 것이 이 프로젝트의 증명이다."""
     with conn() as c:
         return [dict(r) for r in c.execute(
-            "SELECT served_date, advice, revisions, fallback, approver, approval_act"
+            "SELECT served_date, case_label, advice, revisions, fallback, approver, approval_act"
             " FROM approvals WHERE case_id=? ORDER BY id DESC LIMIT ?",
             (case_id, limit))]
 
@@ -141,7 +143,7 @@ def daily_summary(days: int = 7) -> list[dict]:
 def search(keyword: str, limit: int = 10) -> list[dict]:
     with conn() as c:
         return [dict(r) for r in c.execute(
-            "SELECT case_id, served_date, advice, approver FROM approvals"
+            "SELECT case_id, case_label, served_date, advice, approver FROM approvals"
             " WHERE advice LIKE ? ORDER BY id DESC LIMIT ?",
             (f"%{keyword}%", limit))]
 

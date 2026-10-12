@@ -35,6 +35,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import briefing_agent as ba          # noqa: E402
 import config                        # noqa: E402
 import followups                     # noqa: E402
+import case_labels                   # noqa: E402
 import graph_meta                    # noqa: E402
 import llm                           # noqa: E402
 
@@ -515,7 +516,20 @@ specs = {f.stem: f for f in sorted(APPROVED.glob("*.json"))}
 # ──────────────────────────────────────────────────────────── 사이드바
 with st.sidebar:
     st.markdown("### 디지털PB 브리핑")
-    case = st.selectbox("고객 케이스", list(specs) or ["(없음)"])
+    #  MOCK_PORTFOLIOS 의 이름이 곧 고객 유형이다. 어떤 상황인지 같이 보여준다.
+    PF_DESC = {
+        "반도체편중": "반도체 42% 집중 · 5일만에 방문 · 하락",
+        "안정형과보수": "채권·MMF 100% · 40일만에 방문 · 변동 거의 없음",
+        "해외분산상승": "해외 67% 분산 · 3일만에 방문 · 상승",
+        "신규고객": "투자자산 없음 · 12일만에 방문",
+        "첫투자시작": "첫 투자 · 1종목 100% · 2일만에 방문",
+    }
+    names = list(specs) or ["(없음)"]
+    case = st.selectbox(
+        "고객 케이스", names,
+        format_func=lambda n: f"{n} — {PF_DESC.get(n, '')}" if PF_DESC.get(n) else n)
+    if PF_DESC.get(case):
+        st.caption(PF_DESC[case])
     mode = st.radio("모드", ["승인본 재생 (Runtime)", "지금 생성 (Batch)",
                             "담당자 검수 (HITL)"],
                     captions=["LLM 호출 없음 — 실제 고객 경로",
@@ -525,7 +539,11 @@ with st.sidebar:
     if st.button("↺ 화면 초기화", use_container_width=True):
         st.session_state.shown = list(followups.DEFAULT_BLOCKS)
     st.divider()
+    import tracing
     st.caption(f"모델 {config.OPENAI_MODEL} · USE_LLM={config.USE_LLM}")
+    st.caption(f"Langfuse {tracing.state()}")
+    if tracing.enabled():
+        st.markdown(f"[대시보드 열기]({config.LANGFUSE_HOST}) ↗")
     st.caption("Runtime 경로에는 LLM 호출이 없습니다. "
                "문구는 전날 Batch 에서 생성·3축 심사·담당자 승인을 거칩니다.")
 
@@ -638,8 +656,9 @@ if hitl:
                                      ("grounding", "근거 결속"), ("format", "형식")]):
             v = (p.get("review") or {}).get(k, {})
             c[i].metric(ko, "통과" if v.get("passed") else "반려")
-        st.caption(f"케이스 {p.get('case_id')} · {p.get('change_type')} / "
-                   f"{p.get('gap_type')} · 재작성 {p.get('revision', 0)}회 · "
+        st.caption(f"**{p.get('case_id')}** — {p.get('case_label', '')}")
+        st.caption(f"진단 {p.get('change_type')} / {p.get('gap_type')} · "
+                   f"재작성 {p.get('revision', 0)}회 · "
                    f"근거 {[e['doc'] for e in p.get('evidence', [])]}")
 
         by = st.text_input("검수자", value="이예나")
@@ -714,6 +733,8 @@ if spec and not hitl:
         sc = spec.get("card_scores", {})
         if sc:
             st.bar_chart({NAMES.get(k, k): v for k, v in sc.items()}, height=170)
+        st.caption(f"41케이스 판정: **{spec['case_id']}** — "
+                   f"{spec.get('case_label', '')}")
         st.caption(f"선택: **{NAMES.get(spec['card_type'], spec['card_type'])}** · "
                    f"제친 카드 {', '.join(NAMES.get(c, c) for c in spec.get('selected_over', []))}")
         st.caption(f"선택 이유: {spec.get('selection_reason','')}")
@@ -724,9 +745,17 @@ if spec and not hitl:
             st.table({"State 칸": [f[0] for f in graph_meta.STATE_FIELDS],
                       "역할": [f[1] for f in graph_meta.STATE_FIELDS],
                       "reducer": [f[2] for f in graph_meta.STATE_FIELDS]})
-        with st.expander("실행 로그 (원문)"):
-            for l in spec.get("logs", []):
-                st.text(l)
+        logs = spec.get("logs") or []
+        with st.expander(f"실행 로그 원문 ({len(logs)}줄)"):
+            if logs:
+                st.code("\n".join(logs), language=None)
+            else:
+                st.caption("로그가 없습니다. 승인본이 예전 형식일 수 있습니다 — "
+                           "`./run_local.sh batch -- --auto-approve --limit 5` 로 "
+                           "다시 생성하세요.")
+        if spec.get("trace_url"):
+            st.markdown(f"🔎 [Langfuse 에서 이 실행 보기]({spec['trace_url']})")
+            st.caption("LLM 호출별 프롬프트·응답·토큰과 심사 점수 7종이 기록돼 있습니다.")
         with st.expander("카드 스펙 JSON (어드민 검수 화면이 받는 것)"):
             st.json({k: v for k, v in spec.items()
                      if k not in ("review_history", "evidence", "logs")})

@@ -27,6 +27,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 
+import case_labels
 import case_router
 import config
 import content_matcher
@@ -733,6 +734,7 @@ def human_review(state: BriefingState) -> dict:
     """
     spec_preview = {
         "case_id": state["case_id"],
+        "case_label": case_labels.label(state["case_id"]),
         "advice": state["draft"],
         "advice_display": src_render.render(state["draft"], state["evidence"])["display"],
         "change_type": state["change_type"],
@@ -807,6 +809,8 @@ def finalize(state: BriefingState) -> dict:
 
     spec = {
         "case_id": state["case_id"],
+        #  CASE19 만 떠 있으면 무슨 고객인지 아무도 모른다. 조건을 문장으로 편다.
+        "case_label": case_labels.label(state["case_id"]),
         "card_type": state["selected_card"],
         "selected_over": [c for c in CARDS if c != state["selected_card"]],
         "selection_reason": state["selection_reason"],
@@ -857,6 +861,8 @@ def finalize(state: BriefingState) -> dict:
                 "model": config.OPENAI_MODEL if llm.available() else None,
                 "calls": llm.stats["calls"]},
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        #  실행 로그를 스펙에 싣는다. State 에만 두면 검수 화면·뷰어가 못 읽는다.
+        "logs": list(state.get("logs") or []),
     }
     return {"card_spec": spec,
             "logs": [f"카드 스펙 확정 (출처 {len(rendered['sources'])}개 · "
@@ -974,7 +980,8 @@ def run_one(name: str, portfolio: dict, app=None, quiet: bool = False,
         return result
 
     spec = result["card_spec"]
-    print(f"\n{'=' * 78}\n케이스: {name}  →  {spec['case_id']}\n{'=' * 78}")
+    print(f"\n{'=' * 78}\n케이스: {name}  →  {spec['case_id']} "
+          f"({spec.get('case_label','')})\n{'=' * 78}")
     for line in result["logs"]:
         print("  ·", line)
 

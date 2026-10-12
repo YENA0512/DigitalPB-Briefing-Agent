@@ -598,7 +598,8 @@ function renderPanel(spec){
     + (sc[spec.card_type]!=null?` <span style="color:var(--pp)">${sc[spec.card_type]}점</span>`:"")
     + `<div class="beat">제친 카드 ${beaten}</div>`
     + `<b>선택 이유</b> ${esc(spec.selection_reason||"")}<br>`
-    + `<b>케이스</b> ${esc(spec.case_id)} · <b>출처</b> ${(spec.sources||[]).length}개 · `
+    + `<b>케이스</b> ${esc(spec.case_id)} — ${esc(spec.case_label||"")}<br>`
+    + `<b>출처</b> ${(spec.sources||[]).length}개 · `
     + `<b>뉴스</b> ${(spec.news||[]).length}건 · <b>콘텐츠</b> ${(spec.contents||[]).length}건<br>`
     + `<b>생성</b> ${esc(spec.generated_at||"")}`;
 
@@ -607,7 +608,8 @@ function renderPanel(spec){
     return `<div class="${par?"par":""}">${par?"└ ":""}${esc(l)}</div>`;
   }).join("");
 
-  $("meta").innerHTML = `${esc(spec.case_id)} · ${CARD_KO[spec.card_type]||spec.card_type}<br>`
+  $("meta").innerHTML = `${esc(spec.case_id)} · ${esc(spec.case_label||"")}<br>`
+    + `${CARD_KO[spec.card_type]||spec.card_type} · `
     + `심사 ${spec.review_rounds||1}회차`;
 }
 
