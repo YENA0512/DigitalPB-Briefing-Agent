@@ -55,13 +55,25 @@ hold
 
 scene "⑥ 생성 결과" \
       "같은 고객에게 현재 방식은 한 줄, Agent 는 근거와 함께"
-"$PY" - <<'EOF'
+ROOT="$HERE" "$PY" - <<'EOF'
 import json, glob, os
-f = sorted(glob.glob(os.path.expanduser("~/My project/AI ELITE/output/approved/*.json")))
+#  절대경로를 박으면 폴더 이름이 바뀔 때 깨진다. 스크립트 위치에서 찾는다.
+f = sorted(glob.glob(os.path.join(os.environ["ROOT"], "output/approved/*.json")))
+import sys
+sys.path.insert(0, os.path.join(os.environ["ROOT"], "src"))
+import case_router
 for p in f:
     d = json.load(open(p, encoding="utf-8"))
     if d.get("sources"):
-        print("  [AS-IS]", d.get("original_copy") or "(원본 문구)")
+        #  AS-IS 대조 — 41케이스 원본 문구를 슬롯 치환해 보여준다
+        orig = d.get("original_copy")
+        if not orig:
+            m = d.get("metrics", {})
+            orig = case_router.render(d["case_id"], {
+                "days": d.get("diagnosis", {}).get("days_since", 5),
+                "diffAmt": f"{abs(m.get('delta', 0)):,}",
+                "curAmt": f"{m.get('total', 0):,}"})["advice"]
+        print("  [AS-IS]", orig)
         print()
         print("  [Agent]", d["advice_display"])
         print()

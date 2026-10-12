@@ -399,7 +399,8 @@ src/
 data/                    41케이스 · 콘텐츠 50건 · 리포트 8건
 demo/viewer.html         백업 뷰어 (단일 HTML)
   case_labels.py         CASE19 → "최근 방문 · 자산 감소 · 국내 전망 나쁨"
-docs/                    FINAL_CHECKLIST · DEMO_SCRIPT · LANGFUSE · PLAN_2610 · WORKPLAN
+docs/                    DECK(발표대본) · DEMO_SCRIPT(녹화) · FINAL_CHECKLIST
+                         LANGFUSE · PLAN_2610 · WORKPLAN
 tests/test_loop.py       루프 회귀 7종
 lab/pattern_lab.py       패턴 비교
 ```

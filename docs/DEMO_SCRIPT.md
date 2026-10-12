@@ -10,7 +10,7 @@
 ## 0. 녹화 전 준비 (5분)
 
 ```bash
-cd "~/My project/AI ELITE"
+cd "~/My project/AI_ELITE"
 
 # ① MCP 서버 — 로그에 (MCP · Yahoo Finance) 로 찍혀야 한다
 ./run_local.sh mcp &
