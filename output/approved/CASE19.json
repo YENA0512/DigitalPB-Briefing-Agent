@@ -1,5 +1,6 @@
 {
   "case_id": "CASE19",
+  "case_label": "최근 방문 · 자산 감소 · 미국 전망 좋음",
   "card_type": "personal_briefing",
   "selected_over": [
     "domestic_market",
@@ -13,31 +14,10 @@
     "fx": 3.18,
     "content": 0.0
   },
-  "advice": "고객님 투자자산이 5,400,000원 줄었어요 [portfolio]. 감소분은 KB미국대표성장ETF -3,240,000원이 가장 컸어요 [portfolio]. 관련 기사에서는 미국 증시 선물이 상승했지만 유가 하락과 3분기 실적에 주목했어요 [뉴스-1]. 원/달러 환율 하락은 해외자산의 원화 평가액을 낮추는 방향으로 작용했어요 [일간-261012]. 해외 비중 75%, 해당 ETF 비중 40%라 영향이 크게 반영됐어요 [portfolio].",
-  "advice_display": "고객님 투자자산이 5,400,000원 줄었어요. 감소분은 KB미국대표성장ETF -3,240,000원이 가장 컸어요. 관련 기사에서는 미국 증시 선물이 상승했지만 유가 하락과 3분기 실적에 주목했어요 ①. 원/달러 환율 하락은 해외자산의 원화 평가액을 낮추는 방향으로 작용했어요 ②. 해외 비중 75%, 해당 ETF 비중 40%라 영향이 크게 반영됐어요.",
-  "advice_plain": "고객님 투자자산이 5,400,000원 줄었어요. 감소분은 KB미국대표성장ETF -3,240,000원이 가장 컸어요. 관련 기사에서는 미국 증시 선물이 상승했지만 유가 하락과 3분기 실적에 주목했어요. 원/달러 환율 하락은 해외자산의 원화 평가액을 낮추는 방향으로 작용했어요. 해외 비중 75%, 해당 ETF 비중 40%라 영향이 크게 반영됐어요.",
-  "sources": [
-    {
-      "marker": "①",
-      "doc": "뉴스-1",
-      "kind": "뉴스",
-      "title": "미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목",
-      "summary": "Investing.com 한국어 2026-10-12 기사: 미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목. (KB미국대표성장ETF 관련)",
-      "publisher": "Investing.com 한국어",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE44VW9uZno1QmtCc3g3M2t4Wm1EZVZMQlZ5SVR5emI0djZkX00yYkZ2M2x3Ry1pVlJ2dHpNZUV2RG9LODFxV3pnb1pveGFhQ3NWS1I1bmU3eFQ0Sms4VHE4X0VraGdCdldrS1hSNlIzYUI?oc=5",
-      "date": "2026-10-12"
-    },
-    {
-      "marker": "②",
-      "doc": "일간-261012",
-      "kind": "리포트",
-      "title": "반도체 투심 위축에 코스피 급락",
-      "summary": "반도체 업종 차익 실현으로 코스피·코스닥이 동반 하락한 날의 시황.",
-      "publisher": "KB Think",
-      "url": "https://kbthink.com/investment/today-pick/2610/261012-1.html",
-      "date": "2026-10-12"
-    }
-  ],
+  "advice": "7일 사이 5,400,000원이 줄었어요 [portfolio]. KB미국대표성장ETF에서 3,240,000원 움직였어요 [portfolio]. 한 종목 비중이 40%예요 [portfolio]. 원/달러는 전일 0.84% 하락했어요 [시장-USDKRW=X].",
+  "advice_display": "7일 사이 5,400,000원이 줄었어요. KB미국대표성장ETF에서 3,240,000원 움직였어요. 한 종목 비중이 40%예요. 원/달러는 전일 0.84% 하락했어요.",
+  "advice_plain": "7일 사이 5,400,000원이 줄었어요. KB미국대표성장ETF에서 3,240,000원 움직였어요. 한 종목 비중이 40%예요. 원/달러는 전일 0.84% 하락했어요.",
+  "sources": [],
   "서브조언": "자산 분석하고 진단해 드릴게요",
   "버튼명": "자산분석 진단 확인하기",
   "end_service": {
@@ -97,15 +77,15 @@
     "region_used": "해외",
     "outlook_used": "좋음",
     "환율": {
-      "price": 1331.75,
+      "price": 1331.76,
       "change_1d": -0.84
     }
   },
   "news": [
     {
-      "title": "미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE44VW9uZno1QmtCc3g3M2t4Wm1EZVZMQlZ5SVR5emI0djZkX00yYkZ2M2x3Ry1pVlJ2dHpNZUV2RG9LODFxV3pnb1pveGFhQ3NWS1I1bmU3eFQ0Sms4VHE4X0VraGdCdldrS1hSNlIzYUI?oc=5",
-      "publisher": "Investing.com 한국어",
+      "title": "4년째 이어지는 미국 증시 강세장 '사상누각' 그치나, AI 의존 높아져 금리 상승에 더 취약",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE51WkxOMkdPcWxZZFlDQzJOTjliU0xlbTVwVE8tMF80NW9aVW9ydTFwMzJDdUNHNk53cEQ5REhhcXdVY01CYzlGZ2czcnUzZVlhcmZkM3JvcGhuLWo4d09XQlF4YUlTbmk1T3VSSllyVl96b0k?oc=5",
+      "publisher": "비즈니스포스트",
       "date": "2026-10-12",
       "matched": "KB미국대표성장ETF"
     },
@@ -144,24 +124,25 @@
       "_why": "상황 #분산투자·#자산배분·#투자성향"
     },
     {
-      "id": "c109",
-      "title": "반도체 ETF 한 종목에 몰렸을 때 — 분산의 실제 효과",
+      "id": "c104",
+      "title": "국내는 약세, 해외는 강세 — 지역 분산이 수익률을 가른 달",
       "url": "https://kbthink.com/investment.html",
-      "section": "재테크 TIP",
-      "format": "칼럼",
+      "section": "금융 시장 동향",
+      "format": "리포트",
       "level": "중급",
-      "published": "2026-09-22",
+      "published": "2026-10-08",
       "tags": [
-        "#반도체",
-        "#분산투자",
-        "#ETF"
+        "#국내증시",
+        "#해외증시",
+        "#자산배분",
+        "#분산투자"
       ],
-      "summary": "같은 하락장에서 집중 포트폴리오와 분산 포트폴리오의 변동폭 차이를 숫자로 비교합니다.",
+      "summary": "코스피와 S&P500의 방향이 갈린 구간에서 지역 비중이 체감 수익률을 얼마나 바꾸는지.",
       "link_ok": true,
-      "url_intended": "https://kbthink.com/investment/insight/2609/260922-1.html",
+      "url_intended": "https://kbthink.com/investment/insight/2610/261008-1.html",
       "mock_article": true,
-      "_score": 9.4,
-      "_why": "상황 #분산투자 / 보유 #반도체 / 열람 #ETF·#반도체"
+      "_score": 9.3,
+      "_why": "상황 #분산투자·#자산배분 / 열람 #해외증시"
     }
   ],
   "review": {
@@ -170,23 +151,22 @@
       "revision": 0,
       "passed": true,
       "issues": [],
-      "stage": "llm",
-      "reason": "과거 자산 감소와 포트폴리오 비중, 환율 영향에 대한 사실·구조 설명으로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+      "stage": "rule"
     },
     "format": {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 193,
-      "sentences": 5
+      "length": 93,
+      "sentences": 4
     },
     "grounding": {
       "axis": "grounding",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "tags_checked": 2
+      "tags_checked": 1
     }
   },
   "review_rounds": 1,
@@ -196,36 +176,51 @@
       "revision": 0,
       "passed": true,
       "issues": [],
-      "stage": "llm",
-      "reason": "과거 자산 감소와 포트폴리오 비중, 환율 영향에 대한 사실·구조 설명으로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+      "stage": "rule"
     },
     {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 193,
-      "sentences": 5
+      "length": 93,
+      "sentences": 4
     },
     {
       "axis": "grounding",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "tags_checked": 2
+      "tags_checked": 1
     }
   ],
   "fallback_used": false,
   "approval": {
     "action": "approve",
     "by": "배치 자동승인",
-    "at": "2026-10-12 18:33:11"
+    "at": "2026-10-12 19:14:46"
   },
   "llm": {
-    "used": true,
-    "model": "gpt-5.5",
-    "calls": 10
+    "used": false,
+    "model": null,
+    "calls": 0
   },
-  "generated_at": "2026-10-12 18:33:11",
-  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/06f85fffa220a3e0e12051e0e03997fb"
+  "generated_at": "2026-10-12 19:14:46",
+  "logs": [
+    "진단: 하락 / 과편중 / -6.00% → CASE19 (전망 해외좋음 · 시황 MCP)",
+    "일간 검색 2건 (벡터(text-embedding-3-small))",
+    "시황 지표 3건 (MCP · Yahoo Finance)",
+    "월간 House View 검색 2건",
+    "뉴스 3건 (MCP · 보유 종목 매칭: KB미국대표성장ETF, KB글로벌AI펀드, 해외)",
+    "주간 검색 1건",
+    "카드 선택: personal_briefing {'personal_briefing': 16.5, 'domestic_market': 0.0, 'fx': 3.18, 'content': 0.0} (제친 카드 3개)",
+    "Rule 생성 (USE_LLM=false)",
+    "컴플라이언스(Rule): 통과",
+    "형식: 통과 (93자 · 4문장)",
+    "근거 결속: 통과 (외부 태그 1개 대조)",
+    "심사 종합(rev 0): 통과 [3축 판정]",
+    "콘텐츠 2건 (후보 28건 · 당일시황 12건 제외) · 상황태그 ['#분산투자', '#자산배분', '#투자성향']",
+    "검수 승인 (배치 자동승인)"
+  ],
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/1686ba2061cd639281496177dc3b95ca"
 }

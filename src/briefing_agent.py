@@ -133,6 +133,51 @@ MOCK_PORTFOLIOS = {
     },
 }
 
+#  프로파일·열람이력도 고객마다 다르다. 하나로 고정하면 화면에서
+#  "입력이 달라진다"가 보이지 않고, 콘텐츠 매칭의 열람 가점도 늘 같아진다.
+MOCK_PROFILES = {
+    "반도체편중":   ({"wmti": "APML", "age_band": "30대", "risk": "적극투자형",
+                   "level": "중급"}, ["#반도체", "#ETF"]),
+    "안정형과보수": ({"wmti": "CSPL", "age_band": "50대", "risk": "안정추구형",
+                   "level": "입문"}, ["#절세", "#퇴직연금"]),
+    "해외분산상승": ({"wmti": "APWL", "age_band": "40대", "risk": "위험중립형",
+                   "level": "심화"}, ["#해외증시", "#환율"]),
+    "신규고객":     ({"wmti": "CSML", "age_band": "20대", "risk": "안정형",
+                   "level": "입문"}, ["#투자입문"]),
+    "첫투자시작":   ({"wmti": "CPML", "age_band": "20대", "risk": "위험중립형",
+                   "level": "입문"}, ["#투자입문", "#ETF"]),
+}
+
+DEFAULT_PROFILE = ({"wmti": "APML", "age_band": "30대", "risk": "위험중립형",
+                    "level": "중급"}, ["#ETF", "#반도체"])
+
+
+def inputs_for(name: str) -> dict:
+    """케이스 이름 또는 CASE ID → **그래프에 실제로 들어가는 입력**.
+
+    화면의 "Agent 입력" 패널과 실행 경로가 **같은 함수**를 쓴다.
+    따로 만들면 화면이 보여주는 것과 실제 입력이 갈린다.
+    """
+    if name in MOCK_PORTFOLIOS:
+        profile, views = MOCK_PROFILES.get(name, DEFAULT_PROFILE)
+        return {"portfolio": MOCK_PORTFOLIOS[name],
+                "profile": profile, "recent_views": views}
+
+    #  CASE1~41 — 조건에서 역산한 목 포트폴리오 (run_batch 와 같은 함수)
+    import run_batch
+    cond = case_router.CASES.get(name, {}).get("cond", {})
+    market = cond.get("market") or ""
+    profile, views = DEFAULT_PROFILE
+    if market.startswith("해외"):
+        profile = {**profile, "risk": "적극투자형"}
+        views = ["#해외증시", "#환율"]
+    if cond.get("asset") in ("X>X", "X>O"):
+        profile = {**profile, "age_band": "20대", "level": "입문"}
+        views = ["#투자입문"]
+    return {"portfolio": run_batch.portfolio_for(name),
+            "profile": profile, "recent_views": views}
+
+
 BANNED = ["보장", "확실", "반드시", "무조건", "지금이 기회", "매수",
           "비중을 늘리", "예상됩니다", "회복될 것", "오를 전망", "담아두"]
 
@@ -947,6 +992,12 @@ def initial_state(portfolio: dict, profile: dict | None = None,
 
 # ---------------------------------------------------------------- 실행
 
+def initial_state_for(name: str) -> dict:
+    """케이스 이름 하나로 초기 State 를 만든다. 화면·CLI·배치가 공유한다."""
+    i = inputs_for(name)
+    return initial_state(i["portfolio"], i["profile"], i["recent_views"])
+
+
 def run_one(name: str, portfolio: dict, app=None, quiet: bool = False,
             approver: str = "자동승인(데모)") -> dict:
     """1건 실행. `human_review` 에서 멈추면 자동 승인으로 재개한다.
@@ -959,7 +1010,11 @@ def run_one(name: str, portfolio: dict, app=None, quiet: bool = False,
     #  LLM 호출이 그 안에 span 으로 붙는다. 키가 없으면 빈 리스트다.
     cfg = {"configurable": {"thread_id": name}, "recursion_limit": 60,
            "callbacks": tracing.callbacks()}
-    result = app.invoke(initial_state(portfolio), config=cfg)
+    i = inputs_for(name) if name in MOCK_PORTFOLIOS else {
+        "portfolio": portfolio, "profile": None, "recent_views": None}
+    result = app.invoke(
+        initial_state(i["portfolio"], i.get("profile"), i.get("recent_views")),
+        config=cfg)
 
     #  interrupt 가 걸리면 결과에 card_spec 이 없다. 승인으로 재개한다.
     guard = 0

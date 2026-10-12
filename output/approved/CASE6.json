@@ -1,5 +1,6 @@
 {
   "case_id": "CASE3",
+  "case_label": "자산 미보유 · 국내 전망 나쁨",
   "card_type": "content",
   "selected_over": [
     "personal_briefing",
@@ -152,13 +153,26 @@
   "approval": {
     "action": "approve",
     "by": "배치 자동승인",
-    "at": "2026-10-12 18:33:30"
+    "at": "2026-10-12 18:51:59"
   },
   "llm": {
     "used": false,
     "model": null,
     "calls": 0
   },
-  "generated_at": "2026-10-12 18:33:30",
-  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/d422ca1641dc5ae9ad22d23da8ce5a36"
+  "generated_at": "2026-10-12 18:51:59",
+  "logs": [
+    "진단: 자산없음 / 정합 / +0.00% → CASE3 (전망 국내나쁨 · 시황 MCP)",
+    "시황 지표 2건 (MCP · Yahoo Finance)",
+    "월간 House View 검색 2건",
+    "카드 선택: content {'personal_briefing': 0.0, 'domestic_market': 0.0, 'fx': 0.0, 'content': 5.0} (제친 카드 3개)",
+    "Rule 생성 (USE_LLM=false)",
+    "컴플라이언스(Rule): 통과",
+    "형식: 통과 (60자 · 2문장)",
+    "근거 결속: 면제 (시황 미인용 케이스)",
+    "심사 종합(rev 0): 통과 [3축 판정]",
+    "콘텐츠 2건 (후보 29건 · 당일시황 12건 제외) · 상황태그 ['#투자입문', '#ETF', '#투자성향']",
+    "검수 승인 (배치 자동승인)"
+  ],
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/89573a3980cc02be3ba6938b056e37d6"
 }

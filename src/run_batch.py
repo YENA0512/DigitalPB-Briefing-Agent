@@ -110,7 +110,7 @@ def run_case(app, case_id: str, auto_approve: bool) -> tuple[str, dict]:
     cfg = {"configurable": {"thread_id": case_id}, "recursion_limit": 60,
            "callbacks": tracing.callbacks()}
     try:
-        out = app.invoke(ba.initial_state(portfolio_for(case_id)), config=cfg)
+        out = app.invoke(ba.initial_state_for(case_id), config=cfg)
     except Exception as exc:                     # noqa: BLE001
         return "error", {"case_id": case_id, "error": f"{type(exc).__name__}: {exc}"}
 

@@ -162,6 +162,9 @@ st.markdown("""<style>
 .cta{padding:13px;border-radius:11px;background:var(--pp);color:#fff;text-align:center;
  font-size:13.5px;font-weight:800;margin-top:2px}
 .chipHint{font-size:11px;color:var(--gray);text-align:center;padding:4px 0 2px}
+.fold{border:1px dashed var(--line);border-radius:12px;padding:9px 12px;margin-bottom:10px;
+ background:#F7F6FA;font-size:11.5px;color:var(--gray)!important;text-align:center}
+.fold b{color:var(--ink2)!important;font-weight:700}
 
 /* ── 왼쪽 패널 — 입력 / 실행 타임라인 ── */
 .sec{font-size:13px;font-weight:800;color:var(--ink);margin:18px 0 9px;
@@ -403,7 +406,7 @@ BLOCKS = {"market": blk_market, "delta": blk_delta, "advice": blk_advice,
           "fx": blk_fx, "news": blk_news, "contents": blk_contents, "cta": blk_cta}
 
 
-def render_phone(spec, shown):
+def render_phone(spec, shown, folded=0):
     """shown 은 블록 id 또는 (블록 id, 고객이 누른 질문) 쌍.
 
     질문 칩을 누르면 **그 질문이 말풍선으로 남습니다.** 답만 불쑥 나오면
@@ -414,9 +417,15 @@ def render_phone(spec, shown):
             '<div class="sbar"><span>9:41</span><span></span><span>▪▪ ▪</span></div>',
             '<div class="cbar"><div class="ava">◆</div><div><b>디지털PB</b>',
             '<i>● 오늘 시황 반영 완료 · 담당자 승인</i></div></div>',
-            '<div class="chat">',
-            '<div class="b me">오늘 내 투자자산 어때?</div>',
-            '<div class="b plain">오늘 시장부터 같이 볼게요.</div>']
+            '<div class="chat">']
+    if folded:
+        #  질문을 거듭 누르면 화면이 길어진다. 앞부분을 접어 **방금 물은 것**이
+        #  눈에 들어오게 한다. 실제 메신저가 하는 일이다.
+        html.append(f'<div class="fold">↑ 이전 대화 <b>{folded}개</b> 접힘 — '
+                    f'사이드바 <b>대화 펼치기</b>로 다시 볼 수 있어요</div>')
+    else:
+        html += ['<div class="b me">오늘 내 투자자산 어때?</div>',
+                 '<div class="b plain">오늘 시장부터 같이 볼게요.</div>']
     for item in shown:
         key, asked = item if isinstance(item, (list, tuple)) else (item, None)
         if asked:
@@ -428,33 +437,37 @@ def render_phone(spec, shown):
     return "".join(html)
 
 
-def render_inputs(spec_or_pf, case_name):
+def render_inputs(case_name):
     """Agent 가 **무엇을 받는지** 화면에 드러낸다.
 
-    설계 평가 기준(교재 p20)이 "입력·출력·State 칸이 모두 정의되어 있는가"다.
-    코드에만 있으면 발표에서 설명이 길어진다.
+    `ba.inputs_for()` 는 실행 경로가 쓰는 바로 그 함수다. 따로 만들면
+    화면이 보여주는 것과 실제 입력이 갈린다.
     """
-    pf = ba.MOCK_PORTFOLIOS.get(case_name) or {}
+    i = ba.inputs_for(case_name)
+    pf, prof, views = i["portfolio"], i["profile"], i["recent_views"]
     hs = sorted(pf.get("holdings", []), key=lambda h: -h.get("weight", 0))
     holding_txt = ("<br>".join(
-        f"· {h['name']} <b>{round(h['weight']*100)}%</b> "
+        f"· {h['name']} <b>{round(h['weight'] * 100)}%</b> "
         f"{'+' if h['delta'] >= 0 else '−'}{abs(h['delta']):,}원 ({h['region']})"
         for h in hs) or "· (보유 자산 없음)")
 
     rows = [
         ("portfolio",
          f"평가액 <b>{pf.get('total', 0):,}원</b> · "
-         f"직전 접속 <b>{pf.get('days_since', '-')}일 전</b><br>{holding_txt}",
+         f"직전 접속 <b>{pf.get('days_since', '-')}일 전</b> · "
+         f"종목 <b>{len(hs)}개</b><br>{holding_txt}",
          "스타뱅킹 투자홈이 조회한 고객 자산 전문 (데모는 목데이터)"),
-        ("profile", "위험중립형 · 30대 · 콘텐츠 난이도 중급", "고객 프로파일"),
-        ("recent_views", "#ETF · #반도체", "KB Think 열람 이력"),
+        ("profile",
+         f"<b>{prof.get('risk', '')}</b> · {prof.get('age_band', '')} · "
+         f"WMTI {prof.get('wmti', '')} · 콘텐츠 {prof.get('level', '')}",
+         "고객 프로파일"),
+        ("recent_views", " · ".join(views) or "(없음)", "KB Think 열람 이력"),
     ]
     html = '<div class="inbox">'
     for k, v, srcl in rows:
         html += (f'<div class="inrow"><span class="inkey">{k}</span>'
                  f'<span class="inval">{v}<span class="insrc">← {srcl}</span></span></div>')
-    html += "</div>"
-    return html
+    return html + "</div>"
 
 
 def render_fetched():
@@ -510,6 +523,8 @@ if "spec" not in st.session_state:
     st.session_state.spec = None
 if "hitl" not in st.session_state:
     st.session_state.hitl = None
+if "fold" not in st.session_state:
+    st.session_state.fold = True        # 기본 접기 — 화면이 길어지는 것을 막는다
 
 specs = {f.stem: f for f in sorted(APPROVED.glob("*.json"))}
 
@@ -524,12 +539,23 @@ with st.sidebar:
         "신규고객": "투자자산 없음 · 12일만에 방문",
         "첫투자시작": "첫 투자 · 1종목 100% · 2일만에 방문",
     }
-    names = list(specs) or ["(없음)"]
-    case = st.selectbox(
-        "고객 케이스", names,
-        format_func=lambda n: f"{n} — {PF_DESC.get(n, '')}" if PF_DESC.get(n) else n)
-    if PF_DESC.get(case):
-        st.caption(PF_DESC[case])
+    #  배치가 CASE1~41 을 같은 폴더에 쌓는다. 이름 붙은 데모 케이스를 앞에 두고,
+    #  CASE* 는 cond 에서 뽑은 라벨을 붙여 무슨 상황인지 보이게 한다.
+    all_names = list(specs) or ["(없음)"]
+    named = [n for n in PF_DESC if n in all_names]
+    rest = sorted([n for n in all_names if n not in PF_DESC],
+                  key=lambda n: int(n[4:]) if n.startswith("CASE") and n[4:].isdigit()
+                  else 999)
+    names = named + rest
+
+    def fmt(n):
+        if n in PF_DESC:
+            return f"{n} — {PF_DESC[n]}"
+        lab = case_labels.label(n) if n.startswith("CASE") else ""
+        return f"{n} — {lab}" if lab and lab != n else n
+
+    case = st.selectbox("고객 케이스", names, format_func=fmt)
+    st.caption(fmt(case).split(" — ", 1)[-1] if " — " in fmt(case) else "")
     mode = st.radio("모드", ["승인본 재생 (Runtime)", "지금 생성 (Batch)",
                             "담당자 검수 (HITL)"],
                     captions=["LLM 호출 없음 — 실제 고객 경로",
@@ -538,6 +564,9 @@ with st.sidebar:
     go = st.button("▶ 실행", type="primary", use_container_width=True)
     if st.button("↺ 화면 초기화", use_container_width=True):
         st.session_state.shown = list(followups.DEFAULT_BLOCKS)
+    st.session_state.fold = not st.toggle(
+        "대화 펼치기", value=not st.session_state.get("fold", True),
+        help="끄면 질문 칩을 누를 때마다 앞부분이 접혀 방금 물은 것이 보입니다")
     st.divider()
     import tracing
     st.caption(f"모델 {config.OPENAI_MODEL} · USE_LLM={config.USE_LLM}")
@@ -557,7 +586,7 @@ with left:
     st.markdown('<div class="sec"><span class="n">IN</span>Agent 입력'
                 '<span class="tail">이 세 가지만 받습니다</span></div>',
                 unsafe_allow_html=True)
-    st.markdown(render_inputs(None, case), unsafe_allow_html=True)
+    st.markdown(render_inputs(case), unsafe_allow_html=True)
     with st.expander("Agent 가 스스로 끌어오는 것 (입력이 아님)"):
         st.markdown(render_fetched(), unsafe_allow_html=True)
 
@@ -569,12 +598,11 @@ if go and specs:
         #  interrupt 까지만 돌리고 멈춘다. 승인 전에는 card_spec 이 없다.
         from langgraph.types import interrupt  # noqa: F401  (문서용)
         app = ba.build_graph()
-        pf = ba.MOCK_PORTFOLIOS.get(case) or list(ba.MOCK_PORTFOLIOS.values())[0]
         cfg = {"configurable": {"thread_id": f"hitl-{case}-{int(time.time())}"},
                "recursion_limit": 60}
         with left:
             with st.spinner("그래프 실행 중 — human_review 에서 멈춥니다"):
-                out = app.invoke(ba.initial_state(pf), config=cfg)
+                out = app.invoke(ba.initial_state_for(case), config=cfg)
         snap = app.get_state(cfg)
         if "card_spec" in out:
             st.session_state.spec = out["card_spec"]
@@ -596,12 +624,11 @@ if go and specs:
             stage_boxes, drawn = {}, set()
             llm.reset_stats()
             app = ba.build_graph()
-            pf = ba.MOCK_PORTFOLIOS.get(case) or list(ba.MOCK_PORTFOLIOS.values())[0]
             t0, seen, final = time.perf_counter(), [], None
             tprev = t0
 
             for chunk in app.stream(
-                    ba.initial_state(pf),
+                    ba.initial_state_for(case),
                     config={"configurable": {"thread_id": f"app-{case}-{int(t0)}"},
                             "recursion_limit": 60},
                     stream_mode="updates"):
@@ -701,7 +728,16 @@ if not hitl:
       if not spec:
           st.info("왼쪽 사이드바에서 케이스를 고르고 **실행**을 누르세요.")
       else:
-          st.markdown(render_phone(spec, st.session_state.shown), unsafe_allow_html=True)
+          #  기본 4블록 뒤로 질문이 2개 넘게 쌓이면 앞을 접는다.
+          KEEP = 2
+          items = st.session_state.shown
+          base = len(followups.DEFAULT_BLOCKS)
+          asked = items[base:]
+          if st.session_state.fold and len(asked) > KEEP:
+              folded, visible = base + len(asked) - KEEP, asked[-KEEP:]
+          else:
+              folded, visible = 0, items
+          st.markdown(render_phone(spec, visible, folded), unsafe_allow_html=True)
           done = {i[0] if isinstance(i, (list, tuple)) else i
                   for i in st.session_state.shown}
           chips = [c for c in followups.chips_for(spec) if c["block"] not in done]
