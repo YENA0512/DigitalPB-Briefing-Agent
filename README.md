@@ -287,7 +287,9 @@ compliance_pass · grounding_pass · format_pass · revisions · fallback
 trace 를 열면 `generate` → `review_*` → `optimize` 가 펼쳐지고 **어느 심사가
 무엇을 지적해 재작성이 돌았는지**를 프롬프트 수준에서 볼 수 있습니다.
 카드 스펙의 `trace_url` 에 직링크가 박힙니다.
-보는 법은 [docs/LANGFUSE.md](docs/LANGFUSE.md).
+실행 1건이 trace 1개이고 **노드 실행과 MCP 도구 호출이 전부 하위 관측**으로
+들어갑니다(관측 33개 · 점수 7개). 루트 주소로 가면 빈 화면이니
+프로젝트 경로로 들어가야 합니다 — 보는 법은 [docs/LANGFUSE.md](docs/LANGFUSE.md).
 
 ---
 

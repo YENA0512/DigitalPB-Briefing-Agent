@@ -109,19 +109,28 @@ def run_case(app, case_id: str, auto_approve: bool) -> tuple[str, dict]:
     """1건 실행. ('approved'|'pending'|'error', payload) 를 반환한다."""
     cfg = {"configurable": {"thread_id": case_id}, "recursion_limit": 60,
            "callbacks": tracing.callbacks()}
-    try:
-        out = app.invoke(ba.initial_state_for(case_id), config=cfg)
-    except Exception as exc:                     # noqa: BLE001
-        return "error", {"case_id": case_id, "error": f"{type(exc).__name__}: {exc}"}
 
-    if "card_spec" in out:                       # interrupt 없이 끝난 경우
-        return "approved", out["card_spec"]
+    #  실행 1건 = trace 1개. 먼저 span 을 열어야 LangChain 콜백이 만드는
+    #  LLM span 들이 그 아래로 들어가고, 점수도 같은 trace 에 붙는다.
+    with tracing.trace_run(case_id, case_labels.label(case_id)) as tr:
+        try:
+            out = app.invoke(ba.initial_state_for(case_id), config=cfg)
+        except Exception as exc:                 # noqa: BLE001
+            return "error", {"case_id": case_id,
+                             "error": f"{type(exc).__name__}: {exc}"}
+
+        if "card_spec" not in out and auto_approve:
+            out = app.invoke(Command(resume={"action": "approve",
+                                             "by": "배치 자동승인"}), config=cfg)
+
+        if "card_spec" in out:
+            spec = out["card_spec"]
+            tr.score_spec(spec)
+            if tr.url:
+                spec["trace_url"] = tr.url
+            return "approved", spec
 
     if auto_approve:
-        out = app.invoke(Command(resume={"action": "approve",
-                                         "by": "배치 자동승인"}), config=cfg)
-        if "card_spec" in out:
-            return "approved", out["card_spec"]
         return "error", {"case_id": case_id, "error": "자동승인 후에도 미완료"}
 
     snap = app.get_state(cfg)
@@ -147,9 +156,7 @@ def batch(case_ids: list[str], auto_approve: bool) -> dict:
         kind, payload = run_case(app, cid, auto_approve)
         stat[kind] += 1
         if kind == "approved":
-            url = tracing.score_card(payload, cid)
-            if url:
-                payload["trace_url"] = url
+            if payload.get("trace_url"):
                 stat["traced"] = stat.get("traced", 0) + 1
             #  감사 로그 — 누가 언제 무엇을 승인했는지. 파일은 재생성하면 사라진다.
             if audit_db.record(payload):

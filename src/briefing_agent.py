@@ -1027,9 +1027,10 @@ def run_one(name: str, portfolio: dict, app=None, quiet: bool = False,
 
     #  심사 결과를 점수로 남긴다. 매일 쌓으면 폴백률·재작성 횟수의 추세가 보인다.
     if "card_spec" in result:
-        url = tracing.score_card(result["card_spec"], name)
-        if url:
-            result["card_spec"]["trace_url"] = url
+        with tracing.trace_run(result["card_spec"].get("case_id", name)) as tr:
+            tr.score_spec(result["card_spec"])
+            if tr.url:
+                result["card_spec"]["trace_url"] = tr.url
 
     if quiet:
         return result
@@ -1081,6 +1082,8 @@ if __name__ == "__main__":
     mcp_client.connect()
     print(f"Tool 경로: {mcp_client.mode()}")
     print(f"Langfuse : {tracing.state()}")
+    if tracing.enabled():
+        print(f"           {tracing.project_url('/traces')}")
     print(f"검색 모드: {retriever.mode() if retriever.build_index() or True else ''}")
     app = build_graph()
     for name, pf in MOCK_PORTFOLIOS.items():

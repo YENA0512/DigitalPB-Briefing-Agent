@@ -576,7 +576,9 @@ with st.sidebar:
     st.caption(f"모델 {config.OPENAI_MODEL} · USE_LLM={config.USE_LLM}")
     st.caption(f"Langfuse {tracing.state()}")
     if tracing.enabled():
-        st.markdown(f"[대시보드 열기]({config.LANGFUSE_HOST}) ↗")
+        #  호스트 루트로 보내면 빈 화면이 뜬다. 프로젝트 경로까지 찍어준다.
+        st.markdown(f"[Traces 목록]({tracing.project_url('/traces')}) ↗ · "
+                    f"[Scores]({tracing.project_url('/scores')}) ↗")
     st.caption("Runtime 경로에는 LLM 호출이 없습니다. "
                "문구는 전날 Batch 에서 생성·3축 심사·담당자 승인을 거칩니다.")
 

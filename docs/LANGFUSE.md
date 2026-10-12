@@ -1,14 +1,21 @@
 # Langfuse — 어디서 어떻게 보나
 
-## 1. 접속
+## 1. 접속 — 루트로 가면 빈 화면입니다
 
-**https://cloud.langfuse.com** · 프로젝트 **My Project** (Yena's Organization)
+`https://cloud.langfuse.com` 로 들어가면 **아무것도 안 보입니다.**
+프로젝트 경로까지 들어가야 합니다.
 
-`.env` 의 `LANGFUSE_PUBLIC_KEY` / `LANGFUSE_SECRET_KEY` 로 연결됩니다.
-앱 사이드바 하단에 연결 상태와 바로가기가 떠 있습니다.
+| | 주소 |
+|---|---|
+**Traces** | https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces |
+**Scores** | https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/scores |
+대시보드 | https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y |
+
+프로젝트는 **My Project** (Yena's Organization) 입니다.
+앱 사이드바 하단에 이 링크가 걸려 있고, 결과 패널에는 그 실행의 직링크가 뜹니다.
 
 ```bash
-./run_local.sh trace      # 연결 확인 + 테스트 기록 1건
+./run_local.sh trace      # 연결 확인 + 주소 출력
 ```
 
 ## 2. 무엇이 올라가는가
@@ -16,6 +23,25 @@
 ### Traces — 실행 1건 = trace 1개
 
 왼쪽 메뉴 **Tracing → Traces**. 이름이 `브리핑 CASE19` 형태입니다.
+하나를 열면 **노드 실행과 MCP 도구 호출이 전부 하위 관측으로** 들어 있습니다.
+
+```
+브리핑 CASE25            관측 33개 · 점수 7개
+├ diagnose
+├ search_daily · search_weekly · search_monthly        (병렬)
+├ search_market · search_news
+│   └ get_market_view · get_market_evidence · news_for_holdings   (MCP)
+├ generate                프롬프트 · 응답 · 토큰 · 지연
+├ review_compliance · review_grounding · review_format (병렬)
+├ match_contents
+└ finalize
+```
+
+> trace 가 `LangGraph` 와 `briefing-*` 로 **둘로 갈려 있던 적이 있습니다.**
+> LangChain 콜백이 만드는 trace 와 점수를 붙이려 따로 연 span 이 별개여서,
+> "이 케이스의 LLM 호출과 심사 점수"를 한 화면에서 볼 수 없었습니다.
+> `tracing.trace_run()` 으로 **먼저 span 을 열어** 콜백 span 들이 그 아래로
+> 들어가게 했습니다. 지금은 하나입니다.
 
 | 보이는 것 | 내용 |
 |---|---|
