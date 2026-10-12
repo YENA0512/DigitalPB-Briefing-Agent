@@ -1,0 +1,215 @@
+{
+  "case_id": "CASE39",
+  "card_type": "domestic_market",
+  "selected_over": [
+    "personal_briefing",
+    "fx",
+    "content"
+  ],
+  "selection_reason": "유지 · 최대비중 62% · 국내시황 -3.65%",
+  "card_scores": {
+    "personal_briefing": 1.5,
+    "domestic_market": 3.09,
+    "fx": 0.0,
+    "content": 0.0
+  },
+  "advice": "고객님 투자자산은 지난 방문일보다 100,000원 늘어 거의 유지됐어요 [portfolio]. KB단기채권펀드가 62,000원, KB MMF가 38,000원 보탰어요 [portfolio]. 관련 기사에서는 美 장기금리 상승세 진정으로 10년 국채선물이 강세 출발했다고 전했어요 [뉴스-1]. KB단기채권펀드 비중이 62%라 채권형 자산 움직임이 전체 변동에 크게 반영됐어요 [portfolio].",
+  "advice_display": "고객님 투자자산은 지난 방문일보다 100,000원 늘어 거의 유지됐어요. KB단기채권펀드가 62,000원, KB MMF가 38,000원 보탰어요. 관련 기사에서는 美 장기금리 상승세 진정으로 10년 국채선물이 강세 출발했다고 전했어요 ①. KB단기채권펀드 비중이 62%라 채권형 자산 움직임이 전체 변동에 크게 반영됐어요.",
+  "advice_plain": "고객님 투자자산은 지난 방문일보다 100,000원 늘어 거의 유지됐어요. KB단기채권펀드가 62,000원, KB MMF가 38,000원 보탰어요. 관련 기사에서는 美 장기금리 상승세 진정으로 10년 국채선물이 강세 출발했다고 전했어요. KB단기채권펀드 비중이 62%라 채권형 자산 움직임이 전체 변동에 크게 반영됐어요.",
+  "sources": [
+    {
+      "marker": "①",
+      "doc": "뉴스-1",
+      "kind": "뉴스",
+      "title": "10년 국채선물 반빅 강세 출발…美 장기금리 상승세 진정",
+      "summary": "연합인포맥스 2026-10-12 기사: 10년 국채선물 반빅 강세 출발…美 장기금리 상승세 진정. (KB단기채권펀드 관련)",
+      "publisher": "연합인포맥스",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB3bnVxcWtKSmlTMmItRkdFZjJId1hWTVlvNm1pajZLTVBJTmVFQjFQdzhJT2s2RkRjSnA5RW53cjZCb21OY1Y1LW8zaENHSVJielJMcEJja1RIQzlvd0JkT0E0X1dTQWM3R1NmWlE2Y1fSAXRBVV95cUxPMHdwYm9oVUFXZk5FYjh6LXBVWTI3SUZTZjBJanRZT1lZQWhkaVRFbGJLYmhFXy0zR3ZiZ0M1M2htQ0JiRWxreGhnMDZGMVY5RkQ0cnJTTXN1dVJSbzh1aHhqbjdHSHNBellFSGlMZURKdmR4bw?oc=5",
+      "date": "2026-10-12"
+    }
+  ],
+  "서브조언": "2026년 시장동향을 알아볼까요?",
+  "버튼명": "투자 인사이트 확인하기",
+  "end_service": {
+    "name": "투자 인사이트 확인하기",
+    "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+    "element": "상품_디지털PB_투자브리핑_SVC_C"
+  },
+  "diagnosis": {
+    "change_type": "유지",
+    "gap_type": "과보수",
+    "days_since": 40,
+    "outlook_region": "국내",
+    "outlook": "나쁨"
+  },
+  "metrics": {
+    "delta": 100000,
+    "rate": 0.21,
+    "max_weight": 0.62,
+    "total": 48200000,
+    "region_mix": {
+      "국내": 1.0
+    }
+  },
+  "contributions": [
+    {
+      "name": "KB단기채권펀드",
+      "delta": 62000,
+      "weight": 0.62,
+      "region": "국내"
+    },
+    {
+      "name": "KB MMF",
+      "delta": 38000,
+      "weight": 0.38,
+      "region": "국내"
+    }
+  ],
+  "market": {
+    "국내": {
+      "outlook": "나쁨",
+      "change_1d": -3.65,
+      "지표": "코스피"
+    },
+    "해외": {
+      "outlook": "좋음",
+      "change_1d": 0.59,
+      "지표": "S&P500"
+    },
+    "stale": false,
+    "region_used": "국내",
+    "outlook_used": "나쁨",
+    "환율": {
+      "price": 1331.76,
+      "change_1d": -0.84
+    }
+  },
+  "news": [
+    {
+      "title": "10년 국채선물 반빅 강세 출발…美 장기금리 상승세 진정",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB3bnVxcWtKSmlTMmItRkdFZjJId1hWTVlvNm1pajZLTVBJTmVFQjFQdzhJT2s2RkRjSnA5RW53cjZCb21OY1Y1LW8zaENHSVJielJMcEJja1RIQzlvd0JkT0E0X1dTQWM3R1NmWlE2Y1fSAXRBVV95cUxPMHdwYm9oVUFXZk5FYjh6LXBVWTI3SUZTZjBJanRZT1lZQWhkaVRFbGJLYmhFXy0zR3ZiZ0M1M2htQ0JiRWxreGhnMDZGMVY5RkQ0cnJTTXN1dVJSbzh1aHhqbjdHSHNBellFSGlMZURKdmR4bw?oc=5",
+      "publisher": "연합인포맥스",
+      "date": "2026-10-12",
+      "matched": "KB단기채권펀드"
+    },
+    {
+      "title": "美 금리인상·유가 급등에 채권시장 출렁…국고채 단기금리 상승",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE51WWstNmk4ZXp6TnZvdnlUVVA1OV9xWjhfUnZlRXFJbElma0NvdUhYYk5hS0RRVWhrbkk1ZFJXOHZnckpWRkdWLTJCQnViajdPSU5CN2IwekV4bFRYYklBcm1meFhNc0lqWmtnTmYyUlY?oc=5",
+      "publisher": "리드경제",
+      "date": "2026-10-12",
+      "matched": "KB MMF"
+    },
+    {
+      "title": "코스피만 왜 이러나…반도체 노이즈·수급 불안에 '나홀로 급락'",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wVEVJUWNIeFBoZGZhaXJWdkpSMjVZamJhQzBNbzlEN1hkU0tGWmFYcGNnZ0lPUk5hTndRRWxXRi1OQndzQkNia0tWenpLdzlzSVAxZmhLSGpNeTV3YmdwMkpKbmYzNHlRaTdBN3pUZTk?oc=5",
+      "publisher": "연합인포맥스",
+      "date": "2026-10-12",
+      "matched": "국내"
+    }
+  ],
+  "contents": [
+    {
+      "id": "c108",
+      "title": "위험자산 비중이 너무 낮을 때 생기는 일",
+      "url": "https://kbthink.com/investment.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-09-25",
+      "tags": [
+        "#자산배분",
+        "#투자성향",
+        "#채권",
+        "#금리"
+      ],
+      "summary": "손실을 피하려는 선택도 비용이 있습니다. 하우스뷰 권고 대비 갭을 보는 관점.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260925-1.html",
+      "mock_article": true,
+      "_score": 8.4,
+      "_why": "상황 #자산배분 / 보유 #금리·#채권"
+    },
+    {
+      "id": "c034",
+      "title": "ETF 가이드",
+      "url": "https://kbthink.com/series/etf.html",
+      "section": "시리즈",
+      "format": "시리즈",
+      "level": "입문",
+      "published": "2026-01-20",
+      "tags": [
+        "#ETF",
+        "#퇴직연금",
+        "#분산투자"
+      ],
+      "summary": "ETF의 구조와 분산투자 효과, 퇴직연금 활용법을 다루는 입문 시리즈입니다. 상품 비교에 필요한 기준을 설명합니다",
+      "link_ok": true,
+      "_score": 7.5,
+      "_why": "상황 #ETF·#퇴직연금 / 열람 #ETF"
+    }
+  ],
+  "review": {
+    "compliance": {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 포트폴리오 비중, 관련 뉴스 내용을 설명하는 수준이며 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+    },
+    "format": {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 178,
+      "sentences": 4
+    },
+    "grounding": {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 1
+    }
+  },
+  "review_rounds": 1,
+  "review_history": [
+    {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 포트폴리오 비중, 관련 뉴스 내용을 설명하는 수준이며 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+    },
+    {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 178,
+      "sentences": 4
+    },
+    {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 1
+    }
+  ],
+  "fallback_used": false,
+  "approval": {
+    "action": "approve",
+    "by": "자동승인(데모)",
+    "at": "2026-10-12 18:38:46"
+  },
+  "llm": {
+    "used": true,
+    "model": "gpt-5.5",
+    "calls": 9
+  },
+  "generated_at": "2026-10-12 18:38:46",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/7f8c38970c847c7e878259f5f681be66"
+}

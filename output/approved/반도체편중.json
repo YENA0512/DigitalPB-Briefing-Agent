@@ -1,0 +1,257 @@
+{
+  "case_id": "CASE19",
+  "card_type": "personal_briefing",
+  "selected_over": [
+    "domestic_market",
+    "fx",
+    "content"
+  ],
+  "selection_reason": "하락 · 최대비중 42% · 해외시황 +0.59%",
+  "card_scores": {
+    "personal_briefing": 6.32,
+    "domestic_market": 3.09,
+    "fx": 3.18,
+    "content": 0.0
+  },
+  "advice": "고객님 투자자산은 839,000원 줄어 -0.91% 변동했어요 [portfolio]. 가장 큰 영향은 KODEX 반도체에서 나왔고, 이 종목에서 624,000원 줄었어요 [portfolio]. 이날 외국인 순매도와 반도체 대형주 중심 차익 실현 물량이 지수 하락을 주도했어요 [일간-261012]. 관련 기사도 외국인 매도가 삼성전자·하이닉스에 직격탄이 됐다고 다뤘어요 [뉴스-1]. KODEX 반도체 비중이 42%라 이 종목 변동이 자산 변동에 크게 반영됐어요 [portfolio].",
+  "advice_display": "고객님 투자자산은 839,000원 줄어 -0.91% 변동했어요. 가장 큰 영향은 KODEX 반도체에서 나왔고, 이 종목에서 624,000원 줄었어요. 이날 외국인 순매도와 반도체 대형주 중심 차익 실현 물량이 지수 하락을 주도했어요 ①. 관련 기사도 외국인 매도가 삼성전자·하이닉스에 직격탄이 됐다고 다뤘어요 ②. KODEX 반도체 비중이 42%라 이 종목 변동이 자산 변동에 크게 반영됐어요.",
+  "advice_plain": "고객님 투자자산은 839,000원 줄어 -0.91% 변동했어요. 가장 큰 영향은 KODEX 반도체에서 나왔고, 이 종목에서 624,000원 줄었어요. 이날 외국인 순매도와 반도체 대형주 중심 차익 실현 물량이 지수 하락을 주도했어요. 관련 기사도 외국인 매도가 삼성전자·하이닉스에 직격탄이 됐다고 다뤘어요. KODEX 반도체 비중이 42%라 이 종목 변동이 자산 변동에 크게 반영됐어요.",
+  "sources": [
+    {
+      "marker": "①",
+      "doc": "일간-261012",
+      "kind": "리포트",
+      "title": "반도체 투심 위축에 코스피 급락",
+      "summary": "반도체 업종 차익 실현으로 코스피·코스닥이 동반 하락한 날의 시황.",
+      "publisher": "KB Think",
+      "url": "https://kbthink.com/investment/today-pick/2610/261012-1.html",
+      "date": "2026-10-12"
+    },
+    {
+      "marker": "②",
+      "doc": "뉴스-1",
+      "kind": "뉴스",
+      "title": "“외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’",
+      "summary": "에너지경제신문 2026-10-12 기사: “외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’. (KODEX 반도체 관련)",
+      "publisher": "에너지경제신문",
+      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5OLUhEZ3FQWUN5UzV6XzE1dFpJMFZDTWRMaWhVUS1tbndTV1c5VW9zdGhvejdjNk15MVZ5ZVhqSmFfdnJsTGFiYjJpbUVsRlo5c1pKalBvVUQzV0NnTnk3Um1HOA?oc=5",
+      "date": "2026-10-12"
+    }
+  ],
+  "서브조언": "자산 분석하고 진단해 드릴게요",
+  "버튼명": "자산분석 진단 확인하기",
+  "end_service": {
+    "name": "자산분석 진단 확인하기",
+    "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+    "element": "상품_디지털PB_투자브리핑_SVC_D"
+  },
+  "diagnosis": {
+    "change_type": "하락",
+    "gap_type": "과편중",
+    "days_since": 5,
+    "outlook_region": "해외",
+    "outlook": "좋음"
+  },
+  "metrics": {
+    "delta": -839000,
+    "rate": -0.91,
+    "max_weight": 0.42,
+    "total": 91754057,
+    "region_mix": {
+      "국내": 0.42,
+      "해외": 0.58
+    }
+  },
+  "contributions": [
+    {
+      "name": "KODEX 반도체",
+      "delta": -624000,
+      "weight": 0.42,
+      "region": "국내"
+    },
+    {
+      "name": "KB글로벌AI펀드",
+      "delta": -219000,
+      "weight": 0.31,
+      "region": "해외"
+    },
+    {
+      "name": "美 단기국채ETF",
+      "delta": 4000,
+      "weight": 0.27,
+      "region": "해외"
+    }
+  ],
+  "market": {
+    "국내": {
+      "outlook": "나쁨",
+      "change_1d": -3.65,
+      "지표": "코스피"
+    },
+    "해외": {
+      "outlook": "좋음",
+      "change_1d": 0.59,
+      "지표": "S&P500"
+    },
+    "stale": false,
+    "region_used": "해외",
+    "outlook_used": "좋음",
+    "환율": {
+      "price": 1331.76,
+      "change_1d": -0.84
+    }
+  },
+  "news": [
+    {
+      "title": "“외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’",
+      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5OLUhEZ3FQWUN5UzV6XzE1dFpJMFZDTWRMaWhVUS1tbndTV1c5VW9zdGhvejdjNk15MVZ5ZVhqSmFfdnJsTGFiYjJpbUVsRlo5c1pKalBvVUQzV0NnTnk3Um1HOA?oc=5",
+      "publisher": "에너지경제신문",
+      "date": "2026-10-12",
+      "matched": "KODEX 반도체"
+    },
+    {
+      "title": "DS운용, 'AI 반도체 밸류체인 투자' 액티브 ETF 13일 상장",
+      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9vNTVVMzdQMTJuYVo4NV9FdnZUblhZU1pJdTRhaVVpQzhHZWxTaDliSm1MU2RKM1dPdDV6clNvTG9YZ3Y0WERTcS04V29zbEhqSkR1cThwblUzWHJCakRCeNIBYEFVX3lxTE9vNTVVMzdQMTJuYVo4NV9FdnZUblhZU1pJdTRhaVVpQzhHZWxTaDliSm1MU2RKM1dPdDV6clNvTG9YZ3Y0WERTcS04V29zbEhqSkR1cThwblUzWHJCakRCeA?oc=5",
+      "publisher": "연합뉴스",
+      "date": "2026-10-12",
+      "matched": "KB글로벌AI펀드"
+    },
+    {
+      "title": "4년째 이어지는 미국 증시 강세장 '사상누각' 그치나, AI 의존 높아져 금리 상승에 더 취약",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE51WkxOMkdPcWxZZFlDQzJOTjliU0xlbTVwVE8tMF80NW9aVW9ydTFwMzJDdUNHNk53cEQ5REhhcXdVY01CYzlGZ2czcnUzZVlhcmZkM3JvcGhuLWo4d09XQlF4YUlTbmk1T3VSSllyVl96b0k?oc=5",
+      "publisher": "비즈니스포스트",
+      "date": "2026-10-12",
+      "matched": "해외"
+    }
+  ],
+  "contents": [
+    {
+      "id": "c022",
+      "title": "지정학적 리스크가 상존하는 구간에서의 합리적 자산배분 전략",
+      "url": "https://kbthink.com/investment/tips/management/260807.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-08-07",
+      "tags": [
+        "#자산배분",
+        "#분산투자",
+        "#투자성향"
+      ],
+      "summary": "지정학적 불확실성이 남아 있는 국면에서 자산배분을 점검하는 글입니다. 위험 분산과 투자성향의 중요성을 다룹니다",
+      "link_ok": true,
+      "_score": 9.8,
+      "_why": "상황 #분산투자·#자산배분·#투자성향"
+    },
+    {
+      "id": "c109",
+      "title": "반도체 ETF 한 종목에 몰렸을 때 — 분산의 실제 효과",
+      "url": "https://kbthink.com/investment.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-09-22",
+      "tags": [
+        "#반도체",
+        "#분산투자",
+        "#ETF"
+      ],
+      "summary": "같은 하락장에서 집중 포트폴리오와 분산 포트폴리오의 변동폭 차이를 숫자로 비교합니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260922-1.html",
+      "mock_article": true,
+      "_score": 9.4,
+      "_why": "상황 #분산투자 / 보유 #반도체 / 열람 #ETF·#반도체"
+    }
+  ],
+  "review": {
+    "compliance": {
+      "axis": "compliance",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 원인, 포트폴리오 비중을 설명하는 내용으로 투자 행동 유도나 미래 수익·손실 방향 암시는 없습니다."
+    },
+    "format": {
+      "axis": "format",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "length": 216,
+      "sentences": 5
+    },
+    "grounding": {
+      "axis": "grounding",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 2
+    }
+  },
+  "review_rounds": 2,
+  "review_history": [
+    {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 포트폴리오 비중, 당일 업종 부진 원인을 설명하는 내용으로 투자 행동 유도나 미래 수익·방향 예단 표현은 없습니다."
+    },
+    {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 218,
+      "sentences": 5
+    },
+    {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": false,
+      "issues": [
+        "근거 불일치: 근거는 '반도체 대형주 중심의 차익 실현 물량'이 지수 하락을 주도했다고만 하며, '국내 반도체 밸류체인 전반'으로 차익 실현이 번졌다는 내용은 없습니다.",
+        "근거 불일치: 근거에는 업종별 성과 비교나 반도체 업종이 가장 부진했다는 내용이 없습니다."
+      ],
+      "tags_checked": 2
+    },
+    {
+      "axis": "compliance",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 원인, 포트폴리오 비중을 설명하는 내용으로 투자 행동 유도나 미래 수익·손실 방향 암시는 없습니다."
+    },
+    {
+      "axis": "format",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "length": 216,
+      "sentences": 5
+    },
+    {
+      "axis": "grounding",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 2
+    }
+  ],
+  "fallback_used": false,
+  "approval": {
+    "action": "approve",
+    "by": "자동승인(데모)",
+    "at": "2026-10-12 18:38:31"
+  },
+  "llm": {
+    "used": true,
+    "model": "gpt-5.5",
+    "calls": 6
+  },
+  "generated_at": "2026-10-12 18:38:31",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/9cf5658b21c6fcf152b4e24427230752"
+}

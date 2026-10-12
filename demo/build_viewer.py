@@ -30,8 +30,15 @@ def main() -> int:
         print("템플릿에 __DATA__ 자리가 없습니다:", TEMPLATE_SRC)
         return 1
 
+    #  뷰어는 **이름 붙은 데모 케이스**만 싣는다.
+    #  배치가 CASE1~41 을 같은 폴더에 쌓으므로 전부 넣으면 300KB 가 되고
+    #  발표에서 고르기도 어렵다. 배치 산출물은 통계·감사용이다.
+    DEMO = ["반도체편중", "안정형과보수", "해외분산상승", "신규고객", "첫투자시작"]
+    files = [APPROVED / f"{n}.json" for n in DEMO]
+    files = [f for f in files if f.exists()] or sorted(APPROVED.glob("*.json"))[:5]
+
     specs = {}
-    for f in sorted(APPROVED.glob("*.json")):
+    for f in files:
         spec = json.loads(f.read_text(encoding="utf-8"))
         #  현재 방식 비교용 — 41케이스 원본 문구를 같이 싣는다
         spec.setdefault("original_copy", "")

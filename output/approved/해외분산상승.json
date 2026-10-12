@@ -1,0 +1,257 @@
+{
+  "case_id": "CASE13",
+  "card_type": "personal_briefing",
+  "selected_over": [
+    "domestic_market",
+    "fx",
+    "content"
+  ],
+  "selection_reason": "상승 · 최대비중 34% · 해외시황 +0.59%",
+  "card_scores": {
+    "personal_briefing": 7.24,
+    "domestic_market": 0.0,
+    "fx": 3.18,
+    "content": 0.0
+  },
+  "advice": "고객님 투자자산은 지난 방문 때보다 2,500,000원 늘었어요 [portfolio]. KB미국대표성장ETF 1,300,000원, KB글로벌AI펀드 900,000원, KODEX 200 300,000원이 늘었어요 [portfolio]. 관련 기사는 미국 증시 강세장과 AI 의존도 확대를 다뤘어요 [뉴스-1]. 코스피는 기관 수급에 힘입어 상승 마감했고 외국인은 순유입 전환했어요 [일간-261009]. 해외 비중이 67%라 해외 보유종목 상승이 전체 증가에 반영됐어요 [portfolio].",
+  "advice_display": "고객님 투자자산은 지난 방문 때보다 2,500,000원 늘었어요. KB미국대표성장ETF 1,300,000원, KB글로벌AI펀드 900,000원, KODEX 200 300,000원이 늘었어요. 관련 기사는 미국 증시 강세장과 AI 의존도 확대를 다뤘어요 ①. 코스피는 기관 수급에 힘입어 상승 마감했고 외국인은 순유입 전환했어요 ②. 해외 비중이 67%라 해외 보유종목 상승이 전체 증가에 반영됐어요.",
+  "advice_plain": "고객님 투자자산은 지난 방문 때보다 2,500,000원 늘었어요. KB미국대표성장ETF 1,300,000원, KB글로벌AI펀드 900,000원, KODEX 200 300,000원이 늘었어요. 관련 기사는 미국 증시 강세장과 AI 의존도 확대를 다뤘어요. 코스피는 기관 수급에 힘입어 상승 마감했고 외국인은 순유입 전환했어요. 해외 비중이 67%라 해외 보유종목 상승이 전체 증가에 반영됐어요.",
+  "sources": [
+    {
+      "marker": "①",
+      "doc": "뉴스-1",
+      "kind": "뉴스",
+      "title": "4년째 이어지는 미국 증시 강세장 '사상누각' 그치나, AI 의존 높아져 금리 상승에 더 취약",
+      "summary": "비즈니스포스트 2026-10-12 기사: 4년째 이어지는 미국 증시 강세장 '사상누각' 그치나, AI 의존 높아져 금리 상승에 더 취약. (KB미국대표성장ETF 관련)",
+      "publisher": "비즈니스포스트",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE51WkxOMkdPcWxZZFlDQzJOTjliU0xlbTVwVE8tMF80NW9aVW9ydTFwMzJDdUNHNk53cEQ5REhhcXdVY01CYzlGZ2czcnUzZVlhcmZkM3JvcGhuLWo4d09XQlF4YUlTbmk1T3VSSllyVl96b0k?oc=5",
+      "date": "2026-10-12"
+    },
+    {
+      "marker": "②",
+      "doc": "일간-261009",
+      "kind": "리포트",
+      "title": "코스피 상승 마감, 외국인 순매수 전환",
+      "summary": "외국인이 8거래일 만에 순매수로 전환한 날의 국내 증시 정리.",
+      "publisher": "KB Think",
+      "url": "https://kbthink.com/investment/today-pick/2610/261009-1.html",
+      "date": "2026-10-09"
+    }
+  ],
+  "서브조언": "요즘 트렌드도 알려 드릴게요",
+  "버튼명": "투자 트렌드 이동하기",
+  "end_service": {
+    "name": "투자 트렌드 이동하기",
+    "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+    "element": "상품_디지털PB_투자브리핑_SVC_A"
+  },
+  "diagnosis": {
+    "change_type": "상승",
+    "gap_type": "정합",
+    "days_since": 3,
+    "outlook_region": "해외",
+    "outlook": "좋음"
+  },
+  "metrics": {
+    "delta": 2500000,
+    "rate": 2.12,
+    "max_weight": 0.34,
+    "total": 120400000,
+    "region_mix": {
+      "해외": 0.67,
+      "국내": 0.33
+    }
+  },
+  "contributions": [
+    {
+      "name": "KB미국대표성장ETF",
+      "delta": 1300000,
+      "weight": 0.34,
+      "region": "해외"
+    },
+    {
+      "name": "KB글로벌AI펀드",
+      "delta": 900000,
+      "weight": 0.33,
+      "region": "해외"
+    },
+    {
+      "name": "KODEX 200",
+      "delta": 300000,
+      "weight": 0.33,
+      "region": "국내"
+    }
+  ],
+  "market": {
+    "국내": {
+      "outlook": "나쁨",
+      "change_1d": -3.65,
+      "지표": "코스피"
+    },
+    "해외": {
+      "outlook": "좋음",
+      "change_1d": 0.59,
+      "지표": "S&P500"
+    },
+    "stale": false,
+    "region_used": "해외",
+    "outlook_used": "좋음",
+    "환율": {
+      "price": 1331.76,
+      "change_1d": -0.84
+    }
+  },
+  "news": [
+    {
+      "title": "4년째 이어지는 미국 증시 강세장 '사상누각' 그치나, AI 의존 높아져 금리 상승에 더 취약",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE51WkxOMkdPcWxZZFlDQzJOTjliU0xlbTVwVE8tMF80NW9aVW9ydTFwMzJDdUNHNk53cEQ5REhhcXdVY01CYzlGZ2czcnUzZVlhcmZkM3JvcGhuLWo4d09XQlF4YUlTbmk1T3VSSllyVl96b0k?oc=5",
+      "publisher": "비즈니스포스트",
+      "date": "2026-10-12",
+      "matched": "KB미국대표성장ETF"
+    },
+    {
+      "title": "DS운용, 'AI 반도체 밸류체인 투자' 액티브 ETF 13일 상장",
+      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9vNTVVMzdQMTJuYVo4NV9FdnZUblhZU1pJdTRhaVVpQzhHZWxTaDliSm1MU2RKM1dPdDV6clNvTG9YZ3Y0WERTcS04V29zbEhqSkR1cThwblUzWHJCakRCeNIBYEFVX3lxTE9vNTVVMzdQMTJuYVo4NV9FdnZUblhZU1pJdTRhaVVpQzhHZWxTaDliSm1MU2RKM1dPdDV6clNvTG9YZ3Y0WERTcS04V29zbEhqSkR1cThwblUzWHJCakRCeA?oc=5",
+      "publisher": "연합뉴스",
+      "date": "2026-10-12",
+      "matched": "KB글로벌AI펀드"
+    },
+    {
+      "title": "[미국 주식 돋보기] 메디케어 별점 뭐기에…美보험주 희비 갈려",
+      "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1zaWdmZWItei13b1UxaG9ZZ3I5bzA2NW02OERfQXFvX2FjZWd5MUc4TnJORTdjU0I0aGpPZVVTVjh2N0RfQUZUYU9vZl9rMDJlTHc?oc=5",
+      "publisher": "매일경제 마켓",
+      "date": "2026-10-12",
+      "matched": "해외"
+    }
+  ],
+  "contents": [
+    {
+      "id": "c103",
+      "title": "'AI 거품론'을 어떻게 읽어야 할까",
+      "url": "https://kbthink.com/investment.html",
+      "section": "심층 분석",
+      "format": "칼럼",
+      "level": "심화",
+      "published": "2026-10-09",
+      "tags": [
+        "#AI",
+        "#반도체",
+        "#해외증시"
+      ],
+      "summary": "밸류에이션 논쟁이 반복되는 이유와, 업종 집중도가 높은 포트폴리오가 받는 영향.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2610/261009-1.html",
+      "mock_article": true,
+      "_score": 9.5,
+      "_why": "상황 #해외증시 / 보유 #AI·#반도체 / 열람 #반도체"
+    },
+    {
+      "id": "c102",
+      "title": "원·달러 1,330원대, 해외자산 평가액은 어떻게 달라지나",
+      "url": "https://kbthink.com/investment/today-pick/2610/261012-2.html",
+      "section": "환율 동향·전망",
+      "format": "전망",
+      "level": "중급",
+      "published": "2026-10-12",
+      "tags": [
+        "#환율",
+        "#환헤지",
+        "#해외증시"
+      ],
+      "summary": "환율이 내리면 달러자산 환산액은 줄고 신규 환전 비용은 낮아집니다. 환헤지 여부로 체감이 갈립니다.",
+      "link_ok": true,
+      "_score": 8.8,
+      "_why": "상황 #해외증시 / 보유 #환율·#환헤지"
+    }
+  ],
+  "review": {
+    "compliance": {
+      "axis": "compliance",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 포트폴리오 비중, 관련 시장 뉴스 및 증가 원인 설명에 그쳐 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+    },
+    "format": {
+      "axis": "format",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "length": 219,
+      "sentences": 5
+    },
+    "grounding": {
+      "axis": "grounding",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 2
+    }
+  },
+  "review_rounds": 2,
+  "review_history": [
+    {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": false,
+      "issues": [
+        "금지어 '매수'"
+      ],
+      "stage": "rule"
+    },
+    {
+      "axis": "format",
+      "revision": 0,
+      "passed": false,
+      "issues": [
+        "글자수 224자로 4자 초과 — 220자 이내로 줄이세요 (출처 태그는 글자수에서 제외합니다. 본문만 220자)"
+      ],
+      "length": 224,
+      "sentences": 5
+    },
+    {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 2
+    },
+    {
+      "axis": "compliance",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 포트폴리오 비중, 관련 시장 뉴스 및 증가 원인 설명에 그쳐 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+    },
+    {
+      "axis": "format",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "length": 219,
+      "sentences": 5
+    },
+    {
+      "axis": "grounding",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 2
+    }
+  ],
+  "fallback_used": false,
+  "approval": {
+    "action": "approve",
+    "by": "자동승인(데모)",
+    "at": "2026-10-12 18:40:08"
+  },
+  "llm": {
+    "used": true,
+    "model": "gpt-5.5",
+    "calls": 14
+  },
+  "generated_at": "2026-10-12 18:40:08",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/8e5444514f71487691e8bb9363ce3ee1"
+}
