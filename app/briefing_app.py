@@ -625,31 +625,34 @@ if go and specs:
                         '<span class="tail">노드가 끝날 때마다 쌓입니다</span></div>',
                         unsafe_allow_html=True)
             bar = st.progress(0.0, "시작")
-            stage_boxes, drawn = {}, set()
+            stage_boxes = {}
             llm.reset_stats()
             app = ba.build_graph()
             cfg = {"configurable": {"thread_id": f"app-{case}-{int(time.time())}"},
                    "recursion_limit": 60, "callbacks": tracing.callbacks()}
-            t0, seen, final = time.perf_counter(), [], None
-            tprev, paused = t0, None
+            t0 = time.perf_counter()
+
+            #  이 블록은 모듈 스코프다. 중첩 함수가 아니라서 nonlocal 을 쓸 수 없다.
+            #  상태를 가변 홀더 하나에 담아 들고 다닌다.
+            run = {"t": t0, "seen": [], "final": None}
 
             def draw(node, upd, now):
                 """노드 1개를 단계 박스에 그린다."""
-                nonlocal tprev
                 stg = graph_meta.stage_of(node) or "final"
                 if stg not in stage_boxes:
                     par = (' <span class="par">병렬</span>'
                            if stg in ("search", "review") else "")
-                    st.markdown(f'<div class="stagehd">{graph_meta.STAGES.get(stg, stg)}'
-                                f'{par}</div>', unsafe_allow_html=True)
+                    st.markdown(
+                        f'<div class="stagehd">{graph_meta.STAGES.get(stg, stg)}'
+                        f'{par}</div>', unsafe_allow_html=True)
                     stage_boxes[stg] = st.container()
                 msgs = list((upd or {}).get("logs") or [])
                 rv = (upd or {}).get("reviews") or []
                 kind = "no" if any(not r.get("passed") for r in rv) else "ok"
                 with stage_boxes[stg]:
-                    st.markdown(node_card(node, msgs, now - tprev, kind),
+                    st.markdown(node_card(node, msgs, now - run["t"], kind),
                                 unsafe_allow_html=True)
-                tprev = now
+                run["t"] = now
 
             def run_stream(inp):
                 """스트림을 돌며 그린다. interrupt 를 만나면 그 값을 돌려준다.
@@ -658,20 +661,21 @@ if go and specs:
                 `{"__interrupt__": (Interrupt(...),)}` 를 흘린다. **튜플**이라
                 노드 업데이트(dict)처럼 다루면 터진다.
                 """
-                nonlocal final
                 stop = None
                 for chunk in app.stream(inp, config=cfg, stream_mode="updates"):
                     for node, upd in chunk.items():
                         if node == "__interrupt__":
-                            stop = (upd[0].value if isinstance(upd, (list, tuple)) and upd
+                            stop = (upd[0].value
+                                    if isinstance(upd, (list, tuple)) and upd
                                     else upd)
                             continue
-                        seen.append(node)
-                        bar.progress(min(len(seen) / 16, 1.0),
-                                     f"{graph_meta.label_of(node)}  ({len(seen)}/16)")
+                        run["seen"].append(node)
+                        bar.progress(
+                            min(len(run["seen"]) / 16, 1.0),
+                            f'{graph_meta.label_of(node)}  ({len(run["seen"])}/16)')
                         draw(node, upd, time.perf_counter())
                         if isinstance(upd, dict) and upd.get("card_spec"):
-                            final = upd["card_spec"]
+                            run["final"] = upd["card_spec"]
                 return stop
 
             paused = run_stream(ba.initial_state_for(case))
@@ -679,23 +683,26 @@ if go and specs:
             if paused is not None:
                 if auto_ok:
                     #  검수 자동 승인 — 배치 장면을 끊지 않고 끝까지 보여준다
-                    with stage_boxes.get("final", st.container()):
+                    if "final" not in stage_boxes:
+                        stage_boxes["final"] = st.container()
+                    with stage_boxes["final"]:
                         st.markdown(node_card("human_review",
-                                              ["검수 자동 승인 (데모)"],
-                                              0.0, "ok"), unsafe_allow_html=True)
-                    paused = run_stream(Command(resume={"action": "approve",
-                                                        "by": "배치 자동승인"}))
+                                              ["검수 자동 승인 (데모)"], 0.0, "ok"),
+                                    unsafe_allow_html=True)
+                    run_stream(Command(resume={"action": "approve",
+                                               "by": "배치 자동승인"}))
                 else:
                     #  멈춘 상태 그대로 검수 화면으로 넘긴다
-                    st.session_state.hitl = {"app": app, "cfg": cfg, "payload": paused}
+                    st.session_state.hitl = {"app": app, "cfg": cfg,
+                                             "payload": paused}
                     st.session_state.spec = None
 
             el = time.perf_counter() - t0
             bar.progress(1.0, f"완료 {el:.1f}초")
-            if final:
-                st.session_state.spec = final
+            if run["final"]:
+                st.session_state.spec = run["final"]
             c = st.columns(3)
-            c[0].metric("노드 실행", f"{len(seen)}개")
+            c[0].metric("노드 실행", f'{len(run["seen"])}개')
             c[1].metric("소요", f"{el:.1f}초")
             c[2].metric("LLM 호출", f"{llm.stats['calls']}회")
             st.caption(llm.summary())
