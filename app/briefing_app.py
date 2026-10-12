@@ -28,6 +28,7 @@ import time
 from pathlib import Path
 
 import streamlit as st
+from langgraph.types import Command
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -36,6 +37,7 @@ import briefing_agent as ba          # noqa: E402
 import config                        # noqa: E402
 import followups                     # noqa: E402
 import case_labels                   # noqa: E402
+import tracing                       # noqa: E402
 import graph_meta                    # noqa: E402
 import llm                           # noqa: E402
 
@@ -523,6 +525,8 @@ if "spec" not in st.session_state:
     st.session_state.spec = None
 if "hitl" not in st.session_state:
     st.session_state.hitl = None
+if "hitl_msg" not in st.session_state:
+    st.session_state.hitl_msg = None
 if "fold" not in st.session_state:
     st.session_state.fold = True        # 기본 접기 — 화면이 길어지는 것을 막는다
 
@@ -562,13 +566,13 @@ with st.sidebar:
                               "그래프를 실제로 실행 — 전날 배치에서 일어나는 일",
                               "human_review 에서 멈춘 건을 승인·수정·반려"])
     go = st.button("▶ 실행", type="primary", use_container_width=True)
+    auto_ok = st.checkbox(
+        "검수 자동 승인", value=True,
+        help="끄면 '지금 생성' 이 human_review 에서 멈추고 검수 화면으로 넘어갑니다")
     if st.button("↺ 화면 초기화", use_container_width=True):
         st.session_state.shown = list(followups.DEFAULT_BLOCKS)
-    st.session_state.fold = not st.toggle(
-        "대화 펼치기", value=not st.session_state.get("fold", True),
-        help="끄면 질문 칩을 누를 때마다 앞부분이 접혀 방금 물은 것이 보입니다")
+        st.session_state.fold = True
     st.divider()
-    import tracing
     st.caption(f"모델 {config.OPENAI_MODEL} · USE_LLM={config.USE_LLM}")
     st.caption(f"Langfuse {tracing.state()}")
     if tracing.enabled():
@@ -624,99 +628,195 @@ if go and specs:
             stage_boxes, drawn = {}, set()
             llm.reset_stats()
             app = ba.build_graph()
+            cfg = {"configurable": {"thread_id": f"app-{case}-{int(time.time())}"},
+                   "recursion_limit": 60, "callbacks": tracing.callbacks()}
             t0, seen, final = time.perf_counter(), [], None
-            tprev = t0
+            tprev, paused = t0, None
 
-            for chunk in app.stream(
-                    ba.initial_state_for(case),
-                    config={"configurable": {"thread_id": f"app-{case}-{int(t0)}"},
-                            "recursion_limit": 60},
-                    stream_mode="updates"):
-                for node, upd in chunk.items():
-                    seen.append(node)
-                    now = time.perf_counter()
-                    bar.progress(min(len(seen) / 16, 1.0),
-                                 f"{graph_meta.label_of(node)}  ({len(seen)}/16)")
+            def draw(node, upd, now):
+                """노드 1개를 단계 박스에 그린다."""
+                nonlocal tprev
+                stg = graph_meta.stage_of(node) or "final"
+                if stg not in stage_boxes:
+                    par = (' <span class="par">병렬</span>'
+                           if stg in ("search", "review") else "")
+                    st.markdown(f'<div class="stagehd">{graph_meta.STAGES.get(stg, stg)}'
+                                f'{par}</div>', unsafe_allow_html=True)
+                    stage_boxes[stg] = st.container()
+                msgs = list((upd or {}).get("logs") or [])
+                rv = (upd or {}).get("reviews") or []
+                kind = "no" if any(not r.get("passed") for r in rv) else "ok"
+                with stage_boxes[stg]:
+                    st.markdown(node_card(node, msgs, now - tprev, kind),
+                                unsafe_allow_html=True)
+                tprev = now
 
-                    stg = graph_meta.stage_of(node) or "final"
-                    if stg not in stage_boxes:
-                        par = (' <span class="par">병렬</span>'
-                               if stg in ("search", "review") else "")
-                        st.markdown(f'<div class="stagehd">{graph_meta.STAGES.get(stg, stg)}'
-                                    f'{par}</div>', unsafe_allow_html=True)
-                        stage_boxes[stg] = st.container()
+            def run_stream(inp):
+                """스트림을 돌며 그린다. interrupt 를 만나면 그 값을 돌려준다.
 
-                    msgs = [l for l in (upd or {}).get("logs", [])]
-                    rv = (upd or {}).get("reviews") or []
-                    kind = "no" if any(not r.get("passed") for r in rv) else "ok"
-                    with stage_boxes[stg]:
-                        st.markdown(node_card(node, msgs, now - tprev, kind),
-                                    unsafe_allow_html=True)
-                    tprev = now
-                    if (upd or {}).get("card_spec"):
-                        final = upd["card_spec"]
+                `human_review` 가 `interrupt()` 를 걸면 LangGraph 는
+                `{"__interrupt__": (Interrupt(...),)}` 를 흘린다. **튜플**이라
+                노드 업데이트(dict)처럼 다루면 터진다.
+                """
+                nonlocal final
+                stop = None
+                for chunk in app.stream(inp, config=cfg, stream_mode="updates"):
+                    for node, upd in chunk.items():
+                        if node == "__interrupt__":
+                            stop = (upd[0].value if isinstance(upd, (list, tuple)) and upd
+                                    else upd)
+                            continue
+                        seen.append(node)
+                        bar.progress(min(len(seen) / 16, 1.0),
+                                     f"{graph_meta.label_of(node)}  ({len(seen)}/16)")
+                        draw(node, upd, time.perf_counter())
+                        if isinstance(upd, dict) and upd.get("card_spec"):
+                            final = upd["card_spec"]
+                return stop
+
+            paused = run_stream(ba.initial_state_for(case))
+
+            if paused is not None:
+                if auto_ok:
+                    #  검수 자동 승인 — 배치 장면을 끊지 않고 끝까지 보여준다
+                    with stage_boxes.get("final", st.container()):
+                        st.markdown(node_card("human_review",
+                                              ["검수 자동 승인 (데모)"],
+                                              0.0, "ok"), unsafe_allow_html=True)
+                    paused = run_stream(Command(resume={"action": "approve",
+                                                        "by": "배치 자동승인"}))
+                else:
+                    #  멈춘 상태 그대로 검수 화면으로 넘긴다
+                    st.session_state.hitl = {"app": app, "cfg": cfg, "payload": paused}
+                    st.session_state.spec = None
 
             el = time.perf_counter() - t0
             bar.progress(1.0, f"완료 {el:.1f}초")
-            st.session_state.spec = final
+            if final:
+                st.session_state.spec = final
             c = st.columns(3)
             c[0].metric("노드 실행", f"{len(seen)}개")
             c[1].metric("소요", f"{el:.1f}초")
             c[2].metric("LLM 호출", f"{llm.stats['calls']}회")
             st.caption(llm.summary())
+            if st.session_state.hitl:
+                st.warning("`human_review` 에서 멈췄습니다 — 아래에서 검수하세요.")
+
+#  rerun 이 화면을 지우므로 메시지를 세션에 담았다가 한 번 띄운다.
+if st.session_state.hitl_msg:
+    kind, text = st.session_state.hitl_msg
+    {"success": st.success, "warning": st.warning}.get(kind, st.info)(text)
+    st.session_state.hitl_msg = None
 
 spec = st.session_state.spec
 hitl = st.session_state.hitl
 
 # ──────────────────────────────────────────────────────────── 검수 화면
 if hitl:
-    from langgraph.types import Command
     p = hitl["payload"]
+    rounds = hitl.get("rounds", [])          # [(회차, 반려된 문구, 사유)]
     with left:
         st.markdown("#### 담당자 검수 — 승인 전에는 고객에게 나가지 않습니다")
         st.caption("금소법상 투자 문구는 사람 책임 하에 노출되어야 합니다. "
                    "검수 단위는 고객이 아니라 **케이스**입니다 — "
-                   "1건을 승인하면 같은 유형 고객 약 3,000명에게 나갑니다.")
+                   "1건 승인이 같은 유형 약 3,191명의 화면을 바꿉니다.")
+
+        rev = p.get("revision", 0)
+        if rev:
+            st.markdown(
+                '<div class="modebox"><span class="modet">'
+                f'재작성 {rev}회차 — 반려 사유를 반영해 다시 썼습니다</span>'
+                f'<span class="moded">남은 기회 <b>{max(3 - rev, 0)}회</b>. '
+                '3회를 넘기면 41케이스 <b>원본 문구로 폴백</b>합니다 — '
+                '현업이 쓴 문장이라 컴플라이언스가 보증됩니다.</span></div>',
+                unsafe_allow_html=True)
+
+        if p.get("fallback_used"):
+            st.markdown(
+                '<div class="modebox" style="border-left-color:#E8453C;'
+                'background:#FFF7F6"><span class="modet">'
+                '폴백 — 41케이스 원본 문구로 교체했습니다</span>'
+                '<span class="moded">재작성 3회로도 심사를 통과하지 못했습니다. '
+                '현업이 쓴 문장이라 컴플라이언스가 보증됩니다. '
+                '<b>생성이 실패해도 서비스는 죽지 않습니다.</b></span></div>',
+                unsafe_allow_html=True)
+
         st.info(p.get("advice_display", p.get("advice", "")))
-        c = st.columns(3)
-        for i, (k, ko) in enumerate([("compliance", "컴플라이언스"),
-                                     ("grounding", "근거 결속"), ("format", "형식")]):
+        c = st.columns(4)
+        for n2, (k, ko) in enumerate([("compliance", "컴플라이언스"),
+                                      ("grounding", "근거 결속"),
+                                      ("format", "형식")]):
             v = (p.get("review") or {}).get(k, {})
-            c[i].metric(ko, "통과" if v.get("passed") else "반려")
+            c[n2].metric(ko, "통과" if v.get("passed") else "반려")
+        c[3].metric("재작성", f"{rev}회")
         st.caption(f"**{p.get('case_id')}** — {p.get('case_label', '')}")
         st.caption(f"진단 {p.get('change_type')} / {p.get('gap_type')} · "
-                   f"재작성 {p.get('revision', 0)}회 · "
                    f"근거 {[e['doc'] for e in p.get('evidence', [])]}")
+
+        #  반려 → 재작성이 **무엇을 바꿨는지** 보여준다.
+        #  회차 숫자만 올라가면 루프가 돌았다는 것만 알 뿐 효과를 확인할 수 없다.
+        if rounds:
+            with st.expander(f"반려 이력 {len(rounds)}건 — 무엇이 달라졌나",
+                             expanded=True):
+                for r_no, before, why in rounds:
+                    st.markdown(f"**{r_no}회차 반려** · 사유: _{why}_")
+                    st.caption(f"반려된 문구 — {before}")
+                    st.divider()
+                st.markdown(f"**현재 {rev}회차 문구**")
+                st.caption(p.get("advice_display", ""))
 
         by = st.text_input("검수자", value="이예나")
         t1, t2, t3 = st.tabs(["승인", "수정 후 승인", "반려"])
         cmd = None
         with t1:
-            if st.button("✓ 그대로 승인", type="primary", use_container_width=True):
+            if st.button("✓ 그대로 승인", type="primary",
+                         use_container_width=True):
                 cmd = {"action": "approve", "by": by}
         with t2:
-            edited = st.text_area("문구 수정", value=p.get("advice", ""), height=120)
-            st.caption("수정본은 **재심사하지 않습니다** — 사람이 쓴 문장이고 사람이 책임집니다.")
+            edited = st.text_area("문구 수정", value=p.get("advice", ""),
+                                  height=120)
+            st.caption("수정본은 **재심사하지 않습니다** — "
+                       "사람이 쓴 문장이고 사람이 책임집니다.")
             if st.button("✎ 수정 후 승인", use_container_width=True):
                 cmd = {"action": "edit", "by": by, "advice": edited}
         with t3:
             reason = st.text_input("반려 사유", placeholder="예) 수치 표현을 더 쉽게")
-            st.caption("사유가 재작성 지시가 됩니다. revision+1 후 optimize 로 돌아갑니다.")
-            if st.button("✕ 반려", use_container_width=True):
-                cmd = {"action": "reject", "by": by, "reason": reason or "(사유 없음)"}
+            st.caption("사유가 **재작성 지시**가 됩니다. revision+1 후 optimize 로 "
+                       "돌아가 3축 심사를 다시 받고 여기로 옵니다.")
+            #  반려 4번째가 폴백이다 (revision>=3 에서 반려 → fallback).
+            #  버튼을 막으면 폴백 경로를 데모할 수 없다. 대신 라벨로 알린다.
+            last = rev >= 3
+            if st.button("✕ 반려 → 폴백" if last else "✕ 반려",
+                         use_container_width=True,
+                         type="secondary"):
+                cmd = {"action": "reject", "by": by,
+                       "reason": reason or "(사유 없음)"}
+            if last:
+                st.caption("재작성 기회를 모두 썼습니다. 여기서 반려하면 "
+                           "**41케이스 원본 문구로 폴백**합니다 — "
+                           "생성이 실패해도 서비스는 죽지 않습니다.")
 
         if cmd:
+            if cmd["action"] == "reject":
+                rounds = rounds + [(rev, p.get("advice_display", ""),
+                                    cmd["reason"])]
             out = hitl["app"].invoke(Command(resume=cmd), config=hitl["cfg"])
             if "card_spec" in out:
                 st.session_state.spec = out["card_spec"]
                 st.session_state.hitl = None
-                st.success(f"{cmd['action']} — 확정되어 고객 화면으로 내려갑니다")
+                st.session_state.hitl_msg = (
+                    ("warning", "3회 반려 — 41케이스 원본 문구로 폴백했습니다")
+                    if out["card_spec"].get("fallback_used")
+                    else ("success",
+                          f"{cmd['action']} — 확정되어 고객 화면으로 내려갑니다"))
             else:
                 snap = hitl["app"].get_state(hitl["cfg"])
                 st.session_state.hitl = {
-                    **hitl,
+                    **hitl, "rounds": rounds,
                     "payload": snap.interrupts[0].value if snap.interrupts else {}}
-                st.warning("반려 — 재작성 후 다시 검수 대기입니다")
+                st.session_state.hitl_msg = (
+                    "warning",
+                    "반려 → optimize 로 돌아가 재작성했습니다. 다시 검수해 주세요.")
             st.rerun()
 
     with right:
@@ -728,7 +828,8 @@ if not hitl:
       if not spec:
           st.info("왼쪽 사이드바에서 케이스를 고르고 **실행**을 누르세요.")
       else:
-          #  기본 4블록 뒤로 질문이 2개 넘게 쌓이면 앞을 접는다.
+          #  질문 칩을 누르면 **앞부분이 자동으로 접힌다.** 토글로 두면
+          #  고객이 설정을 만져야 하는 꼴이고, 실제 메신저는 그러지 않는다.
           KEEP = 2
           items = st.session_state.shown
           base = len(followups.DEFAULT_BLOCKS)
@@ -738,6 +839,15 @@ if not hitl:
           else:
               folded, visible = 0, items
           st.markdown(render_phone(spec, visible, folded), unsafe_allow_html=True)
+          if folded:
+              if st.button(f"↑ 이전 대화 {folded}개 펼치기", use_container_width=True):
+                  st.session_state.fold = False
+                  st.rerun()
+          elif len(st.session_state.shown) > len(followups.DEFAULT_BLOCKS) + 2:
+              if st.button("↓ 최근 대화만 보기", use_container_width=True):
+                  st.session_state.fold = True
+                  st.rerun()
+
           done = {i[0] if isinstance(i, (list, tuple)) else i
                   for i in st.session_state.shown}
           chips = [c for c in followups.chips_for(spec) if c["block"] not in done]
@@ -749,6 +859,7 @@ if not hitl:
                   if cols[i % len(cols)].button(c["label"], key=f"chip-{c['block']}",
                                                 use_container_width=True):
                       st.session_state.shown.append((c["block"], c["label"]))
+                      st.session_state.fold = True   # 새 답이 오면 앞을 접는다
                       st.rerun()
           elif "cta" not in done:
               st.session_state.shown.append("cta")
