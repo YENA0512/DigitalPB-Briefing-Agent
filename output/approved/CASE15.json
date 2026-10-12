@@ -6,16 +6,16 @@
     "fx",
     "content"
   ],
-  "selection_reason": "상승 · 최대비중 34% · 해외시황 +0.59%",
+  "selection_reason": "상승 · 최대비중 40% · 해외시황 +0.59%",
   "card_scores": {
-    "personal_briefing": 7.24,
+    "personal_briefing": 16.5,
     "domestic_market": 0.0,
     "fx": 3.18,
     "content": 0.0
   },
-  "advice": "고객님 투자자산은 지난 방문 때보다 2,500,000원 늘었어요 [portfolio]. KB미국대표성장ETF가 1,300,000원, KB글로벌AI펀드가 900,000원 증가를 보탰어요 [portfolio]. S&P500은 전일 대비 0.59% 상승했어요 [시장-^GSPC]. KB미국대표성장ETF 관련 기사에선 미국 증시 선물 상승과 실적 발표 주목이 언급됐어요 [뉴스-1]. 해외 비중이 67%라 미국 성장주 흐름이 더 크게 반영됐어요 [portfolio].",
-  "advice_display": "고객님 투자자산은 지난 방문 때보다 2,500,000원 늘었어요. KB미국대표성장ETF가 1,300,000원, KB글로벌AI펀드가 900,000원 증가를 보탰어요. S&P500은 전일 대비 0.59% 상승했어요. KB미국대표성장ETF 관련 기사에선 미국 증시 선물 상승과 실적 발표 주목이 언급됐어요 ①. 해외 비중이 67%라 미국 성장주 흐름이 더 크게 반영됐어요.",
-  "advice_plain": "고객님 투자자산은 지난 방문 때보다 2,500,000원 늘었어요. KB미국대표성장ETF가 1,300,000원, KB글로벌AI펀드가 900,000원 증가를 보탰어요. S&P500은 전일 대비 0.59% 상승했어요. KB미국대표성장ETF 관련 기사에선 미국 증시 선물 상승과 실적 발표 주목이 언급됐어요. 해외 비중이 67%라 미국 성장주 흐름이 더 크게 반영됐어요.",
+  "advice": "고객님 투자자산은 지난번보다 5,400,000원 늘었어요 [portfolio]. KB미국대표성장ETF가 3,240,000원, KB글로벌AI펀드가 1,620,000원, KODEX 200이 540,000원 보탰어요 [portfolio]. KB미국대표성장ETF와 관련해 미국 증시 선물 상승, 유가 하락, 3분기 실적 발표 주목 기사가 나왔어요 [뉴스-1]. 해외 비중이 75%라 미국 시장 움직임이 자산 변화에 더 크게 반영됐어요 [portfolio].",
+  "advice_display": "고객님 투자자산은 지난번보다 5,400,000원 늘었어요. KB미국대표성장ETF가 3,240,000원, KB글로벌AI펀드가 1,620,000원, KODEX 200이 540,000원 보탰어요. KB미국대표성장ETF와 관련해 미국 증시 선물 상승, 유가 하락, 3분기 실적 발표 주목 기사가 나왔어요 ①. 해외 비중이 75%라 미국 시장 움직임이 자산 변화에 더 크게 반영됐어요.",
+  "advice_plain": "고객님 투자자산은 지난번보다 5,400,000원 늘었어요. KB미국대표성장ETF가 3,240,000원, KB글로벌AI펀드가 1,620,000원, KODEX 200이 540,000원 보탰어요. KB미국대표성장ETF와 관련해 미국 증시 선물 상승, 유가 하락, 3분기 실적 발표 주목 기사가 나왔어요. 해외 비중이 75%라 미국 시장 움직임이 자산 변화에 더 크게 반영됐어요.",
   "sources": [
     {
       "marker": "①",
@@ -37,38 +37,38 @@
   },
   "diagnosis": {
     "change_type": "상승",
-    "gap_type": "정합",
-    "days_since": 3,
+    "gap_type": "과편중",
+    "days_since": 7,
     "outlook_region": "해외",
     "outlook": "좋음"
   },
   "metrics": {
-    "delta": 2500000,
-    "rate": 2.12,
-    "max_weight": 0.34,
-    "total": 120400000,
+    "delta": 5400000,
+    "rate": 6.0,
+    "max_weight": 0.4,
+    "total": 95400000,
     "region_mix": {
-      "해외": 0.67,
-      "국내": 0.33
+      "해외": 0.75,
+      "국내": 0.25
     }
   },
   "contributions": [
     {
       "name": "KB미국대표성장ETF",
-      "delta": 1300000,
-      "weight": 0.34,
+      "delta": 3240000,
+      "weight": 0.4,
       "region": "해외"
     },
     {
       "name": "KB글로벌AI펀드",
-      "delta": 900000,
-      "weight": 0.33,
+      "delta": 1620000,
+      "weight": 0.35,
       "region": "해외"
     },
     {
       "name": "KODEX 200",
-      "delta": 300000,
-      "weight": 0.33,
+      "delta": 540000,
+      "weight": 0.25,
       "region": "국내"
     }
   ],
@@ -116,42 +116,42 @@
   ],
   "contents": [
     {
-      "id": "c103",
-      "title": "'AI 거품론'을 어떻게 읽어야 할까",
+      "id": "c109",
+      "title": "반도체 ETF 한 종목에 몰렸을 때 — 분산의 실제 효과",
       "url": "https://kbthink.com/investment.html",
-      "section": "심층 분석",
+      "section": "재테크 TIP",
       "format": "칼럼",
-      "level": "심화",
-      "published": "2026-10-09",
+      "level": "중급",
+      "published": "2026-09-22",
       "tags": [
-        "#AI",
         "#반도체",
-        "#해외증시"
+        "#분산투자",
+        "#ETF"
       ],
-      "summary": "밸류에이션 논쟁이 반복되는 이유와, 업종 집중도가 높은 포트폴리오가 받는 영향.",
+      "summary": "같은 하락장에서 집중 포트폴리오와 분산 포트폴리오의 변동폭 차이를 숫자로 비교합니다.",
       "link_ok": true,
-      "url_intended": "https://kbthink.com/investment/insight/2610/261009-1.html",
+      "url_intended": "https://kbthink.com/investment/insight/2609/260922-1.html",
       "mock_article": true,
-      "_score": 9.5,
-      "_why": "상황 #해외증시 / 보유 #AI·#반도체 / 열람 #반도체"
+      "_score": 9.4,
+      "_why": "상황 #분산투자 / 보유 #반도체 / 열람 #ETF·#반도체"
     },
     {
-      "id": "c102",
-      "title": "원·달러 1,330원대, 해외자산 평가액은 어떻게 달라지나",
-      "url": "https://kbthink.com/investment/today-pick/2610/261012-2.html",
-      "section": "환율 동향·전망",
-      "format": "전망",
+      "id": "c022",
+      "title": "지정학적 리스크가 상존하는 구간에서의 합리적 자산배분 전략",
+      "url": "https://kbthink.com/investment/tips/management/260807.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
       "level": "중급",
-      "published": "2026-10-12",
+      "published": "2026-08-07",
       "tags": [
-        "#환율",
-        "#환헤지",
-        "#해외증시"
+        "#자산배분",
+        "#분산투자",
+        "#투자성향"
       ],
-      "summary": "환율이 내리면 달러자산 환산액은 줄고 신규 환전 비용은 낮아집니다. 환헤지 여부로 체감이 갈립니다.",
+      "summary": "지정학적 불확실성이 남아 있는 국면에서 자산배분을 점검하는 글입니다. 위험 분산과 투자성향의 중요성을 다룹니다",
       "link_ok": true,
-      "_score": 8.8,
-      "_why": "상황 #해외증시 / 보유 #환율·#환헤지"
+      "_score": 6.8,
+      "_why": "상황 #분산투자·#투자성향"
     }
   ],
   "review": {
@@ -161,22 +161,22 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 성과·시장 동향과 포트폴리오 비중에 따른 영향 설명으로, 투자 행동 유도나 미래 수익 기대를 암시하는 표현은 없습니다."
+      "reason": "과거 자산 변화와 구성 비중, 관련 뉴스 및 변동 요인을 설명한 문구로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
     },
     "format": {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 203,
-      "sentences": 5
+      "length": 208,
+      "sentences": 4
     },
     "grounding": {
       "axis": "grounding",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "tags_checked": 2
+      "tags_checked": 1
     }
   },
   "review_rounds": 1,
@@ -187,29 +187,34 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 성과·시장 동향과 포트폴리오 비중에 따른 영향 설명으로, 투자 행동 유도나 미래 수익 기대를 암시하는 표현은 없습니다."
+      "reason": "과거 자산 변화와 구성 비중, 관련 뉴스 및 변동 요인을 설명한 문구로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
     },
     {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 203,
-      "sentences": 5
+      "length": 208,
+      "sentences": 4
     },
     {
       "axis": "grounding",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "tags_checked": 2
+      "tags_checked": 1
     }
   ],
   "fallback_used": false,
+  "approval": {
+    "action": "approve",
+    "by": "배치 자동승인",
+    "at": "2026-10-12 18:17:23"
+  },
   "llm": {
     "used": true,
     "model": "gpt-5.5",
-    "calls": 12
+    "calls": 39
   },
-  "generated_at": "2026-10-12 17:57:25"
+  "generated_at": "2026-10-12 18:17:23"
 }

@@ -35,11 +35,20 @@ def run(portfolio: dict, thread: str, patch_generate=None, state_extra=None):
     if patch_generate:
         ba.generate = patch_generate
     try:
+        from langgraph.types import Command
         app = ba.build_graph()
+        cfg = {"configurable": {"thread_id": thread}, "recursion_limit": 60}
         st = ba.initial_state(portfolio)
         st.update(state_extra or {})
-        return app.invoke(st, config={"configurable": {"thread_id": thread},
-                                      "recursion_limit": 60})
+        out = app.invoke(st, config=cfg)
+        #  HITL 도입 후 human_review 에서 멈춘다. 이 테스트들의 관심사가
+        #  아니므로 자동 승인으로 통과시킨다 (검수 자체는 7번이 본다).
+        guard = 0
+        while "card_spec" not in out and guard < 5:
+            guard += 1
+            out = app.invoke(Command(resume={"action": "approve", "by": "테스트"}),
+                             config=cfg)
+        return out
     finally:
         ba.generate = orig
 
@@ -53,8 +62,13 @@ def test_banned_recovers():
     def gen(state):
         return {"selected_card": "personal_briefing", "card_scores": {},
                 "selection_reason": "테스트",
+                #  금지어만 떼면 나머지가 규격(40~220자)을 만족하도록 길게 짠다.
+                #  짧게 주입하면 Rule 재작성이 길이를 못 맞춰 폴백되고,
+                #  "루프가 복구된다"가 아니라 "LLM 이 있어야 복구된다"가 된다.
                 "draft": "5일 사이 839,000원이 줄었어요 [portfolio]. "
-                         "지금이 기회입니다 [portfolio].",
+                         "KODEX 반도체가 624,000원 줄며 하락분의 대부분을 "
+                         "만들었어요 [portfolio]. 보유 비중이 42%라 업종 조정의 "
+                         "영향이 커졌어요 [portfolio]. 지금이 기회입니다 [portfolio].",
                 "logs": ["카드 선택: personal_briefing (금지어 주입)"]}
 
     r = run(ba.MOCK_PORTFOLIOS["반도체편중"], "t1-banned", gen)
@@ -179,21 +193,76 @@ def test_reducer_regression():
 # ================================================================ 6
 def test_all_mocks_complete():
     """MOCK_PORTFOLIOS 전 케이스가 에러 없이 완주한다."""
-    app = ba.build_graph()
     bad, rows = [], []
     for name, pf in ba.MOCK_PORTFOLIOS.items():
         try:
-            r = app.invoke(ba.initial_state(pf),
-                           config={"configurable": {"thread_id": f"t6-{name}"},
-                                   "recursion_limit": 60})
+            r = run(pf, f"t6-{name}")        # interrupt 재개 포함
             s = r["card_spec"]
             rows.append(f"{name:<12} {s['case_id']:<7} {r['change_type']:<6} "
                         f"{r['gap_type']:<6} {s['review_rounds']}회차 "
-                        f"{'폴백' if s['fallback_used'] else '통과'}")
+                        f"{'폴백' if s['fallback_used'] else '통과'} "
+                        f"검수 {s.get('approval',{}).get('action','-')}")
         except Exception as exc:                 # noqa: BLE001
             bad.append(f"{name}: {type(exc).__name__}: {exc}")
     check(f"MOCK {len(ba.MOCK_PORTFOLIOS)}케이스 완주",
           not bad, "\n".join(rows + bad))
+
+
+# ================================================================ 7 HITL
+def test_hitl_three_ways():
+    """검수 3갈래 — approve / edit / reject 가 각각 설계대로 동작한다."""
+    from langgraph.types import Command
+
+    def run_until_interrupt(thread):
+        app = ba.build_graph()
+        cfg = {"configurable": {"thread_id": thread}, "recursion_limit": 60}
+        out = app.invoke(ba.initial_state(ba.MOCK_PORTFOLIOS["반도체편중"]), config=cfg)
+        return app, cfg, out
+
+    lines, ok = [], True
+
+    # (가) interrupt 가 실제로 걸리는가 — card_spec 이 아직 없어야 한다
+    app, cfg, out = run_until_interrupt("t7-approve")
+    paused = "card_spec" not in out
+    lines.append(f"interrupt 발생: {paused} (card_spec 없음)")
+    ok &= paused
+
+    # (나) approve
+    out = app.invoke(Command(resume={"action": "approve", "by": "김검수"}), config=cfg)
+    ap = out["card_spec"]["approval"]
+    lines.append(f"approve → {ap['action']} · {ap['by']} · {ap['at'][:16]}")
+    ok &= ap["action"] == "approve" and ap["by"] == "김검수"
+
+    # (다) edit — 담당자가 고친 문구가 그대로 나가고 재심사하지 않는다
+    app, cfg, out = run_until_interrupt("t7-edit")
+    EDITED = "담당자가 직접 고친 문구예요 [portfolio]."
+    out = app.invoke(Command(resume={"action": "edit", "by": "박검수",
+                                     "advice": EDITED}), config=cfg)
+    spec = out["card_spec"]
+    edited_ok = spec["advice"] == EDITED and spec["approval"]["action"] == "edit"
+    lines.append(f"edit → 문구 교체 {edited_ok} · 원본 보존 "
+                 f"{bool(spec['approval'].get('original'))}")
+    ok &= edited_ok
+
+    # (라) reject — revision 이 오르고 재작성 후 다시 검수로 돌아온다
+    app, cfg, out = run_until_interrupt("t7-reject")
+    rev0 = app.get_state(cfg).values["revision"]
+    out = app.invoke(Command(resume={"action": "reject", "by": "이검수",
+                                     "reason": "수치 표현을 더 쉽게"}), config=cfg)
+    st = app.get_state(cfg).values
+    rev1 = st["revision"]
+    reran = "card_spec" not in out            # 다시 검수에서 멈춰야 한다
+    lines.append(f"reject → revision {rev0}→{rev1} · 재작성 후 재검수 대기 {reran}")
+    ok &= rev1 > rev0 and reran
+
+    # 반려 후 승인하면 최종 확정된다
+    out = app.invoke(Command(resume={"action": "approve", "by": "이검수"}), config=cfg)
+    done = "card_spec" in out
+    lines.append(f"재검수 승인 → 확정 {done} · "
+                 f"최종 회차 {out['card_spec']['review_rounds'] if done else '-'}")
+    ok &= done
+
+    check("HITL 3갈래 — approve / edit / reject", ok, "\n".join(lines))
 
 
 if __name__ == "__main__":
@@ -204,7 +273,7 @@ if __name__ == "__main__":
 
     for fn in (test_reducer_regression, test_round_isolation, test_banned_recovers,
                test_three_strikes_falls_back, test_no_asset_exempt,
-               test_all_mocks_complete):
+               test_hitl_three_ways, test_all_mocks_complete):
         try:
             fn()
         except Exception as exc:                 # noqa: BLE001

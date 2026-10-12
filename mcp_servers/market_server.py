@@ -36,6 +36,7 @@ from mcp.server.fastmcp import FastMCP
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
+import audit_db     # noqa: E402
 import market_tool  # noqa: E402
 import news_tool    # noqa: E402
 
@@ -120,7 +121,37 @@ def sector_query_for(holding_name: str) -> str:
     return news_tool.query_for(holding_name)
 
 
+# ──────────────────────────────────────────────────────── 감사 로그 (DB)
+#  교육과정 w5_nb02a/b (DB 접근 MCP) 와 같은 구조.
+#  다른 Agent 도 "지난주 폴백 건수"를 물어볼 수 있게 노출한다.
+#  **고객 식별자·보유 금액은 들어 있지 않다.** 검수 단위가 케이스라서 필요 없다.
+
+@mcp.tool()
+def audit_daily_summary(days: int = 7) -> str:
+    """최근 N일 브리핑 품질 집계.
+
+    일자별 생성 건수, 폴백 건수, 평균 재작성 횟수, 심사 축별 반려 건수.
+    프롬프트를 고쳤을 때 폴백률이 내려갔는지를 이 값으로 본다.
+    """
+    return json.dumps(audit_db.daily_summary(days), ensure_ascii=False)
+
+
+@mcp.tool()
+def audit_case_history(case_id: str, limit: int = 10) -> str:
+    """한 케이스가 날짜별로 어떤 문구로 나갔는지.
+
+    같은 케이스인데 날마다 문구가 다르다는 것이 이 Agent 의 존재 증명이다.
+    """
+    return json.dumps(audit_db.history(case_id, limit), ensure_ascii=False)
+
+
+@mcp.tool()
+def audit_search(keyword: str, limit: int = 10) -> str:
+    """고객에게 나간 문구를 키워드로 검색한다 (사후 조회·민원 대응용)."""
+    return json.dumps(audit_db.search(keyword, limit), ensure_ascii=False)
+
+
 if __name__ == "__main__":
     print(f"KB-Market MCP · http://{HOST}:{PORT}/mcp", file=sys.stderr)
-    print(f"도구 6종 — 시황 3 · 뉴스 3", file=sys.stderr)
+    print(f"도구 9종 — 시황 3 · 뉴스 3 · 감사 3", file=sys.stderr)
     mcp.run(transport="streamable-http")

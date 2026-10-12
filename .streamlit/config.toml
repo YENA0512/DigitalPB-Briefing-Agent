@@ -1,0 +1,17 @@
+# 데모 테마를 라이트로 고정한다.
+# 뷰어 CSS 가 흰 카드 배경을 전제로 짜여 있어서, OS 가 다크모드면
+# Streamlit 기본 글자색(흰색)과 겹쳐 글씨가 안 보인다.
+# 발표 환경의 OS 설정에 데모가 좌우되면 안 된다.
+[theme]
+base = "light"
+primaryColor = "#6B4EFF"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F2F8"
+textColor = "#1C1A22"
+font = "sans serif"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

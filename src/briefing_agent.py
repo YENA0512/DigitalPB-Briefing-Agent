@@ -25,6 +25,7 @@ from typing import Annotated, Literal, TypedDict
 
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
+from langgraph.types import Command, interrupt
 
 import case_router
 import config
@@ -36,6 +37,7 @@ import news_tool
 import prompts
 import retriever
 import sources as src_render
+import tracing
 from reducers import accumulate, keep_latest_round
 
 USE_LLM = config.USE_LLM
@@ -84,6 +86,7 @@ class BriefingState(TypedDict):
     # 출력
     card_spec: dict
     fallback_used: bool
+    approval: dict              # 담당자 검수 결과 — 승인자·시각·결정 (감사 추적)
     logs: Annotated[list, accumulate]
 
 
@@ -703,6 +706,84 @@ def match_contents(state: BriefingState) -> dict:
     return {"contents": out["contents"], "logs": out["logs"]}
 
 
+def human_review(state: BriefingState) -> dict:
+    """담당자 검수 — Human-in-the-Loop.
+
+    ## 왜 여기 있는가
+
+    금소법상 투자 문구는 **사람 책임 하에** 노출되어야 한다. 3축 심사를
+    통과했다고 바로 고객에게 나가면 그 책임 구조가 성립하지 않는다.
+    `finalize` 바로 앞에 두어, 승인된 것만 카드 스펙이 된다.
+
+    검수 단위는 고객이 아니라 **케이스**다. 41건을 검수하면 전 고객에게 나간다.
+
+    ## 세 갈래
+
+        approve        그대로 확정
+        edit           담당자가 고친 문구로 교체 후 확정.
+                       **재심사하지 않는다** — 사람이 쓴 문장이고 사람이 책임진다
+        reject(사유)   revision+1 후 optimize 로 되돌린다. 사유가 재작성 지시가 된다
+
+    ## 재개 방법
+
+        graph.invoke(Command(resume={"action": "approve", "by": "홍길동"}), config)
+
+    `thread_id` 는 case_id 다. 체크포인터가 중단 지점을 들고 있으므로
+    배치가 41건을 멈춰 두고 담당자가 하나씩 처리할 수 있다.
+    """
+    spec_preview = {
+        "case_id": state["case_id"],
+        "advice": state["draft"],
+        "advice_display": src_render.render(state["draft"], state["evidence"])["display"],
+        "change_type": state["change_type"],
+        "gap_type": state["gap_type"],
+        "selected_card": state["selected_card"],
+        "selected_over": [c for c in CARDS if c != state["selected_card"]],
+        "selection_reason": state["selection_reason"],
+        "evidence": [{"doc": e["doc"], "title": e["title"]} for e in state["evidence"]],
+        "contents": [{"title": c["title"], "url": c.get("url", "")}
+                     for c in state["contents"]],
+        "review": {r["axis"]: {"passed": r["passed"], "issues": r.get("issues", [])}
+                   for r in state["reviews"]},
+        "revision": state["revision"],
+        "fallback_used": state["fallback_used"],
+    }
+
+    decision = interrupt(spec_preview) or {}
+    action = decision.get("action", "approve")
+    by = decision.get("by", "(미상)")
+    at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if action == "reject":
+        reason = decision.get("reason", "(사유 없음)")
+        #  반려 사유를 심사 지적처럼 넣어 optimize 가 읽게 한다.
+        #  revision 을 올리면 reducer 가 이전 회차를 버린다 (reducers.py).
+        r = _review("human", state["revision"], False, [f"담당자 반려: {reason}"])
+        return {"reviews": [r], "review_history": [r],
+                "approval": {"action": "reject", "by": by, "at": at, "reason": reason},
+                "logs": [f"검수 반려 ({by}): {reason}"]}
+
+    if action == "edit":
+        edited = decision.get("advice", state["draft"])
+        return {"draft": edited,
+                "approval": {"action": "edit", "by": by, "at": at,
+                             "original": state["draft"]},
+                "logs": [f"검수 수정 후 승인 ({by}) — 재심사하지 않음 (사람 책임)"]}
+
+    return {"approval": {"action": "approve", "by": by, "at": at},
+            "logs": [f"검수 승인 ({by})"]}
+
+
+def route_after_review_human(state: BriefingState
+                             ) -> Literal["optimize", "fallback", "finalize"]:
+    """검수 결과로 분기. 반려면 재작성 루프로 되돌아간다."""
+    if state.get("approval", {}).get("action") != "reject":
+        return "finalize"
+    if state["revision"] >= 3:
+        return "fallback"
+    return "optimize"
+
+
 def finalize(state: BriefingState) -> dict:
     """카드 스펙을 확정한다.
 
@@ -771,6 +852,7 @@ def finalize(state: BriefingState) -> dict:
         "review_rounds": state["revision"] + 1,
         "review_history": state["review_history"],
         "fallback_used": state["fallback_used"],
+        "approval": state.get("approval") or {"action": "auto", "by": "(검수 생략)"},
         "llm": {"used": llm.available(),
                 "model": config.OPENAI_MODEL if llm.available() else None,
                 "calls": llm.stats["calls"]},
@@ -811,6 +893,7 @@ def build_graph(checkpointer=None):
                      ("optimize", optimize),
                      ("fallback", fallback),
                      ("match_contents", match_contents),
+                     ("human_review", human_review),
                      ("finalize", finalize)):
         g.add_node(name, fn)
 
@@ -832,7 +915,13 @@ def build_graph(checkpointer=None):
         g.add_edge("optimize", n)
 
     g.add_edge("fallback", "match_contents")
-    g.add_edge("match_contents", "finalize")
+
+    #  콘텐츠 매칭 → 담당자 검수 → 확정.
+    #  검수는 **루프 밖**이지만 반려 시 optimize 로 되돌아간다.
+    g.add_edge("match_contents", "human_review")
+    g.add_conditional_edges("human_review", route_after_review_human,
+                            {"optimize": "optimize", "fallback": "fallback",
+                             "finalize": "finalize"})
     g.add_edge("finalize", END)
 
     return g.compile(checkpointer=checkpointer or InMemorySaver())
@@ -845,17 +934,42 @@ def initial_state(portfolio: dict, profile: dict | None = None,
         "profile": profile or {"wmti": "APML", "age_band": "30대",
                                "risk": "위험중립형", "level": "중급"},
         "recent_views": recent_views or ["#ETF", "#반도체"],
-        "evidence": [], "contents": [], "reviews": [], "review_history": [], "logs": [],
+        "evidence": [], "contents": [], "reviews": [], "review_history": [],
+        "approval": {}, "logs": [],
     }
 
 
 # ---------------------------------------------------------------- 실행
 
-def run_one(name: str, portfolio: dict, app=None, quiet: bool = False) -> dict:
+def run_one(name: str, portfolio: dict, app=None, quiet: bool = False,
+            approver: str = "자동승인(데모)") -> dict:
+    """1건 실행. `human_review` 에서 멈추면 자동 승인으로 재개한다.
+
+    실제 운영은 `run_batch.py` 가 멈춤 상태를 `output/pending` 에 쌓고
+    담당자가 하나씩 처리한다. 여기서는 CLI 데모라 바로 승인한다.
+    """
     app = app or build_graph()
-    result = app.invoke(initial_state(portfolio),
-                        config={"configurable": {"thread_id": name},
-                                "recursion_limit": 60})
+    #  Langfuse 콜백을 달면 그래프 1회 실행이 trace 하나가 되고
+    #  LLM 호출이 그 안에 span 으로 붙는다. 키가 없으면 빈 리스트다.
+    cfg = {"configurable": {"thread_id": name}, "recursion_limit": 60,
+           "callbacks": tracing.callbacks()}
+    result = app.invoke(initial_state(portfolio), config=cfg)
+
+    #  interrupt 가 걸리면 결과에 card_spec 이 없다. 승인으로 재개한다.
+    guard = 0
+    while "card_spec" not in result and guard < 5:
+        guard += 1
+        result = app.invoke(Command(resume={"action": "approve", "by": approver}),
+                            config=cfg)
+    state = app.get_state(cfg).values if "card_spec" not in result else result
+    result = state if isinstance(state, dict) and "card_spec" in state else result
+
+    #  심사 결과를 점수로 남긴다. 매일 쌓으면 폴백률·재작성 횟수의 추세가 보인다.
+    if "card_spec" in result:
+        url = tracing.score_card(result["card_spec"], name)
+        if url:
+            result["card_spec"]["trace_url"] = url
+
     if quiet:
         return result
 
@@ -895,6 +1009,8 @@ def run_one(name: str, portfolio: dict, app=None, quiet: bool = False) -> dict:
     axes = " · ".join(f"{k} {'O' if v['passed'] else 'X'}"
                       for k, v in spec["review"].items())
     print(f"  심사: {axes} · {spec['review_rounds']}회차 · 폴백 {spec['fallback_used']}")
+    ap = spec.get("approval", {})
+    print(f"  검수: {ap.get('action','-')} · {ap.get('by','-')} · {ap.get('at','-')}")
     return result
 
 
@@ -902,6 +1018,7 @@ if __name__ == "__main__":
     print(f"USE_LLM={USE_LLM}" + (f" · 모델 {config.OPENAI_MODEL}" if USE_LLM else ""))
     mcp_client.connect()
     print(f"Tool 경로: {mcp_client.mode()}")
+    print(f"Langfuse : {tracing.state()}")
     print(f"검색 모드: {retriever.mode() if retriever.build_index() or True else ''}")
     app = build_graph()
     for name, pf in MOCK_PORTFOLIOS.items():

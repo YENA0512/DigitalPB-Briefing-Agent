@@ -26,5 +26,10 @@ case "${1:-agent}" in
   chips)   exec "$VENV/bin/python" "$HERE/src/followups.py" ;;
   mcp)     exec "$VENV/bin/python" "$HERE/mcp_servers/market_server.py" ;;
   mcptest) exec "$VENV/bin/python" "$HERE/src/mcp_client.py" ;;
-  *) echo "사용법: ./run_local.sh [mcp|app|agent|config|market|news|search|sources|chips|mcptest|cases|reducer|test|lab|viewer]"; exit 1 ;;
+  trace)   exec "$VENV/bin/python" "$HERE/src/tracing.py" ;;
+  audit)   exec "$VENV/bin/python" "$HERE/src/audit_db.py" ;;
+  meta)    exec "$VENV/bin/python" "$HERE/src/graph_meta.py" ;;
+  batch)   shift; exec "$VENV/bin/python" "$HERE/src/run_batch.py" "$@" ;;
+  record)  shift; exec bash "$HERE/demo/record_cli.sh" "$@" ;;
+  *) echo "사용법: ./run_local.sh [mcp|app|agent|config|market|news|search|sources|chips|mcptest|batch|record|trace|audit|meta|cases|reducer|test|lab|viewer]"; exit 1 ;;
 esac

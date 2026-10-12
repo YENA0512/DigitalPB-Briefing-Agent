@@ -13,9 +13,9 @@
     "fx": 0.0,
     "content": 5.0
   },
-  "advice": "투자자산이 새로 생기며 30,000원이 늘었어요 [portfolio]. 변동은 KB밸런스포트폴리오가 전부 만들었고, 현재 비중도 100%예요 [portfolio]. 같은 날 코스피는 3.65% 하락해 국내 자산의 시장 배경은 약했어요 [시장-^KS11].",
-  "advice_display": "투자자산이 새로 생기며 30,000원이 늘었어요. 변동은 KB밸런스포트폴리오가 전부 만들었고, 현재 비중도 100%예요. 같은 날 코스피는 3.65% 하락해 국내 자산의 시장 배경은 약했어요.",
-  "advice_plain": "투자자산이 새로 생기며 30,000원이 늘었어요. 변동은 KB밸런스포트폴리오가 전부 만들었고, 현재 비중도 100%예요. 같은 날 코스피는 3.65% 하락해 국내 자산의 시장 배경은 약했어요.",
+  "advice": "최근 투자자산이 추가 되었어요! 투자를 새롭게 시작한 지금, 포트폴리오 상품으로 다양한 자산에 분산투자를 시작해보세요 [portfolio].",
+  "advice_display": "최근 투자자산이 추가 되었어요! 투자를 새롭게 시작한 지금, 포트폴리오 상품으로 다양한 자산에 분산투자를 시작해보세요.",
+  "advice_plain": "최근 투자자산이 추가 되었어요! 투자를 새롭게 시작한 지금, 포트폴리오 상품으로 다양한 자산에 분산투자를 시작해보세요.",
   "sources": [],
   "서브조언": "포트폴리오도 알려 드릴게요",
   "버튼명": "케이봇쌤 포트폴리오 이동하기",
@@ -63,7 +63,7 @@
     "region_used": "국내",
     "outlook_used": "나쁨",
     "환율": {
-      "price": 1331.75,
+      "price": 1331.76,
       "change_1d": -0.84
     }
   },
@@ -116,16 +116,15 @@
       "revision": 0,
       "passed": true,
       "issues": [],
-      "stage": "llm",
-      "reason": "과거 변동 사실, 포트폴리오 비중, 당일 시장 하락 배경을 설명하는 문구로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+      "stage": "rule"
     },
     "format": {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 107,
-      "sentences": 3
+      "length": 66,
+      "sentences": 2
     },
     "grounding": {
       "axis": "grounding",
@@ -142,16 +141,15 @@
       "revision": 0,
       "passed": true,
       "issues": [],
-      "stage": "llm",
-      "reason": "과거 변동 사실, 포트폴리오 비중, 당일 시장 하락 배경을 설명하는 문구로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+      "stage": "rule"
     },
     {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 107,
-      "sentences": 3
+      "length": 66,
+      "sentences": 2
     },
     {
       "axis": "grounding",
@@ -162,10 +160,16 @@
     }
   ],
   "fallback_used": false,
-  "llm": {
-    "used": true,
-    "model": "gpt-5.5",
-    "calls": 16
+  "approval": {
+    "action": "approve",
+    "by": "배치 자동승인",
+    "at": "2026-10-12 18:33:31"
   },
-  "generated_at": "2026-10-12 17:57:53"
+  "llm": {
+    "used": false,
+    "model": null,
+    "calls": 0
+  },
+  "generated_at": "2026-10-12 18:33:31",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/2c86e0e80b10e680ecb3f3852d7b868e"
 }

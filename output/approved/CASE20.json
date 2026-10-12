@@ -6,35 +6,35 @@
     "fx",
     "content"
   ],
-  "selection_reason": "하락 · 최대비중 42% · 해외시황 +0.59%",
+  "selection_reason": "하락 · 최대비중 40% · 해외시황 +0.59%",
   "card_scores": {
-    "personal_briefing": 6.32,
-    "domestic_market": 3.09,
+    "personal_briefing": 16.5,
+    "domestic_market": 0.0,
     "fx": 3.18,
     "content": 0.0
   },
-  "advice": "고객님 투자자산은 839,000원 줄었어요 [portfolio]. KODEX 반도체가 624,000원 감소해 하락에 가장 크게 영향을 줬어요 [portfolio]. 이날 반도체 대형주 중심의 차익 실현 물량이 지수 하락을 주도했어요 [일간-261012]. 관련 기사도 삼성전자·하이닉스가 외국인 매도의 영향을 받았다고 다뤘어요 [뉴스-1]. 이 종목 비중이 42%라 반도체 조정 영향이 크게 반영됐어요 [portfolio].",
-  "advice_display": "고객님 투자자산은 839,000원 줄었어요. KODEX 반도체가 624,000원 감소해 하락에 가장 크게 영향을 줬어요. 이날 반도체 대형주 중심의 차익 실현 물량이 지수 하락을 주도했어요 ①. 관련 기사도 삼성전자·하이닉스가 외국인 매도의 영향을 받았다고 다뤘어요 ②. 이 종목 비중이 42%라 반도체 조정 영향이 크게 반영됐어요.",
-  "advice_plain": "고객님 투자자산은 839,000원 줄었어요. KODEX 반도체가 624,000원 감소해 하락에 가장 크게 영향을 줬어요. 이날 반도체 대형주 중심의 차익 실현 물량이 지수 하락을 주도했어요. 관련 기사도 삼성전자·하이닉스가 외국인 매도의 영향을 받았다고 다뤘어요. 이 종목 비중이 42%라 반도체 조정 영향이 크게 반영됐어요.",
+  "advice": "고객님 투자자산은 5,400,000원 줄어 6.00% 하락했어요 [portfolio]. KB미국대표성장ETF가 3,240,000원 줄며 감소를 가장 키웠고, 비중은 40%예요 [portfolio]. 관련 기사에서는 미국 증시 선물이 상승했고 유가 하락과 3분기 실적 발표가 주목됐다고 전했어요 [뉴스-1]. 같은 날 원/달러 환율 하락은 해외자산의 원화 평가액을 낮추는 방향으로 작용한다고 설명됐어요 [일간-261012]. 해외 비중은 75%로 국내 25%보다 높아요 [portfolio].",
+  "advice_display": "고객님 투자자산은 5,400,000원 줄어 6.00% 하락했어요. KB미국대표성장ETF가 3,240,000원 줄며 감소를 가장 키웠고, 비중은 40%예요. 관련 기사에서는 미국 증시 선물이 상승했고 유가 하락과 3분기 실적 발표가 주목됐다고 전했어요 ①. 같은 날 원/달러 환율 하락은 해외자산의 원화 평가액을 낮추는 방향으로 작용한다고 설명됐어요 ②. 해외 비중은 75%로 국내 25%보다 높아요.",
+  "advice_plain": "고객님 투자자산은 5,400,000원 줄어 6.00% 하락했어요. KB미국대표성장ETF가 3,240,000원 줄며 감소를 가장 키웠고, 비중은 40%예요. 관련 기사에서는 미국 증시 선물이 상승했고 유가 하락과 3분기 실적 발표가 주목됐다고 전했어요. 같은 날 원/달러 환율 하락은 해외자산의 원화 평가액을 낮추는 방향으로 작용한다고 설명됐어요. 해외 비중은 75%로 국내 25%보다 높아요.",
   "sources": [
     {
       "marker": "①",
+      "doc": "뉴스-1",
+      "kind": "뉴스",
+      "title": "미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목",
+      "summary": "Investing.com 한국어 2026-10-12 기사: 미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목. (KB미국대표성장ETF 관련)",
+      "publisher": "Investing.com 한국어",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE44VW9uZno1QmtCc3g3M2t4Wm1EZVZMQlZ5SVR5emI0djZkX00yYkZ2M2x3Ry1pVlJ2dHpNZUV2RG9LODFxV3pnb1pveGFhQ3NWS1I1bmU3eFQ0Sms4VHE4X0VraGdCdldrS1hSNlIzYUI?oc=5",
+      "date": "2026-10-12"
+    },
+    {
+      "marker": "②",
       "doc": "일간-261012",
       "kind": "리포트",
       "title": "반도체 투심 위축에 코스피 급락",
       "summary": "반도체 업종 차익 실현으로 코스피·코스닥이 동반 하락한 날의 시황.",
       "publisher": "KB Think",
       "url": "https://kbthink.com/investment/today-pick/2610/261012-1.html",
-      "date": "2026-10-12"
-    },
-    {
-      "marker": "②",
-      "doc": "뉴스-1",
-      "kind": "뉴스",
-      "title": "“외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’",
-      "summary": "에너지경제신문 2026-10-12 기사: “외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’. (KODEX 반도체 관련)",
-      "publisher": "에너지경제신문",
-      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5OLUhEZ3FQWUN5UzV6XzE1dFpJMFZDTWRMaWhVUS1tbndTV1c5VW9zdGhvejdjNk15MVZ5ZVhqSmFfdnJsTGFiYjJpbUVsRlo5c1pKalBvVUQzV0NnTnk3Um1HOA?oc=5",
       "date": "2026-10-12"
     }
   ],
@@ -48,38 +48,38 @@
   "diagnosis": {
     "change_type": "하락",
     "gap_type": "과편중",
-    "days_since": 5,
+    "days_since": 7,
     "outlook_region": "해외",
     "outlook": "좋음"
   },
   "metrics": {
-    "delta": -839000,
-    "rate": -0.91,
-    "max_weight": 0.42,
-    "total": 91754057,
+    "delta": -5400000,
+    "rate": -6.0,
+    "max_weight": 0.4,
+    "total": 84600000,
     "region_mix": {
-      "국내": 0.42,
-      "해외": 0.58
+      "해외": 0.75,
+      "국내": 0.25
     }
   },
   "contributions": [
     {
-      "name": "KODEX 반도체",
-      "delta": -624000,
-      "weight": 0.42,
-      "region": "국내"
+      "name": "KB미국대표성장ETF",
+      "delta": -3240000,
+      "weight": 0.4,
+      "region": "해외"
     },
     {
       "name": "KB글로벌AI펀드",
-      "delta": -219000,
-      "weight": 0.31,
+      "delta": -1620000,
+      "weight": 0.35,
       "region": "해외"
     },
     {
-      "name": "美 단기국채ETF",
-      "delta": 4000,
-      "weight": 0.27,
-      "region": "해외"
+      "name": "KODEX 200",
+      "delta": -540000,
+      "weight": 0.25,
+      "region": "국내"
     }
   ],
   "market": {
@@ -103,11 +103,11 @@
   },
   "news": [
     {
-      "title": "“외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’",
-      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5OLUhEZ3FQWUN5UzV6XzE1dFpJMFZDTWRMaWhVUS1tbndTV1c5VW9zdGhvejdjNk15MVZ5ZVhqSmFfdnJsTGFiYjJpbUVsRlo5c1pKalBvVUQzV0NnTnk3Um1HOA?oc=5",
-      "publisher": "에너지경제신문",
+      "title": "미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE44VW9uZno1QmtCc3g3M2t4Wm1EZVZMQlZ5SVR5emI0djZkX00yYkZ2M2x3Ry1pVlJ2dHpNZUV2RG9LODFxV3pnb1pveGFhQ3NWS1I1bmU3eFQ0Sms4VHE4X0VraGdCdldrS1hSNlIzYUI?oc=5",
+      "publisher": "Investing.com 한국어",
       "date": "2026-10-12",
-      "matched": "KODEX 반도체"
+      "matched": "KB미국대표성장ETF"
     },
     {
       "title": "DS운용, 'AI 반도체 밸류체인 투자' 액티브 ETF 13일 상장",
@@ -117,9 +117,9 @@
       "matched": "KB글로벌AI펀드"
     },
     {
-      "title": "미국 증시 선물 상승, 유가 하락 및 3분기 실적 발표 주목",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE44VW9uZno1QmtCc3g3M2t4Wm1EZVZMQlZ5SVR5emI0djZkX00yYkZ2M2x3Ry1pVlJ2dHpNZUV2RG9LODFxV3pnb1pveGFhQ3NWS1I1bmU3eFQ0Sms4VHE4X0VraGdCdldrS1hSNlIzYUI?oc=5",
-      "publisher": "Investing.com 한국어",
+      "title": "[미국 주식 돋보기] 메디케어 별점 뭐기에…美보험주 희비 갈려",
+      "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1zaWdmZWItei13b1UxaG9ZZ3I5bzA2NW02OERfQXFvX2FjZWd5MUc4TnJORTdjU0I0aGpPZVVTVjh2N0RfQUZUYU9vZl9rMDJlTHc?oc=5",
+      "publisher": "매일경제 마켓",
       "date": "2026-10-12",
       "matched": "해외"
     }
@@ -171,14 +171,14 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 손실 및 하락 원인, 포트폴리오 비중을 설명하는 사실 서술로 투자 행동 유도나 미래 방향성 예단이 없습니다."
+      "reason": "과거 손익, 보유 비중, 뉴스 및 환율 영향에 대한 사실·구조 설명으로 투자 행동 유도나 미래 수익 기대를 심는 표현이 없습니다."
     },
     "format": {
       "axis": "format",
       "revision": 1,
       "passed": true,
       "issues": [],
-      "length": 182,
+      "length": 219,
       "sentences": 5
     },
     "grounding": {
@@ -197,23 +197,23 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 손실 및 원인, 포트폴리오 비중을 설명하는 사실 서술로 투자 행동 유도나 미래 방향 단정, 손실 가능성 은폐가 없습니다."
+      "reason": "과거 손익과 보유 비중, 관련 뉴스·환율 영향에 대한 사실 설명으로 투자 행동 유도나 미래 수익 기대를 암시하는 표현은 없습니다."
     },
     {
       "axis": "format",
       "revision": 0,
-      "passed": true,
-      "issues": [],
-      "length": 174,
-      "sentences": 4
+      "passed": false,
+      "issues": [
+        "글자수 223자로 3자 초과 — 220자 이내로 줄이세요 (출처 태그는 글자수에서 제외합니다. 본문만 220자)"
+      ],
+      "length": 223,
+      "sentences": 5
     },
     {
       "axis": "grounding",
       "revision": 0,
-      "passed": false,
-      "issues": [
-        "근거 불일치: 근거는 '반도체 대형주 중심의 차익 실현 물량'을 언급할 뿐, '국내 반도체 밸류체인 전반'에 차익 실현이 번졌다고까지는 확인되지 않습니다."
-      ],
+      "passed": true,
+      "issues": [],
       "tags_checked": 2
     },
     {
@@ -222,14 +222,14 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 손실 및 하락 원인, 포트폴리오 비중을 설명하는 사실 서술로 투자 행동 유도나 미래 방향성 예단이 없습니다."
+      "reason": "과거 손익, 보유 비중, 뉴스 및 환율 영향에 대한 사실·구조 설명으로 투자 행동 유도나 미래 수익 기대를 심는 표현이 없습니다."
     },
     {
       "axis": "format",
       "revision": 1,
       "passed": true,
       "issues": [],
-      "length": 182,
+      "length": 219,
       "sentences": 5
     },
     {
@@ -241,10 +241,15 @@
     }
   ],
   "fallback_used": false,
+  "approval": {
+    "action": "approve",
+    "by": "배치 자동승인",
+    "at": "2026-10-12 18:21:03"
+  },
   "llm": {
     "used": true,
     "model": "gpt-5.5",
-    "calls": 6
+    "calls": 63
   },
-  "generated_at": "2026-10-12 17:56:41"
+  "generated_at": "2026-10-12 18:21:03"
 }

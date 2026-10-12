@@ -34,3 +34,6 @@ output/pending/
 #   demo/viewer.html        — 클론 후 바로 열 수 있게
 data/_service_id_map.local.json
 *.local.json
+
+# 감사 로그 DB — 실행마다 쌓인다. 스키마는 src/audit_db.py 에 있다
+output/audit.db

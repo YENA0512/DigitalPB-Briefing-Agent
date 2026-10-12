@@ -35,6 +35,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import briefing_agent as ba          # noqa: E402
 import config                        # noqa: E402
 import followups                     # noqa: E402
+import graph_meta                    # noqa: E402
 import llm                           # noqa: E402
 
 APPROVED = ROOT / "output" / "approved"
@@ -44,6 +45,11 @@ st.set_page_config(page_title="디지털PB 브리핑", page_icon="◆", layout="
 # ──────────────────────────────────────────────────────────── 스타일
 #  실제 투자홈(asis.png) 기준 보라 팔레트. 상승=빨강 / 하락=파랑.
 st.markdown("""<style>
+/*  다크모드 방어 — 카드 배경이 흰색으로 고정돼 있으므로 글자색도 고정한다.
+    .streamlit/config.toml 로 라이트 테마를 강제하지만, 그 설정을 못 읽는
+    실행 경로(`streamlit run` 외)에서도 글씨가 보여야 한다.  */
+.stApp, .block-container{background:#fff!important;color:#1C1A22!important}
+.block-container *:not(svg):not(path){color:inherit}
 .block-container{padding-top:1.6rem;max-width:1420px}
 #MainMenu,footer,header{visibility:hidden}
 :root{--pp:#6B4EFF;--pp-d:#5538E8;--pp-l:#EDE9FE;--pp-ll:#F6F3FF;
@@ -51,7 +57,8 @@ st.markdown("""<style>
  --up:#E8453C;--down:#2B6CF6;--amber:#FFB800;--green:#12A150}
 
 .phone{width:392px;margin:0 auto;border:1px solid var(--line);border-radius:22px;
- overflow:hidden;background:#fff;box-shadow:0 4px 22px rgba(28,26,34,.10)}
+ overflow:hidden;background:#fff;color:var(--ink);box-shadow:0 4px 22px rgba(28,26,34,.10)}
+.phone *{color:inherit}
 .sbar{height:28px;display:flex;align-items:center;justify-content:space-between;
  padding:0 16px;font-size:10.5px;color:var(--gray);font-weight:600}
 .cbar{padding:11px 15px;display:flex;align-items:center;gap:10px;
@@ -63,11 +70,21 @@ st.markdown("""<style>
 .chat{padding:14px 13px 18px;background:#FBFAFD;min-height:300px}
 
 .b{border-radius:16px 16px 16px 4px;padding:13px 14px;font-size:13.5px;line-height:1.75;
- background:#fff;border:1px solid var(--line);margin-bottom:10px;
+ background:#fff;color:var(--ink);border:1px solid var(--line);margin-bottom:10px;
  box-shadow:0 1px 3px rgba(28,26,34,.04)}
 .b.me{background:var(--ink);color:#fff;border-radius:16px 16px 4px 16px;
  margin-left:auto;width:fit-content;max-width:86%;border:none;font-size:13px}
-.b.plain{background:#F3F1F8;border-color:transparent;box-shadow:none;width:fit-content}
+.b.plain{background:#F3F1F8;color:var(--ink);border-color:transparent;box-shadow:none;
+ width:fit-content}
+.b.me,.b.me *{color:#fff!important}
+.mk{color:#fff!important} .cn,.cn *{color:#fff!important} .cn.a,.cn.a *{color:#4A3600!important}
+.cta,.cta *{color:#fff!important} .nm2{color:var(--pp-d)!important}
+.ix .n,.cap,.s2,.cf,.np,.holdW,.hd .w{color:var(--gray)!important}
+.cs,.pbd,.ck{color:var(--ink2)!important} .ck{color:var(--pp)!important}
+.ck.a{color:#8A6200!important} .mh,.mh *{color:var(--pp)!important}
+.mh .r{color:#B5B1BE!important}
+.ix.up .c,.big.up,.hd .dl.up{color:var(--up)!important}
+.ix.down .c,.big.down,.hd .dl.down{color:var(--down)!important}
 .b.hero{background:linear-gradient(135deg,#F8F5FF,#fff);border-color:#E4DCFF}
 
 .mh{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--pp);
@@ -144,6 +161,49 @@ st.markdown("""<style>
 .cta{padding:13px;border-radius:11px;background:var(--pp);color:#fff;text-align:center;
  font-size:13.5px;font-weight:800;margin-top:2px}
 .chipHint{font-size:11px;color:var(--gray);text-align:center;padding:4px 0 2px}
+
+/* ── 왼쪽 패널 — 입력 / 실행 타임라인 ── */
+.sec{font-size:13px;font-weight:800;color:var(--ink);margin:18px 0 9px;
+ display:flex;align-items:center;gap:7px}
+.sec .n{width:19px;height:19px;border-radius:6px;background:var(--pp);color:#fff!important;
+ font-size:11px;display:grid;place-items:center;flex:none}
+.sec .tail{margin-left:auto;font-size:11px;font-weight:600;color:var(--gray)}
+
+.inbox{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.inrow{display:flex;gap:11px;padding:11px 13px;border-bottom:1px solid var(--line2)}
+.inrow:last-child{border-bottom:none}
+.inkey{flex:none;width:104px;font-size:11.5px;font-weight:800;color:var(--pp)!important;
+ font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.inval{min-width:0;font-size:12.5px;line-height:1.6;color:var(--ink)}
+.inval b{font-weight:700}
+.insrc{display:block;font-size:11px;color:var(--gray)!important;margin-top:3px}
+
+.stage{margin:11px 0 0}
+.stagehd{font-size:11.5px;font-weight:800;color:var(--pp)!important;margin-bottom:6px;
+ display:flex;align-items:center;gap:6px}
+.stagehd .par{font-size:10px;font-weight:700;background:var(--pp-l);color:var(--pp-d)!important;
+ padding:2px 7px;border-radius:5px}
+.nd{display:flex;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;
+ background:#fff;margin-bottom:6px}
+.nd.run{border-color:var(--pp);background:var(--pp-ll)}
+.nd.ok{border-left:3px solid var(--green)}
+.nd.no{border-left:3px solid var(--up);background:#FFF7F6}
+.ndic{flex:none;width:20px;height:20px;border-radius:6px;display:grid;place-items:center;
+ font-size:11px;background:#F1EFF6;color:var(--ink2)!important;font-weight:800}
+.nd.ok .ndic{background:var(--green-l,#EAF8F0);color:var(--green)!important}
+.nd.no .ndic{background:#FBE9E9;color:var(--up)!important}
+.ndb{min-width:0;flex:1}
+.ndt{font-size:12.5px;font-weight:700;color:var(--ink);display:block}
+.ndio{font-size:10.5px;color:var(--gray)!important;font-family:ui-monospace,Menlo,monospace;
+ display:block;margin-top:2px;line-height:1.5;word-break:break-all}
+.ndmsg{font-size:11.5px;color:var(--ink2)!important;display:block;margin-top:4px;line-height:1.55}
+.ndt .ms{float:right;font-size:10.5px;color:var(--gray-l,#B5B1BE)!important;font-weight:600}
+
+.modebox{border:1px solid var(--line);border-left:4px solid var(--pp);border-radius:10px;
+ padding:12px 14px;background:var(--pp-ll);margin-bottom:4px}
+.modet{font-size:13px;font-weight:800;color:var(--ink);display:block;margin-bottom:5px}
+.moded{font-size:12px;line-height:1.7;color:var(--ink2)!important;display:block}
+.moded b{color:var(--pp-d)!important}
 div[data-testid="stHorizontalBlock"] button{border-radius:18px!important;font-size:12.5px!important}
 </style>""", unsafe_allow_html=True)
 
@@ -343,6 +403,12 @@ BLOCKS = {"market": blk_market, "delta": blk_delta, "advice": blk_advice,
 
 
 def render_phone(spec, shown):
+    """shown 은 블록 id 또는 (블록 id, 고객이 누른 질문) 쌍.
+
+    질문 칩을 누르면 **그 질문이 말풍선으로 남습니다.** 답만 불쑥 나오면
+    대화가 아니라 아코디언이 됩니다. 무엇을 물어서 나온 답인지 보여야
+    "고객이 자유 입력 없이 대화한다"는 설계가 화면에서 읽힙니다.
+    """
     html = ['<div class="phone">',
             '<div class="sbar"><span>9:41</span><span></span><span>▪▪ ▪</span></div>',
             '<div class="cbar"><div class="ava">◆</div><div><b>디지털PB</b>',
@@ -350,7 +416,10 @@ def render_phone(spec, shown):
             '<div class="chat">',
             '<div class="b me">오늘 내 투자자산 어때?</div>',
             '<div class="b plain">오늘 시장부터 같이 볼게요.</div>']
-    for key in shown:
+    for item in shown:
+        key, asked = item if isinstance(item, (list, tuple)) else (item, None)
+        if asked:
+            html.append(f'<div class="b me">{asked}</div>')
         fn = BLOCKS.get(key)
         if fn:
             html.append(fn(spec) or "")
@@ -358,11 +427,88 @@ def render_phone(spec, shown):
     return "".join(html)
 
 
+def render_inputs(spec_or_pf, case_name):
+    """Agent 가 **무엇을 받는지** 화면에 드러낸다.
+
+    설계 평가 기준(교재 p20)이 "입력·출력·State 칸이 모두 정의되어 있는가"다.
+    코드에만 있으면 발표에서 설명이 길어진다.
+    """
+    pf = ba.MOCK_PORTFOLIOS.get(case_name) or {}
+    hs = sorted(pf.get("holdings", []), key=lambda h: -h.get("weight", 0))
+    holding_txt = ("<br>".join(
+        f"· {h['name']} <b>{round(h['weight']*100)}%</b> "
+        f"{'+' if h['delta'] >= 0 else '−'}{abs(h['delta']):,}원 ({h['region']})"
+        for h in hs) or "· (보유 자산 없음)")
+
+    rows = [
+        ("portfolio",
+         f"평가액 <b>{pf.get('total', 0):,}원</b> · "
+         f"직전 접속 <b>{pf.get('days_since', '-')}일 전</b><br>{holding_txt}",
+         "스타뱅킹 투자홈이 조회한 고객 자산 전문 (데모는 목데이터)"),
+        ("profile", "위험중립형 · 30대 · 콘텐츠 난이도 중급", "고객 프로파일"),
+        ("recent_views", "#ETF · #반도체", "KB Think 열람 이력"),
+    ]
+    html = '<div class="inbox">'
+    for k, v, srcl in rows:
+        html += (f'<div class="inrow"><span class="inkey">{k}</span>'
+                 f'<span class="inval">{v}<span class="insrc">← {srcl}</span></span></div>')
+    html += "</div>"
+    return html
+
+
+def render_fetched():
+    html = '<div class="inbox">'
+    for name, detail, srcl in graph_meta.FETCHED:
+        html += (f'<div class="inrow"><span class="inkey">{name}</span>'
+                 f'<span class="inval">{detail}'
+                 f'<span class="insrc">← {srcl}</span></span></div>')
+    return html + "</div>"
+
+
+MODE_DESC = {
+    "지금 생성": ("① 전날 밤 18:00 — Batch",
+                "장 마감 후 Agent 가 <b>41건을 다시 씁니다.</b> 지금 그래프가 "
+                "실제로 돌고 LLM 을 부릅니다. 3축 심사를 통과한 것만 담당자에게 "
+                "넘어갑니다. <b>고객은 이 장면을 보지 않습니다.</b>"),
+    "담당자 검수": ("② 그날 밤 — 담당자 검수 (HITL)",
+                 "<code>interrupt()</code> 로 그래프가 멈춥니다. "
+                 "<b>승인 전에는 고객에게 나가지 않습니다.</b> 검수 단위는 고객이 "
+                 "아니라 <b>케이스</b>라서, 1건 승인이 같은 유형 <b>약 3,000명</b>의 "
+                 "화면을 바꿉니다."),
+    "승인본 재생": ("③ 다음날 — 고객이 앱에 들어올 때 (Runtime)",
+                 "승인된 JSON 을 그대로 그립니다. <b>LLM 호출 0회.</b> "
+                 "금소법상 투자 문구는 사람 책임 하에 나가야 하므로 고객 요청 "
+                 "시점에 모델을 부르지 않습니다. 고객이 늘어도 비용이 늘지 않습니다."),
+}
+
+
+def render_mode(mode_label):
+    key = next((k for k in MODE_DESC if mode_label.startswith(k)), None)
+    if not key:
+        return ""
+    t, d = MODE_DESC[key]
+    return (f'<div class="modebox"><span class="modet">{t}</span>'
+            f'<span class="moded">{d}</span></div>')
+
+
+def node_card(node, msgs, ms=None, state="ok"):
+    """실행된 노드 1개를 카드로. 로그 원문 대신 **무엇을 했는지**를 보여준다."""
+    icon = {"ok": "✓", "no": "✕", "run": "●"}.get(state, "·")
+    body = "<br>".join(msgs) if msgs else graph_meta.desc_of(node)
+    ms_txt = f'<span class="ms">{ms:.1f}s</span>' if ms else ""
+    return (f'<div class="nd {state}"><span class="ndic">{icon}</span>'
+            f'<span class="ndb"><span class="ndt">{graph_meta.label_of(node)}{ms_txt}</span>'
+            f'<span class="ndio">{graph_meta.io_of(node)}</span>'
+            f'<span class="ndmsg">{body}</span></span></div>')
+
+
 # ──────────────────────────────────────────────────────────── 상태
 if "shown" not in st.session_state:
     st.session_state.shown = list(followups.DEFAULT_BLOCKS)
 if "spec" not in st.session_state:
     st.session_state.spec = None
+if "hitl" not in st.session_state:
+    st.session_state.hitl = None
 
 specs = {f.stem: f for f in sorted(APPROVED.glob("*.json"))}
 
@@ -370,9 +516,11 @@ specs = {f.stem: f for f in sorted(APPROVED.glob("*.json"))}
 with st.sidebar:
     st.markdown("### 디지털PB 브리핑")
     case = st.selectbox("고객 케이스", list(specs) or ["(없음)"])
-    mode = st.radio("모드", ["승인본 재생 (Runtime)", "지금 생성 (Batch)"],
+    mode = st.radio("모드", ["승인본 재생 (Runtime)", "지금 생성 (Batch)",
+                            "담당자 검수 (HITL)"],
                     captions=["LLM 호출 없음 — 실제 고객 경로",
-                              "그래프를 실제로 실행 — 전날 배치에서 일어나는 일"])
+                              "그래프를 실제로 실행 — 전날 배치에서 일어나는 일",
+                              "human_review 에서 멈춘 건을 승인·수정·반려"])
     go = st.button("▶ 실행", type="primary", use_container_width=True)
     if st.button("↺ 화면 초기화", use_container_width=True):
         st.session_state.shown = list(followups.DEFAULT_BLOCKS)
@@ -384,65 +532,174 @@ with st.sidebar:
 st.markdown("## 디지털PB 브리핑 Agent")
 st.caption("왼쪽에서 Agent 가 실행되고, 오른쪽 고객 화면이 그 결과로 채워집니다.")
 
-left, right = st.columns([1.05, 1], gap="large")
+left, right = st.columns([1.12, 1], gap="large")
+
+with left:
+    st.markdown(render_mode(mode), unsafe_allow_html=True)
+    st.markdown('<div class="sec"><span class="n">IN</span>Agent 입력'
+                '<span class="tail">이 세 가지만 받습니다</span></div>',
+                unsafe_allow_html=True)
+    st.markdown(render_inputs(None, case), unsafe_allow_html=True)
+    with st.expander("Agent 가 스스로 끌어오는 것 (입력이 아님)"):
+        st.markdown(render_fetched(), unsafe_allow_html=True)
 
 # ──────────────────────────────────────────────────────────── 실행
 if go and specs:
     st.session_state.shown = list(followups.DEFAULT_BLOCKS)
-    if mode.startswith("승인본"):
+    st.session_state.hitl = None
+    if mode.startswith("담당자"):
+        #  interrupt 까지만 돌리고 멈춘다. 승인 전에는 card_spec 이 없다.
+        from langgraph.types import interrupt  # noqa: F401  (문서용)
+        app = ba.build_graph()
+        pf = ba.MOCK_PORTFOLIOS.get(case) or list(ba.MOCK_PORTFOLIOS.values())[0]
+        cfg = {"configurable": {"thread_id": f"hitl-{case}-{int(time.time())}"},
+               "recursion_limit": 60}
+        with left:
+            with st.spinner("그래프 실행 중 — human_review 에서 멈춥니다"):
+                out = app.invoke(ba.initial_state(pf), config=cfg)
+        snap = app.get_state(cfg)
+        if "card_spec" in out:
+            st.session_state.spec = out["card_spec"]
+        else:
+            st.session_state.hitl = {
+                "app": app, "cfg": cfg,
+                "payload": snap.interrupts[0].value if snap.interrupts else {}}
+            st.session_state.spec = None
+    elif mode.startswith("승인본"):
         st.session_state.spec = json.loads(specs[case].read_text(encoding="utf-8"))
         with left:
             st.success("승인본 재생 — LLM 호출 0회. 실제 고객 진입 시 경로입니다.")
     else:
         with left:
-            st.markdown("#### 그래프 실행")
-            box, bar = st.container(), st.progress(0.0, "시작")
+            st.markdown('<div class="sec"><span class="n">▶</span>그래프 실행'
+                        '<span class="tail">노드가 끝날 때마다 쌓입니다</span></div>',
+                        unsafe_allow_html=True)
+            bar = st.progress(0.0, "시작")
+            stage_boxes, drawn = {}, set()
             llm.reset_stats()
             app = ba.build_graph()
             pf = ba.MOCK_PORTFOLIOS.get(case) or list(ba.MOCK_PORTFOLIOS.values())[0]
-            seen, t0 = [], time.perf_counter()
-            final = None
-            for chunk in app.stream(ba.initial_state(pf),
-                                    config={"configurable": {"thread_id": f"app-{case}"},
-                                            "recursion_limit": 60},
-                                    stream_mode="updates"):
+            t0, seen, final = time.perf_counter(), [], None
+            tprev = t0
+
+            for chunk in app.stream(
+                    ba.initial_state(pf),
+                    config={"configurable": {"thread_id": f"app-{case}-{int(t0)}"},
+                            "recursion_limit": 60},
+                    stream_mode="updates"):
                 for node, upd in chunk.items():
                     seen.append(node)
-                    bar.progress(min(len(seen) / 14, 1.0), f"{node}")
-                    with box:
-                        for line in (upd or {}).get("logs", []):
-                            st.markdown(f"<span style='font-family:ui-monospace;font-size:11.5px'>"
-                                        f"<b>{node}</b> · {line}</span>", unsafe_allow_html=True)
+                    now = time.perf_counter()
+                    bar.progress(min(len(seen) / 16, 1.0),
+                                 f"{graph_meta.label_of(node)}  ({len(seen)}/16)")
+
+                    stg = graph_meta.stage_of(node) or "final"
+                    if stg not in stage_boxes:
+                        par = (' <span class="par">병렬</span>'
+                               if stg in ("search", "review") else "")
+                        st.markdown(f'<div class="stagehd">{graph_meta.STAGES.get(stg, stg)}'
+                                    f'{par}</div>', unsafe_allow_html=True)
+                        stage_boxes[stg] = st.container()
+
+                    msgs = [l for l in (upd or {}).get("logs", [])]
+                    rv = (upd or {}).get("reviews") or []
+                    kind = "no" if any(not r.get("passed") for r in rv) else "ok"
+                    with stage_boxes[stg]:
+                        st.markdown(node_card(node, msgs, now - tprev, kind),
+                                    unsafe_allow_html=True)
+                    tprev = now
                     if (upd or {}).get("card_spec"):
                         final = upd["card_spec"]
-            bar.progress(1.0, f"완료 {time.perf_counter()-t0:.1f}초")
+
+            el = time.perf_counter() - t0
+            bar.progress(1.0, f"완료 {el:.1f}초")
             st.session_state.spec = final
-            st.success(f"{len(seen)}개 노드 실행 · {time.perf_counter()-t0:.1f}초 · {llm.summary()}")
+            c = st.columns(3)
+            c[0].metric("노드 실행", f"{len(seen)}개")
+            c[1].metric("소요", f"{el:.1f}초")
+            c[2].metric("LLM 호출", f"{llm.stats['calls']}회")
+            st.caption(llm.summary())
 
 spec = st.session_state.spec
+hitl = st.session_state.hitl
 
-# ──────────────────────────────────────────────────────────── 화면
-with right:
-    if not spec:
-        st.info("왼쪽 사이드바에서 케이스를 고르고 **실행**을 누르세요.")
-    else:
-        st.markdown(render_phone(spec, st.session_state.shown), unsafe_allow_html=True)
-        chips = [c for c in followups.chips_for(spec)
-                 if c["block"] not in st.session_state.shown]
-        if chips:
-            st.markdown('<div class="chipHint">궁금한 걸 눌러보세요</div>',
-                        unsafe_allow_html=True)
-            cols = st.columns(min(len(chips), 3))
-            for i, c in enumerate(chips):
-                if cols[i % len(cols)].button(c["label"], key=f"chip-{c['block']}",
-                                              use_container_width=True):
-                    st.session_state.shown.append(c["block"])
-                    st.rerun()
-        elif "cta" not in st.session_state.shown:
-            st.session_state.shown.append("cta")
+# ──────────────────────────────────────────────────────────── 검수 화면
+if hitl:
+    from langgraph.types import Command
+    p = hitl["payload"]
+    with left:
+        st.markdown("#### 담당자 검수 — 승인 전에는 고객에게 나가지 않습니다")
+        st.caption("금소법상 투자 문구는 사람 책임 하에 노출되어야 합니다. "
+                   "검수 단위는 고객이 아니라 **케이스**입니다 — "
+                   "1건을 승인하면 같은 유형 고객 약 3,000명에게 나갑니다.")
+        st.info(p.get("advice_display", p.get("advice", "")))
+        c = st.columns(3)
+        for i, (k, ko) in enumerate([("compliance", "컴플라이언스"),
+                                     ("grounding", "근거 결속"), ("format", "형식")]):
+            v = (p.get("review") or {}).get(k, {})
+            c[i].metric(ko, "통과" if v.get("passed") else "반려")
+        st.caption(f"케이스 {p.get('case_id')} · {p.get('change_type')} / "
+                   f"{p.get('gap_type')} · 재작성 {p.get('revision', 0)}회 · "
+                   f"근거 {[e['doc'] for e in p.get('evidence', [])]}")
+
+        by = st.text_input("검수자", value="이예나")
+        t1, t2, t3 = st.tabs(["승인", "수정 후 승인", "반려"])
+        cmd = None
+        with t1:
+            if st.button("✓ 그대로 승인", type="primary", use_container_width=True):
+                cmd = {"action": "approve", "by": by}
+        with t2:
+            edited = st.text_area("문구 수정", value=p.get("advice", ""), height=120)
+            st.caption("수정본은 **재심사하지 않습니다** — 사람이 쓴 문장이고 사람이 책임집니다.")
+            if st.button("✎ 수정 후 승인", use_container_width=True):
+                cmd = {"action": "edit", "by": by, "advice": edited}
+        with t3:
+            reason = st.text_input("반려 사유", placeholder="예) 수치 표현을 더 쉽게")
+            st.caption("사유가 재작성 지시가 됩니다. revision+1 후 optimize 로 돌아갑니다.")
+            if st.button("✕ 반려", use_container_width=True):
+                cmd = {"action": "reject", "by": by, "reason": reason or "(사유 없음)"}
+
+        if cmd:
+            out = hitl["app"].invoke(Command(resume=cmd), config=hitl["cfg"])
+            if "card_spec" in out:
+                st.session_state.spec = out["card_spec"]
+                st.session_state.hitl = None
+                st.success(f"{cmd['action']} — 확정되어 고객 화면으로 내려갑니다")
+            else:
+                snap = hitl["app"].get_state(hitl["cfg"])
+                st.session_state.hitl = {
+                    **hitl,
+                    "payload": snap.interrupts[0].value if snap.interrupts else {}}
+                st.warning("반려 — 재작성 후 다시 검수 대기입니다")
             st.rerun()
 
-if spec:
+    with right:
+        st.info("검수가 끝나면 고객 화면이 여기 뜹니다.")
+
+# ──────────────────────────────────────────────────────────── 화면
+if not hitl:
+  with right:
+      if not spec:
+          st.info("왼쪽 사이드바에서 케이스를 고르고 **실행**을 누르세요.")
+      else:
+          st.markdown(render_phone(spec, st.session_state.shown), unsafe_allow_html=True)
+          done = {i[0] if isinstance(i, (list, tuple)) else i
+                  for i in st.session_state.shown}
+          chips = [c for c in followups.chips_for(spec) if c["block"] not in done]
+          if chips:
+              st.markdown('<div class="chipHint">궁금한 걸 눌러보세요</div>',
+                          unsafe_allow_html=True)
+              cols = st.columns(min(len(chips), 3))
+              for i, c in enumerate(chips):
+                  if cols[i % len(cols)].button(c["label"], key=f"chip-{c['block']}",
+                                                use_container_width=True):
+                      st.session_state.shown.append((c["block"], c["label"]))
+                      st.rerun()
+          elif "cta" not in done:
+              st.session_state.shown.append("cta")
+              st.rerun()
+
+if spec and not hitl:
     with left:
         st.markdown("#### 심사 결과")
         r = spec.get("review", {})
@@ -461,7 +718,13 @@ if spec:
                    f"제친 카드 {', '.join(NAMES.get(c, c) for c in spec.get('selected_over', []))}")
         st.caption(f"선택 이유: {spec.get('selection_reason','')}")
 
-        with st.expander("실행 로그"):
+        with st.expander("State 설계 — 칸과 reducer"):
+            st.caption("fan-in 되는 칸에는 reducer 가 반드시 있어야 하고, "
+                       "루프를 도는 칸은 operator.add 로는 비울 수 없습니다.")
+            st.table({"State 칸": [f[0] for f in graph_meta.STATE_FIELDS],
+                      "역할": [f[1] for f in graph_meta.STATE_FIELDS],
+                      "reducer": [f[2] for f in graph_meta.STATE_FIELDS]})
+        with st.expander("실행 로그 (원문)"):
             for l in spec.get("logs", []):
                 st.text(l)
         with st.expander("카드 스펙 JSON (어드민 검수 화면이 받는 것)"):

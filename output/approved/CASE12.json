@@ -1,0 +1,208 @@
+{
+  "case_id": "CASE12",
+  "card_type": "personal_briefing",
+  "selected_over": [
+    "domestic_market",
+    "fx",
+    "content"
+  ],
+  "selection_reason": "상승 · 최대비중 45% · 국내시황 -3.65%",
+  "card_scores": {
+    "personal_briefing": 16.5,
+    "domestic_market": 3.09,
+    "fx": 0.0,
+    "content": 0.0
+  },
+  "advice": "7일 사이 5,400,000원이 늘었어요 [portfolio]. 美 단기국채ETF에서 540,001원 움직였어요 [portfolio]. 한 종목 비중이 45%예요 [portfolio]. 코스피는 전일 3.65% 하락했어요 [시장-^KS11].",
+  "advice_display": "7일 사이 5,400,000원이 늘었어요. 美 단기국채ETF에서 540,001원 움직였어요. 한 종목 비중이 45%예요. 코스피는 전일 3.65% 하락했어요.",
+  "advice_plain": "7일 사이 5,400,000원이 늘었어요. 美 단기국채ETF에서 540,001원 움직였어요. 한 종목 비중이 45%예요. 코스피는 전일 3.65% 하락했어요.",
+  "sources": [],
+  "서브조언": "자산 분석하고 진단해 드릴게요",
+  "버튼명": "자산분석 진단 확인하기",
+  "end_service": {
+    "name": "자산분석 진단 확인하기",
+    "link": "window.navi.navigate('/mquics?page={service_id}', {} ,function(){});",
+    "element": "상품_디지털PB_투자브리핑_SVC_D"
+  },
+  "diagnosis": {
+    "change_type": "상승",
+    "gap_type": "과편중",
+    "days_since": 7,
+    "outlook_region": "국내",
+    "outlook": "나쁨"
+  },
+  "metrics": {
+    "delta": 5400000,
+    "rate": 6.0,
+    "max_weight": 0.45,
+    "total": 95400000,
+    "region_mix": {
+      "국내": 0.8,
+      "해외": 0.2
+    }
+  },
+  "contributions": [
+    {
+      "name": "KODEX 반도체",
+      "delta": 3779999,
+      "weight": 0.45,
+      "region": "국내"
+    },
+    {
+      "name": "KODEX 200",
+      "delta": 1080000,
+      "weight": 0.35,
+      "region": "국내"
+    },
+    {
+      "name": "美 단기국채ETF",
+      "delta": 540001,
+      "weight": 0.2,
+      "region": "해외"
+    }
+  ],
+  "market": {
+    "국내": {
+      "outlook": "나쁨",
+      "change_1d": -3.65,
+      "지표": "코스피"
+    },
+    "해외": {
+      "outlook": "좋음",
+      "change_1d": 0.59,
+      "지표": "S&P500"
+    },
+    "stale": false,
+    "region_used": "국내",
+    "outlook_used": "나쁨",
+    "환율": {
+      "price": 1331.76,
+      "change_1d": -0.84
+    }
+  },
+  "news": [
+    {
+      "title": "“외국인은 왜 한국 주식만 파나”...삼성전자·하이닉스 ‘직격탄’",
+      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5OLUhEZ3FQWUN5UzV6XzE1dFpJMFZDTWRMaWhVUS1tbndTV1c5VW9zdGhvejdjNk15MVZ5ZVhqSmFfdnJsTGFiYjJpbUVsRlo5c1pKalBvVUQzV0NnTnk3Um1HOA?oc=5",
+      "publisher": "에너지경제신문",
+      "date": "2026-10-12",
+      "matched": "KODEX 반도체"
+    },
+    {
+      "title": "연휴 뒤 첫 거래일에 코스피 3.7%↓...코스닥 4.8%↓",
+      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBXdjdBNGVHUDRGa2I3MHpWVDIxZlk4R0FLZ0twQ3JSVGhWTUVPQks2cWlCOG5KeVo2X09MSnV4U25mYTVLcHM5UEFYZE9mNGR6MzVKNnVYSU9EQmgwdkE?oc=5",
+      "publisher": "YTN",
+      "date": "2026-10-12",
+      "matched": "KODEX 200"
+    },
+    {
+      "title": "코스피만 왜 이러나…반도체 노이즈·수급 불안에 '나홀로 급락'",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wVEVJUWNIeFBoZGZhaXJWdkpSMjVZamJhQzBNbzlEN1hkU0tGWmFYcGNnZ0lPUk5hTndRRWxXRi1OQndzQkNia0tWenpLdzlzSVAxZmhLSGpNeTV3YmdwMkpKbmYzNHlRaTdBN3pUZTk?oc=5",
+      "publisher": "연합인포맥스",
+      "date": "2026-10-12",
+      "matched": "국내"
+    }
+  ],
+  "contents": [
+    {
+      "id": "c109",
+      "title": "반도체 ETF 한 종목에 몰렸을 때 — 분산의 실제 효과",
+      "url": "https://kbthink.com/investment.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-09-22",
+      "tags": [
+        "#반도체",
+        "#분산투자",
+        "#ETF"
+      ],
+      "summary": "같은 하락장에서 집중 포트폴리오와 분산 포트폴리오의 변동폭 차이를 숫자로 비교합니다.",
+      "link_ok": true,
+      "url_intended": "https://kbthink.com/investment/insight/2609/260922-1.html",
+      "mock_article": true,
+      "_score": 9.4,
+      "_why": "상황 #분산투자 / 보유 #반도체 / 열람 #ETF·#반도체"
+    },
+    {
+      "id": "c022",
+      "title": "지정학적 리스크가 상존하는 구간에서의 합리적 자산배분 전략",
+      "url": "https://kbthink.com/investment/tips/management/260807.html",
+      "section": "재테크 TIP",
+      "format": "칼럼",
+      "level": "중급",
+      "published": "2026-08-07",
+      "tags": [
+        "#자산배분",
+        "#분산투자",
+        "#투자성향"
+      ],
+      "summary": "지정학적 불확실성이 남아 있는 국면에서 자산배분을 점검하는 글입니다. 위험 분산과 투자성향의 중요성을 다룹니다",
+      "link_ok": true,
+      "_score": 6.8,
+      "_why": "상황 #분산투자·#투자성향"
+    }
+  ],
+  "review": {
+    "compliance": {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "rule"
+    },
+    "format": {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 88,
+      "sentences": 4
+    },
+    "grounding": {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 1
+    }
+  },
+  "review_rounds": 1,
+  "review_history": [
+    {
+      "axis": "compliance",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "stage": "rule"
+    },
+    {
+      "axis": "format",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "length": 88,
+      "sentences": 4
+    },
+    {
+      "axis": "grounding",
+      "revision": 0,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 1
+    }
+  ],
+  "fallback_used": false,
+  "approval": {
+    "action": "approve",
+    "by": "배치 자동승인",
+    "at": "2026-10-12 18:33:38"
+  },
+  "llm": {
+    "used": false,
+    "model": null,
+    "calls": 0
+  },
+  "generated_at": "2026-10-12 18:33:38",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/83805b891ce9a927a51d67383591ad31"
+}
