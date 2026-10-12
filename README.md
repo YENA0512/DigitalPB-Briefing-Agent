@@ -340,6 +340,7 @@ Rule 생성 경로도 3축을 통과하도록 만들어 뒀습니다.
 ./run_local.sh meta      # 입력·노드·State 설계 덤프
 ./run_local.sh audit     # 감사 로그 조회
 ./run_local.sh trace     # Langfuse 연결 확인
+./run_local.sh obs       # 심사 품질 집계 (로그인 없이 API 로 조회)
 ./run_local.sh labels    # 41케이스가 각각 무슨 상황인지
 ./run_local.sh market    # 실시간 지수·환율
 ./run_local.sh news      # 보유 종목 관련 기사
@@ -392,7 +393,8 @@ src/
   mcp_client.py          MCP 호출 + 직접 호출 폴백
   retriever.py           리포트 벡터 검색    prompts.py   프롬프트
   llm.py                 LLM 래퍼    content_matcher.py  콘텐츠 매칭
-  audit_db.py            감사 로그 (SQLite)  tracing.py   Langfuse
+  audit_db.py            감사 로그 (SQLite)  tracing.py   Langfuse 기록
+  langfuse_api.py        Langfuse 조회 — 브라우저 로그인 없이 앱에 지표 표시
   config.py              .env 로딩    run_batch.py  배치 러너 + 검수 CLI
 data/                    41케이스 · 콘텐츠 50건 · 리포트 8건
 demo/viewer.html         백업 뷰어 (단일 HTML)

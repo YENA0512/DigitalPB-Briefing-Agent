@@ -37,6 +37,7 @@ import briefing_agent as ba          # noqa: E402
 import config                        # noqa: E402
 import followups                     # noqa: E402
 import case_labels                   # noqa: E402
+import langfuse_api                  # noqa: E402
 import tracing                       # noqa: E402
 import graph_meta                    # noqa: E402
 import llm                           # noqa: E402
@@ -525,6 +526,8 @@ if "spec" not in st.session_state:
     st.session_state.spec = None
 if "hitl" not in st.session_state:
     st.session_state.hitl = None
+if "obs" not in st.session_state:
+    st.session_state.obs = None
 if "hitl_msg" not in st.session_state:
     st.session_state.hitl_msg = None
 if "fold" not in st.session_state:
@@ -576,9 +579,22 @@ with st.sidebar:
     st.caption(f"모델 {config.OPENAI_MODEL} · USE_LLM={config.USE_LLM}")
     st.caption(f"Langfuse {tracing.state()}")
     if tracing.enabled():
-        #  호스트 루트로 보내면 빈 화면이 뜬다. 프로젝트 경로까지 찍어준다.
-        st.markdown(f"[Traces 목록]({tracing.project_url('/traces')}) ↗ · "
-                    f"[Scores]({tracing.project_url('/scores')}) ↗")
+        #  대시보드는 **브라우저 세션이 키를 발급한 계정과 같아야** 열린다.
+        #  다른 계정이면 Project Not Found 가 뜬다. 발표가 로그인 상태에
+        #  걸리면 안 되므로 지표는 API 로 직접 읽어 아래에 띄운다.
+        st.markdown(f"[Traces]({langfuse_api.project_url('/traces')}) ↗ · "
+                    f"[Scores]({langfuse_api.project_url('/scores')}) ↗")
+        st.caption("대시보드가 'Project Not Found' 면 브라우저 계정이 다른 것입니다. "
+                   "아래 지표는 로그인 없이 API 로 읽습니다.")
+        if st.button("관측 지표 새로고침", use_container_width=True):
+            st.session_state.obs = None
+        if st.session_state.get("obs") is None:
+            with st.spinner("Langfuse 조회 중"):
+                st.session_state.obs = {"sum": langfuse_api.summary(),
+                                        "runs": langfuse_api.recent_runs(8),
+                                        "health": langfuse_api.health()}
+        obs = st.session_state.obs
+        st.caption(f"프로젝트 {obs['health']}")
     st.caption("Runtime 경로에는 LLM 호출이 없습니다. "
                "문구는 전날 Batch 에서 생성·3축 심사·담당자 승인을 거칩니다.")
 
@@ -901,6 +917,39 @@ if spec and not hitl:
             st.table({"State 칸": [f[0] for f in graph_meta.STATE_FIELDS],
                       "역할": [f[1] for f in graph_meta.STATE_FIELDS],
                       "reducer": [f[2] for f in graph_meta.STATE_FIELDS]})
+        obs = st.session_state.get("obs")
+        if obs and obs["sum"].get("metrics"):
+            with st.expander(
+                    f"관측 — 최근 {obs['sum']['scored_runs']}건 심사 품질 (Langfuse)",
+                    expanded=False):
+                st.caption("매일 41건을 돌리며 쌓습니다. "
+                           "프롬프트를 고쳤을 때 **재작성 평균과 폴백 합계**가 "
+                           "어떻게 움직이는지를 보는 것이 이 지표의 용도입니다.")
+                m = obs["sum"]["metrics"]
+                cols = st.columns(4)
+                order = ["compliance_pass", "grounding_pass", "format_pass", "fallback"]
+                for n3, key in enumerate(order):
+                    v = m.get(key)
+                    if not v:
+                        continue
+                    val = (f"{v['pass_rate']}%" if v["pass_rate"] is not None
+                           else f"{v['sum']:g}건")
+                    cols[n3].metric(v["label"], val)
+                cols2 = st.columns(3)
+                for n3, key in enumerate(["revisions", "llm_calls", "sources"]):
+                    v = m.get(key)
+                    if v:
+                        cols2[n3].metric(f"{v['label']} 평균", v["avg"])
+                if obs["runs"]:
+                    st.caption("최근 실행")
+                    st.table({
+                        "시각": [r["at"][5:] for r in obs["runs"]],
+                        "케이스": [r["name"] for r in obs["runs"]],
+                        "관측": [r["observations"] for r in obs["runs"]],
+                        "점수": [r["scores"] for r in obs["runs"]],
+                        "초": [r["latency"] for r in obs["runs"]],
+                    })
+
         logs = spec.get("logs") or []
         with st.expander(f"실행 로그 원문 ({len(logs)}줄)"):
             if logs:

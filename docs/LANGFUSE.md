@@ -96,7 +96,39 @@ trace 상세의 **Scores** 탭, 또는 왼쪽 **Scores** 메뉴.
 배치 출력 끝에 `Langfuse N건 기록` 이 찍히면 올라간 것입니다.
 `USE_LLM=false` 로 돌리면 trace 는 생기지만 LLM span 은 없습니다.
 
-## 5. 안 될 때
+## 5. `Project Not Found` 가 뜰 때
+
+**브라우저가 다른 계정으로 로그인돼 있는 것입니다.** 키는 정상입니다.
+
+Langfuse 대시보드는 **브라우저 세션이 키를 발급한 계정과 같아야** 열립니다.
+이 프로젝트의 키는 다음에 속합니다.
+
+```
+리전     cloud.langfuse.com  (EU)
+조직     Yena's Organization   cmtnydiir07jzad0dudhaac1o
+프로젝트  My Project            cmtnydiiv07k3ad0dmcofht1y
+```
+
+브라우저 우측 상단 계정을 확인하고, `Yena's Organization` 이 안 보이면
+키를 발급한 계정으로 로그인하세요.
+조직 주소: https://cloud.langfuse.com/organization/cmtnydiir07jzad0dudhaac1o
+
+### 로그인 없이 보는 방법 — 발표에서는 이쪽을 쓰세요
+
+지표를 **API 로 직접 읽어** 앱 안에 띄웁니다. 브라우저 로그인 상태와 무관합니다.
+
+```bash
+./run_local.sh obs          # 터미널에서 집계 출력
+```
+
+앱 사이드바에서 `관측 지표 새로고침` 을 누르면 결과 패널에
+**관측 — 최근 N건 심사 품질** 섹션이 생깁니다. 통과율·재작성 평균·폴백 합계와
+최근 실행 목록이 표로 뜹니다.
+
+> 발표장에서 외부 사이트 로그인에 데모가 걸리면 안 됩니다.
+> 대시보드는 깊이 파고들 때 쓰고, 보여줄 숫자는 앱이 직접 가져옵니다.
+
+## 6. 그 밖에 안 될 때
 
 | 증상 | 원인 |
 |---|---|
