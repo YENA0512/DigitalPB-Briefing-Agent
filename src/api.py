@@ -246,5 +246,8 @@ if __name__ == "__main__":
     import uvicorn
     print(f"배치 API · http://{HOST}:{PORT}  (문서 /docs)")
     print("⚠️ Batch 전용 — 고객 요청 경로가 아닙니다")
-    uvicorn.run(app, host=HOST, port=int(os.getenv("API_PORT", PORT)),
-                log_level="warning")
+    #  Docker 로 n8n 을 돌리면 컨테이너가 호스트의 127.0.0.1 에 닿지 못한다.
+    #  그때는 API_HOST=0.0.0.0 으로 열고 BRIEFING_API 를
+    #  http://host.docker.internal:8900 으로 준다.
+    uvicorn.run(app, host=os.getenv("API_HOST", HOST),
+                port=int(os.getenv("API_PORT", PORT)), log_level="warning")

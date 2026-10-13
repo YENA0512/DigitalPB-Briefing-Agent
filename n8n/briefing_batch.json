@@ -5,7 +5,10 @@
       "parameters": {
         "rule": {
           "interval": [
-            { "field": "cronExpression", "expression": "0 18 * * 1-5" }
+            {
+              "field": "cronExpression",
+              "expression": "0 18 * * 1-5"
+            }
           ]
         }
       },
@@ -13,7 +16,10 @@
       "name": "평일 18:00 (장 마감 후)",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [-520, 300],
+      "position": [
+        -520,
+        300
+      ],
       "notes": "장 마감 후에 돈다. 주말은 시황이 안 바뀌므로 제외."
     },
     {
@@ -22,32 +28,47 @@
       "name": "수동 실행 (데모)",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [-520, 480],
+      "position": [
+        -520,
+        480
+      ],
       "notes": "발표에서 이걸 누른다. 18:00을 기다릴 수 없다."
     },
     {
       "parameters": {
         "method": "GET",
-        "url": "http://127.0.0.1:8900/health",
-        "options": { "timeout": 10000 }
+        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/health",
+        "options": {
+          "timeout": 10000
+        }
       },
       "id": "health",
       "name": "Agent 살아있나",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [-300, 390],
+      "position": [
+        -300,
+        390
+      ],
       "notes": "죽어 있으면 배치를 돌리지 않고 바로 알린다. 빈 큐가 쌓이는 것보다 낫다."
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "version": 2 },
+          "options": {
+            "caseSensitive": true,
+            "version": 2
+          },
           "conditions": [
             {
               "id": "ok",
               "leftValue": "={{ $json.ok }}",
               "rightValue": true,
-              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
             }
           ],
           "combinator": "and"
@@ -58,55 +79,80 @@
       "name": "정상?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [-80, 390]
+      "position": [
+        -80,
+        390
+      ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "http://127.0.0.1:8900/batch/run",
+        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/batch/run",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\"limit\": 0, \"auto_approve\": false}",
-        "options": { "timeout": 15000 }
+        "options": {
+          "timeout": 15000
+        }
       },
       "id": "run",
       "name": "41케이스 배치 실행",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [160, 280],
+      "position": [
+        160,
+        280
+      ],
       "notes": "즉시 202로 돌아온다. 41건이 19분 걸려 동기로 받으면 타임아웃 난다."
     },
     {
-      "parameters": { "amount": 30, "unit": "seconds" },
+      "parameters": {
+        "amount": 30,
+        "unit": "seconds"
+      },
       "id": "wait",
       "name": "30초 대기",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
-      "position": [380, 280],
+      "position": [
+        380,
+        280
+      ],
       "webhookId": "briefing-batch-wait"
     },
     {
       "parameters": {
         "method": "GET",
-        "url": "http://127.0.0.1:8900/batch/status",
-        "options": { "timeout": 10000 }
+        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/batch/status",
+        "options": {
+          "timeout": 10000
+        }
       },
       "id": "status",
       "name": "진행 상태 확인",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [600, 280]
+      "position": [
+        600,
+        280
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "version": 2 },
+          "options": {
+            "caseSensitive": true,
+            "version": 2
+          },
           "conditions": [
             {
               "id": "done",
               "leftValue": "={{ $json.state }}",
               "rightValue": "done",
-              "operator": { "type": "string", "operation": "equals" }
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
             }
           ],
           "combinator": "and"
@@ -117,20 +163,28 @@
       "name": "끝났나",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [820, 280],
+      "position": [
+        820,
+        280
+      ],
       "notes": "아직이면 30초 대기로 되돌아간다. 폴링 루프."
     },
     {
       "parameters": {
         "method": "GET",
-        "url": "http://127.0.0.1:8900/stats",
-        "options": { "timeout": 10000 }
+        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/stats",
+        "options": {
+          "timeout": 10000
+        }
       },
       "id": "stats",
       "name": "품질 집계",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1060, 180]
+      "position": [
+        1060,
+        180
+      ]
     },
     {
       "parameters": {
@@ -140,7 +194,10 @@
       "name": "알림 문구 만들기",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1280, 180],
+      "position": [
+        1280,
+        180
+      ],
       "notes": "폴백이 3건 넘거나 오류가 있으면 '확인 필요' 로 올린다."
     },
     {
@@ -151,7 +208,10 @@
       "name": "담당자 알림 (Slack 자리)",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1500, 180],
+      "position": [
+        1500,
+        180
+      ],
       "notes": "Slack 노드로 교체하면 바로 운영에 쓸 수 있다. 자격증명만 넣으면 된다."
     },
     {
@@ -162,34 +222,143 @@
       "name": "장애 알림",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [160, 520]
+      "position": [
+        160,
+        520
+      ]
     }
   ],
   "connections": {
-    "평일 18:00 (장 마감 후)": { "main": [[{ "node": "Agent 살아있나", "type": "main", "index": 0 }]] },
-    "수동 실행 (데모)": { "main": [[{ "node": "Agent 살아있나", "type": "main", "index": 0 }]] },
-    "Agent 살아있나": { "main": [[{ "node": "정상?", "type": "main", "index": 0 }]] },
+    "평일 18:00 (장 마감 후)": {
+      "main": [
+        [
+          {
+            "node": "Agent 살아있나",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "수동 실행 (데모)": {
+      "main": [
+        [
+          {
+            "node": "Agent 살아있나",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 살아있나": {
+      "main": [
+        [
+          {
+            "node": "정상?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "정상?": {
       "main": [
-        [{ "node": "41케이스 배치 실행", "type": "main", "index": 0 }],
-        [{ "node": "장애 알림", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "41케이스 배치 실행",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "장애 알림",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "41케이스 배치 실행": { "main": [[{ "node": "30초 대기", "type": "main", "index": 0 }]] },
-    "30초 대기": { "main": [[{ "node": "진행 상태 확인", "type": "main", "index": 0 }]] },
-    "진행 상태 확인": { "main": [[{ "node": "끝났나", "type": "main", "index": 0 }]] },
+    "41케이스 배치 실행": {
+      "main": [
+        [
+          {
+            "node": "30초 대기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "30초 대기": {
+      "main": [
+        [
+          {
+            "node": "진행 상태 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "진행 상태 확인": {
+      "main": [
+        [
+          {
+            "node": "끝났나",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "끝났나": {
       "main": [
-        [{ "node": "품질 집계", "type": "main", "index": 0 }],
-        [{ "node": "30초 대기", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "품질 집계",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "30초 대기",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "품질 집계": { "main": [[{ "node": "알림 문구 만들기", "type": "main", "index": 0 }]] },
-    "알림 문구 만들기": { "main": [[{ "node": "담당자 알림 (Slack 자리)", "type": "main", "index": 0 }]] }
+    "품질 집계": {
+      "main": [
+        [
+          {
+            "node": "알림 문구 만들기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "알림 문구 만들기": {
+      "main": [
+        [
+          {
+            "node": "담당자 알림 (Slack 자리)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
   },
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "pinData": {},
   "meta": {
-    "description": "장 마감 후 브리핑 41건을 생성하고 검수 대기열에 적재한 뒤 담당자에게 알린다. n8n 은 오케스트레이션만 하고 판단은 Agent 가 한다."
+    "description": "장 마감 후 브리핑 41건을 생성하고 검수 대기열에 적재한 뒤 담당자에게 알린다. n8n 은 오케스트레이션만 하고 판단은 Agent 가 한다. 주소는 BRIEFING_API 환경변수로 바꿀 수 있다 — Docker 로 n8n 을 돌리면 http://host.docker.internal:8900 을 넣는다."
   }
 }

@@ -42,6 +42,30 @@ curl localhost:8900/health
 
 처음 뜨면 계정을 하나 만들라고 합니다 (로컬 전용, 아무 값이나).
 
+#### npx 가 실패하면 — npm 캐시 손상
+
+```
+npm ERR! code ENOENT ... _cacache/content-v2/...
+```
+
+실제로 겪었습니다. 캐시를 비우고 다시 받으면 됩니다.
+
+```bash
+npm cache clean --force
+./run_local.sh n8n
+```
+
+#### Docker 로 돌릴 때
+
+```bash
+docker run -it --rm -p 5678:5678   -e BRIEFING_API=http://host.docker.internal:8900   -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+```
+
+컨테이너 안의 `127.0.0.1` 은 호스트가 아닙니다. 워크플로의 주소는
+`BRIEFING_API` 환경변수로 받게 해뒀으니 **워크플로를 고칠 필요가 없습니다.**
+API 도 `0.0.0.0` 으로 열어야 합니다 — `src/api.py` 의 `HOST` 를 바꾸거나
+`API_HOST=0.0.0.0 ./run_local.sh api`.
+
 ### 3. 워크플로 가져오기
 
 n8n 화면 우측 상단 **⋯ → Import from File** → `n8n/briefing_batch.json`
