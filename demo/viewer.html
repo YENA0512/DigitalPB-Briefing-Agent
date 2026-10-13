@@ -1472,19 +1472,8 @@ function buildBeats(spec){
   const pb = pbPoints(spec);
   if(pb) beats.push({who:"ai", html: pb});
 
-  if((spec.sources||[]).length){
-    const items = spec.sources.map(s=>
-      `<a class="card" id="src-${esc(s.doc)}" href="${esc(s.url||"#")}"`
-      + `${s.url?' target="_blank" rel="noopener"':''}>`
-      + `<span class="cNum">${esc(s.marker)}</span><span class="cBody">`
-      + `<span class="cKind">${esc(s.kind)}</span>`
-      + `<span class="cTitle">${esc(s.title)}${s.url?'<span class="ext">↗</span>':''}</span>`
-      + `<span class="cSum">${esc(s.summary)}</span>`
-      + `<span class="cFoot">${esc(s.publisher)}${s.date?" · "+esc(s.date):""}</span>`
-      + `</span></a>`).join("");
-    beats.push({who:"ai", html:`<div class="mhead"><span class="dot"></span>설명의 근거`
-      + `<span class="r">눌러서 원문 보기</span></div><div class="cards">${items}</div>`});
-  }
+  //  출처 목록 섹션은 두지 않는다 — 문구의 ①②를 누르면 그 자리에서
+  //  근거가 펼쳐진다. 아래에 같은 카드를 또 깔면 중복이고 화면만 길어진다.
 
   if((spec.news||[]).length){
     const cards = spec.news.map(n=>

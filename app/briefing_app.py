@@ -347,8 +347,8 @@ def blk_advice(s):
             + (f' · {_h.escape(x["date"])}' if x.get("date") else "")
             + f'</span>{link}</span></span>')
 
-    hint = ('<span class="evhint">①②를 누르면 근거가 펼쳐져요</span>'
-            if used else "")
+    hint = (f'<span class="evhint">①②를 누르면 근거가 펼쳐져요 '
+            f'· 출처 {len(used)}곳</span>' if used else "")
     srcname = "gpt-5.5" if s.get("llm", {}).get("used") else "Rule 생성"
     return (f'<div class="b"><div class="mh"><span class="d"></span>무슨 일이 있었나요'
             f'<span class="r">{srcname}</span></div>'
@@ -357,6 +357,12 @@ def blk_advice(s):
 
 
 def blk_sources(s):
+    """출처 전체 목록.
+
+    **기본 흐름에서는 쓰지 않는다.** 문구의 ①②를 누르면 그 자리에서
+    근거가 펼쳐지므로(`blk_advice`) 아래에 같은 카드를 또 깔면 중복이다.
+    검수 화면처럼 전체를 한 번에 봐야 하는 곳을 위해 남겨 둔다.
+    """
     if not s.get("sources"):
         return ""
     items = "".join(

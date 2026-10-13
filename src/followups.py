@@ -36,7 +36,11 @@ CHIPS = [
 ]
 
 #  기본으로 펼칠 블록. 나머지는 칩을 눌러야 나온다.
-DEFAULT_BLOCKS = ["market", "delta", "advice", "sources"]
+#
+#  `sources` 를 뺀 이유 — 문구의 ①②를 누르면 **그 자리에서** 근거가
+#  펼쳐진다. 아래에 같은 카드를 또 깔면 중복이고 화면만 길어진다.
+#  각주를 본문에서 펴 보는 것과 같다.
+DEFAULT_BLOCKS = ["market", "delta", "advice"]
 
 
 def chips_for(spec: dict) -> list[dict]:
