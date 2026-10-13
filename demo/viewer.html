@@ -162,6 +162,12 @@ button.primary:hover{background:var(--pp-d)}
   width:17px;height:17px;line-height:17px;text-align:center;border-radius:50%;cursor:pointer;
   vertical-align:2px;margin:0 2px}
 .mark:hover{background:var(--pp-d)}
+/*  마커를 누르면 문장 사이에 끼어드는 근거 카드 */
+.inlineEv{display:flex;gap:9px;margin:9px 0 3px;padding:10px 11px;border:1px solid var(--pp);
+ border-radius:10px;background:var(--pp-ll)}
+.evlink{display:inline-block;margin-top:4px;font-size:11.5px;font-weight:700;
+ color:var(--pp-d);text-decoration:none}
+.evlink:hover{text-decoration:underline}
 
 /* 보유 종목 */
 .holds{display:flex;flex-direction:column;gap:9px}
@@ -1509,25 +1515,33 @@ function buildBeats(spec){
 }
 
 function markup(t){
-  return esc(t).replace(/[①②③④⑤⑥⑦⑧⑨]/g, m=>`<span class="mark" data-m="${m}">${m}</span>`);
+  return esc(t).replace(/[①②③④⑤⑥⑦⑧⑨]/g, m=>`<span class="mark" data-m="${m}" title="근거 펼치기">${m}</span>`);
 }
 function wireMarks(spec){
   document.querySelectorAll(".mark").forEach(el=>{
     el.onclick = ()=>{
+      //  누르면 **그 자리에서 근거가 펼쳐진다.** 바로 이동시키면 고객이
+      //  앱을 떠난다. 원문은 펼쳐진 카드 안의 링크로 간다.
       const s = (spec.sources||[]).find(x=>x.marker===el.dataset.m);
       if(!s) return;
-      const c = $("src-"+s.doc);
-      if(c){
-        document.querySelectorAll(".card").forEach(x=>x.classList.remove("hi"));
-        c.classList.add("hi"); c.scrollIntoView({block:"center",behavior:"smooth"});
-      }
-      //  한 번 더 누르면 원문으로 이동한다. 첫 클릭은 근거를 펼치고,
-      //  두 번째 클릭은 그 콘텐츠로 보낸다.
-      if(el.dataset.armed === "1" && s.url){
-        window.open(s.url, "_blank", "noopener");
-      }
-      el.dataset.armed = "1";
-      setTimeout(()=>{ el.dataset.armed = ""; }, 2500);
+      const open = el.nextElementSibling &&
+                   el.nextElementSibling.classList.contains("inlineEv");
+      document.querySelectorAll(".inlineEv").forEach(x=>x.remove());
+      if(open) return;                          // 같은 걸 다시 누르면 접는다
+
+      const box = document.createElement("span");
+      box.className = "inlineEv";
+      box.innerHTML =
+          `<span class="cNum">${esc(s.marker)}</span><span class="cBody">`
+        + `<span class="cKind">${esc(s.kind)}</span>`
+        + `<span class="cTitle">${esc(s.title)}</span>`
+        + `<span class="cSum">${esc(s.summary||"")}</span>`
+        + `<span class="cFoot">${esc(s.publisher||"")}`
+        + `${s.date?" · "+esc(s.date):""}</span>`
+        + (s.url ? `<a class="evlink" href="${esc(s.url)}" target="_blank"`
+                 + ` rel="noopener">원문 보기 ↗</a>` : "")
+        + `</span>`;
+      el.after(box);
     };
   });
 }

@@ -123,8 +123,26 @@ st.markdown("""<style>
 
 .mk{display:inline-block;background:var(--pp);color:#fff!important;font-size:10.5px;
  font-weight:800;width:17px;height:17px;line-height:17px;text-align:center;
- border-radius:50%;vertical-align:2px;text-decoration:none!important;cursor:pointer}
-a.mk:hover{background:var(--pp-d)}
+ border-radius:50%;vertical-align:2px;text-decoration:none!important;cursor:pointer;
+ user-select:none}
+.mk:hover{background:var(--pp-d)}
+
+/*  ①②를 누르면 그 자리에서 근거가 펼쳐진다 (순수 CSS — 체크박스 해킹).
+    a 태그로 두면 바로 이동해 버린다. 먼저 보여주고, 원문은 그다음이다.  */
+.evtog{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.evbox{display:none;margin:8px 0 2px;padding:10px 11px;border:1px solid var(--pp);
+ border-radius:10px;background:var(--pp-ll);gap:9px}
+.evtog:checked + .evbox{display:flex}
+.evnum{flex:none;width:19px;height:19px;border-radius:50%;background:var(--pp);
+ color:#fff!important;font-size:10.5px;font-weight:800;display:grid;place-items:center}
+.evb{min-width:0;display:flex;flex-direction:column;gap:3px}
+.evk{display:block;font-size:10px;font-weight:800;color:var(--pp)!important}
+.evt{display:block;font-size:12.5px;font-weight:700;line-height:1.5}
+.evs{display:block;font-size:11.5px;line-height:1.6;color:var(--ink2)!important}
+.evlink{display:inline-block;margin-top:4px;font-size:11.5px;font-weight:700;
+ color:var(--pp)!important;text-decoration:none!important}
+.evlink:hover{text-decoration:underline!important}
+.evhint{font-size:10.5px;color:var(--gray)!important;margin-top:7px;display:block}
 
 .hd{display:flex;align-items:center;gap:9px;font-size:12.5px;margin-bottom:9px}
 .hd .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
@@ -287,26 +305,55 @@ def blk_delta(s):
 def blk_advice(s):
     """문구 + 출처 마커.
 
-    마커를 `<span>` 으로 두면 **눌러도 아무 일이 없다.** 고객이 ①을 누르는
-    이유는 그 근거를 보려는 것이므로 실제 링크여야 한다.
+    마커를 누르면 **그 자리에서 근거가 펼쳐진다.** 원문으로 바로 보내면
+    고객이 앱을 떠난다. 먼저 무슨 근거인지 보여주고, 원문은 그다음이다.
+
+    Streamlit 커스텀 HTML 에는 JS 를 붙일 수 없어 체크박스 해킹을 쓴다.
+    순수 CSS 라 rerun 과 충돌하지 않는다.
     """
+    import html as _h
     import re
-    url_of = {x["marker"]: x.get("url", "")
-              for x in (s.get("sources") or []) if isinstance(x, dict)}
+
+    src = [x for x in (s.get("sources") or []) if isinstance(x, dict)]
+    by_marker = {x["marker"]: (i, x) for i, x in enumerate(src)}
+    uid = re.sub(r"[^A-Za-z0-9]", "", s.get("case_id", "x"))
+    used: list[tuple[int, dict]] = []
 
     def mark(mm):
         m = mm.group()
-        u = url_of.get(m)
-        if not u:
+        hit = by_marker.get(m)
+        if not hit:
             return f'<span class="mk">{m}</span>'
-        return (f'<a class="mk" href="{u}" target="_blank" rel="noopener" '
-                f'title="출처 열기">{m}</a>')
+        i, x = hit
+        if (i, x) not in used:
+            used.append((i, x))
+        return f'<label class="mk" for="ev-{uid}-{i}" title="근거 펼치기">{m}</label>'
 
     txt = re.sub(r"[①②③④⑤⑥⑦⑧⑨]", mark, s.get("advice_display", ""))
-    src = "gpt-5.5" if s.get("llm", {}).get("used") else "Rule 생성"
+
+    boxes = ""
+    for i, x in used:
+        link = (f'<a class="evlink" href="{_h.escape(x["url"])}" target="_blank" '
+                f'rel="noopener">원문 보기 ↗</a>') if x.get("url") else ""
+        boxes += (
+            f'<input type="checkbox" class="evtog" id="ev-{uid}-{i}">'
+            f'<span class="evbox"><span class="evnum">{x["marker"]}</span>'
+            f'<span class="evb">'
+            f'<span class="evk">{_h.escape(x.get("kind", ""))}</span>'
+            f'<span class="evt">{_h.escape(x.get("title", ""))}</span>'
+            f'<span class="evs">{_h.escape(x.get("summary", ""))}</span>'
+            f'<span class="evs" style="color:#B5B1BE!important">'
+            f'{_h.escape(x.get("publisher", ""))}'
+            + (f' · {_h.escape(x["date"])}' if x.get("date") else "")
+            + f'</span>{link}</span></span>')
+
+    hint = ('<span class="evhint">①②를 누르면 근거가 펼쳐져요</span>'
+            if used else "")
+    srcname = "gpt-5.5" if s.get("llm", {}).get("used") else "Rule 생성"
     return (f'<div class="b"><div class="mh"><span class="d"></span>무슨 일이 있었나요'
-            f'<span class="r">{src}</span></div>'
-            f'<div style="font-size:13.5px;line-height:1.82">{txt}</div></div>')
+            f'<span class="r">{srcname}</span></div>'
+            f'<div style="font-size:13.5px;line-height:1.82">{txt}</div>'
+            f'{boxes}{hint}</div>')
 
 
 def blk_sources(s):
