@@ -42,6 +42,10 @@ curl localhost:8900/health
 
 처음 뜨면 계정을 하나 만들라고 합니다 (로컬 전용, 아무 값이나).
 
+> **첫 실행은 10분 이상 걸립니다** (langchain 포함 500MB). 설치가 끝나야
+> 서버가 뜹니다. **자기 터미널에서 돌리세요** — 다른 프로세스가 셸을
+> 정리하면 설치가 중단됩니다.
+
 #### npx 가 실패하면 — npm 캐시 손상
 
 ```
@@ -90,6 +94,44 @@ n8n 화면 우측 상단 **⋯ → Import from File** → `n8n/briefing_batch.js
 
 > 41건은 약 19분입니다. 발표 리허설에서는 `41케이스 배치 실행` 노드의
 > `jsonBody` 를 `{"limit": 3, "auto_approve": false}` 로 바꾸세요.
+
+## 워크플로 — 12노드
+
+n8n 을 띄우지 못할 때 **이 다이어그램을 슬라이드에 써도 됩니다.**
+`briefing_batch.json` 과 1:1로 대응합니다.
+
+```mermaid
+flowchart LR
+    S["평일 18:00<br/>(장 마감 후)"]:::trig --> H
+    M["수동 실행<br/>(데모)"]:::trig --> H
+    H["Agent 살아있나<br/>GET /health"]:::http --> IF1{"정상?"}:::cond
+    IF1 -- 예 --> R["41케이스 배치 실행<br/>POST /batch/run"]:::http
+    IF1 -- 아니오 --> DOWN["장애 알림"]:::code
+    R --> W["30초 대기"]:::wait
+    W --> ST["진행 상태 확인<br/>GET /batch/status"]:::http
+    ST --> IF2{"끝났나?"}:::cond
+    IF2 -- 아직 --> W
+    IF2 -- 완료 --> Q["품질 집계<br/>GET /stats"]:::http
+    Q --> C["알림 문구 만들기"]:::code
+    C --> N["담당자 알림<br/>(Slack 자리)"]:::code
+
+    classDef trig fill:#EDE9FE,stroke:#6B4EFF,color:#1C1A22
+    classDef http fill:#FFF,stroke:#8B8794,color:#1C1A22
+    classDef cond fill:#FFF8E5,stroke:#FFB800,color:#1C1A22
+    classDef code fill:#F1EFF6,stroke:#8B8794,color:#1C1A22
+    classDef wait fill:#EEF4FF,stroke:#2B6CF6,color:#1C1A22
+```
+
+| 노드 | 하는 일 |
+|---|---|
+평일 18:00 | 장 마감 후 자동 실행. 주말 제외 (`0 18 * * 1-5`) |
+수동 실행 | 발표용. 18시를 기다릴 수 없다 |
+Agent 살아있나 | 죽어 있으면 배치를 안 돌린다. 빈 큐가 쌓이는 것보다 낫다 |
+41케이스 배치 실행 | 즉시 202. 19분을 동기로 기다리면 타임아웃 |
+30초 대기 ⟲ 진행 상태 | 폴링 루프 |
+품질 집계 | 알림 문구에 넣을 숫자 |
+알림 문구 만들기 | 폴백 3건 초과 또는 오류면 "확인 필요"로 올린다 |
+담당자 알림 | Slack 노드로 바꾸면 바로 운영 |
 
 ## API 엔드포인트
 

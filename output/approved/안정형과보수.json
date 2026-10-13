@@ -7,26 +7,26 @@
     "fx",
     "content"
   ],
-  "selection_reason": "유지 · 최대비중 62% · 국내시황 -3.65%",
+  "selection_reason": "유지 · 최대비중 62% · 국내시황 -5.46%",
   "card_scores": {
     "personal_briefing": 1.5,
-    "domestic_market": 3.09,
+    "domestic_market": 3.64,
     "fx": 0.0,
     "content": 0.0
   },
-  "advice": "고객님 투자자산은 지난 방문일보다 100,000원 늘어 거의 유지됐어요 [portfolio]. 변동에는 KB단기채권펀드 62,000원과 KB MMF 38,000원이 보탰어요 [portfolio]. 10년 국채선물이 강세로 출발했다는 기사가 KB단기채권펀드 관련 이슈였어요 [뉴스-1]. KB단기채권펀드 비중이 62%라 해당 상품 움직임이 자산 변화에 크게 반영됐어요 [portfolio].",
-  "advice_display": "고객님 투자자산은 지난 방문일보다 100,000원 늘어 거의 유지됐어요. 변동에는 KB단기채권펀드 62,000원과 KB MMF 38,000원이 보탰어요. 10년 국채선물이 강세로 출발했다는 기사가 KB단기채권펀드 관련 이슈였어요 ①. KB단기채권펀드 비중이 62%라 해당 상품 움직임이 자산 변화에 크게 반영됐어요.",
-  "advice_plain": "고객님 투자자산은 지난 방문일보다 100,000원 늘어 거의 유지됐어요. 변동에는 KB단기채권펀드 62,000원과 KB MMF 38,000원이 보탰어요. 10년 국채선물이 강세로 출발했다는 기사가 KB단기채권펀드 관련 이슈였어요. KB단기채권펀드 비중이 62%라 해당 상품 움직임이 자산 변화에 크게 반영됐어요.",
+  "advice": "고객님 투자자산은 지난 방문 이후 100,000원 늘어 +0.21%로 거의 유지됐어요 [portfolio]. KB단기채권펀드 62,000원, KB MMF 38,000원이 증가분을 만들었어요 [portfolio]. KB MMF와 관련된 단기자금 시장에서는 CP금리 하루 상승폭이 3년 11개월 만에 최대였다는 보도가 있었어요 [뉴스-2]. 단기채권펀드 비중이 62%라 작은 가격 변화도 전체 자산에 크게 반영됐어요 [portfolio].",
+  "advice_display": "고객님 투자자산은 지난 방문 이후 100,000원 늘어 +0.21%로 거의 유지됐어요. KB단기채권펀드 62,000원, KB MMF 38,000원이 증가분을 만들었어요. KB MMF와 관련된 단기자금 시장에서는 CP금리 하루 상승폭이 3년 11개월 만에 최대였다는 보도가 있었어요 ①. 단기채권펀드 비중이 62%라 작은 가격 변화도 전체 자산에 크게 반영됐어요.",
+  "advice_plain": "고객님 투자자산은 지난 방문 이후 100,000원 늘어 +0.21%로 거의 유지됐어요. KB단기채권펀드 62,000원, KB MMF 38,000원이 증가분을 만들었어요. KB MMF와 관련된 단기자금 시장에서는 CP금리 하루 상승폭이 3년 11개월 만에 최대였다는 보도가 있었어요. 단기채권펀드 비중이 62%라 작은 가격 변화도 전체 자산에 크게 반영됐어요.",
   "sources": [
     {
       "marker": "①",
-      "doc": "뉴스-1",
+      "doc": "뉴스-2",
       "kind": "뉴스",
-      "title": "10년 국채선물 반빅 강세 출발…美 장기금리 상승세 진정",
-      "summary": "연합인포맥스 2026-10-12 기사: 10년 국채선물 반빅 강세 출발…美 장기금리 상승세 진정. (KB단기채권펀드 관련)",
-      "publisher": "연합인포맥스",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB3bnVxcWtKSmlTMmItRkdFZjJId1hWTVlvNm1pajZLTVBJTmVFQjFQdzhJT2s2RkRjSnA5RW53cjZCb21OY1Y1LW8zaENHSVJielJMcEJja1RIQzlvd0JkT0E0X1dTQWM3R1NmWlE2Y1fSAXRBVV95cUxPMHdwYm9oVUFXZk5FYjh6LXBVWTI3SUZTZjBJanRZT1lZQWhkaVRFbGJLYmhFXy0zR3ZiZ0M1M2htQ0JiRWxreGhnMDZGMVY5RkQ0cnJTTXN1dVJSbzh1aHhqbjdHSHNBellFSGlMZURKdmR4bw?oc=5",
-      "date": "2026-10-12"
+      "title": "CP금리 하루 상승폭 3년 11개월만 최대…단기자금 수급에 민감 반응?",
+      "summary": "연합뉴스 2026-10-13 기사: CP금리 하루 상승폭 3년 11개월만 최대…단기자금 수급에 민감 반응?. (KB MMF 관련)",
+      "publisher": "연합뉴스",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE81dUdHVDRncjhfeTEwVmxPbUlDNlQwclhmQWRRZUxFejFLbHo3ckRZMjBxcmM5Uy1iYVBUUzhGUmtyLWxTWFNzTngtX0I3NXZERUtSdWUxVWdfa2vSAWBBVV95cUxPWktXWFNKclpCZmlZSHdZb2ZHaFlveGVCY0NrMjVRVWliVS1pSXNqOTFIY1d5NzFkYUh3aFotaXdMYldXb0lBYnhMMWlBakJzN1lIWWF5S2trWlN0Y1pISFk?oc=5",
+      "date": "2026-10-13"
     }
   ],
   "서브조언": "2026년 시장동향을 알아볼까요?",
@@ -69,42 +69,42 @@
   "market": {
     "국내": {
       "outlook": "나쁨",
-      "change_1d": -3.65,
+      "change_1d": -5.46,
       "지표": "코스피"
     },
     "해외": {
-      "outlook": "좋음",
-      "change_1d": 0.59,
+      "outlook": "보통",
+      "change_1d": 0.03,
       "지표": "S&P500"
     },
     "stale": false,
     "region_used": "국내",
     "outlook_used": "나쁨",
     "환율": {
-      "price": 1331.76,
-      "change_1d": -0.84
+      "price": 1341.27,
+      "change_1d": -0.13
     }
   },
   "news": [
     {
-      "title": "10년 국채선물 반빅 강세 출발…美 장기금리 상승세 진정",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB3bnVxcWtKSmlTMmItRkdFZjJId1hWTVlvNm1pajZLTVBJTmVFQjFQdzhJT2s2RkRjSnA5RW53cjZCb21OY1Y1LW8zaENHSVJielJMcEJja1RIQzlvd0JkT0E0X1dTQWM3R1NmWlE2Y1fSAXRBVV95cUxPMHdwYm9oVUFXZk5FYjh6LXBVWTI3SUZTZjBJanRZT1lZQWhkaVRFbGJLYmhFXy0zR3ZiZ0M1M2htQ0JiRWxreGhnMDZGMVY5RkQ0cnJTTXN1dVJSbzh1aHhqbjdHSHNBellFSGlMZURKdmR4bw?oc=5",
-      "publisher": "연합인포맥스",
-      "date": "2026-10-12",
+      "title": "23년차 채권 전문가 “고금리에 저환율…美 국채 투자 ‘좁은 문’이 열렸다\"",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNa0ZNRE1QX0t4VXJsTVZzMk5oTV9UZFhmWmdUajZsNGE5YjF1RXgzS3Y3V0txb3NJTzRWRmlYWmdwMk9qUWNCSXN2bDhvYXYxUmVnTTkwenBsLVM4VFZjZFBuTnpId2dFaXlVZFI3VUVSQTMzZW5ic2tWWnBlSU1NWUZBZHBlQU8tQ3lYX3F3?oc=5",
+      "publisher": "조선일보",
+      "date": "2026-10-13",
       "matched": "KB단기채권펀드"
     },
     {
-      "title": "美 금리인상·유가 급등에 채권시장 출렁…국고채 단기금리 상승",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE51WWstNmk4ZXp6TnZvdnlUVVA1OV9xWjhfUnZlRXFJbElma0NvdUhYYk5hS0RRVWhrbkk1ZFJXOHZnckpWRkdWLTJCQnViajdPSU5CN2IwekV4bFRYYklBcm1meFhNc0lqWmtnTmYyUlY?oc=5",
-      "publisher": "리드경제",
-      "date": "2026-10-12",
+      "title": "CP금리 하루 상승폭 3년 11개월만 최대…단기자금 수급에 민감 반응?",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE81dUdHVDRncjhfeTEwVmxPbUlDNlQwclhmQWRRZUxFejFLbHo3ckRZMjBxcmM5Uy1iYVBUUzhGUmtyLWxTWFNzTngtX0I3NXZERUtSdWUxVWdfa2vSAWBBVV95cUxPWktXWFNKclpCZmlZSHdZb2ZHaFlveGVCY0NrMjVRVWliVS1pSXNqOTFIY1d5NzFkYUh3aFotaXdMYldXb0lBYnhMMWlBakJzN1lIWWF5S2trWlN0Y1pISFk?oc=5",
+      "publisher": "연합뉴스",
+      "date": "2026-10-13",
       "matched": "KB MMF"
     },
     {
-      "title": "코스피만 왜 이러나…반도체 노이즈·수급 불안에 '나홀로 급락'",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wVEVJUWNIeFBoZGZhaXJWdkpSMjVZamJhQzBNbzlEN1hkU0tGWmFYcGNnZ0lPUk5hTndRRWxXRi1OQndzQkNia0tWenpLdzlzSVAxZmhLSGpNeTV3YmdwMkpKbmYzNHlRaTdBN3pUZTk?oc=5",
+      "title": "[증시-마감] 하루 만에 5.46% 빠진 코스피…6,000선 턱걸이",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9KZzF5ZFNpcGluOXYzTEtUeGpTUUNjNjBFbzNWWktHcXBpRnUwM2JRRjVsQlpCakRnaXg4ZVVKMEJLOUlacldnQ1FMWGMxVnAwN001d2sxR0h6OVpfLUlUTU0yc2x1UTZZRHlWRmRRMS0?oc=5",
       "publisher": "연합인포맥스",
-      "date": "2026-10-12",
+      "date": "2026-10-13",
       "matched": "국내"
     }
   ],
@@ -153,14 +153,14 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 자산 변동과 포트폴리오 비중, 관련 뉴스 사실을 설명한 문구로 투자 행동 유도나 미래 수익 기대 암시는 크지 않습니다."
+      "reason": "과거 자산 변동과 보유 비중·시장 보도를 설명한 문구로, 투자 행동 유도나 미래 수익·방향성 암시는 뚜렷하지 않습니다."
     },
     "format": {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 174,
+      "length": 200,
       "sentences": 4
     },
     "grounding": {
@@ -179,14 +179,14 @@
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 자산 변동과 포트폴리오 비중, 관련 뉴스 사실을 설명한 문구로 투자 행동 유도나 미래 수익 기대 암시는 크지 않습니다."
+      "reason": "과거 자산 변동과 보유 비중·시장 보도를 설명한 문구로, 투자 행동 유도나 미래 수익·방향성 암시는 뚜렷하지 않습니다."
     },
     {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 174,
+      "length": 200,
       "sentences": 4
     },
     {
@@ -201,14 +201,14 @@
   "approval": {
     "action": "approve",
     "by": "자동승인(데모)",
-    "at": "2026-10-13 22:31:22"
+    "at": "2026-10-13 23:17:19"
   },
   "llm": {
     "used": true,
     "model": "gpt-5.5",
-    "calls": 12
+    "calls": 9
   },
-  "generated_at": "2026-10-13 22:31:22",
+  "generated_at": "2026-10-13 23:17:19",
   "logs": [
     "진단: 유지 / 과보수 / +0.21% → CASE39 (전망 국내나쁨 · 시황 MCP)",
     "일간 검색 2건 (벡터(text-embedding-3-small))",
@@ -216,15 +216,15 @@
     "월간 House View 검색 2건",
     "뉴스 3건 (MCP · 보유 종목 매칭: KB단기채권펀드, KB MMF, 국내)",
     "주간 검색 1건",
-    "카드 선택: domestic_market {'personal_briefing': 1.5, 'domestic_market': 3.09, 'fx': 0.0, 'content': 0.0} (제친 카드 3개)",
+    "카드 선택: domestic_market {'personal_briefing': 1.5, 'domestic_market': 3.64, 'fx': 0.0, 'content': 0.0} (제친 카드 3개)",
     "LLM 생성 (gpt-5.5)",
     "컴플라이언스(LLM 2차): 통과",
-    "형식: 통과 (174자 · 4문장)",
+    "형식: 통과 (200자 · 4문장)",
     "근거 결속: 통과 (외부 태그 1개 대조)",
     "심사 종합(rev 0): 통과 [3축 판정]",
     "콘텐츠 2건 (후보 31건 · 당일시황 12건 제외) · 상황태그 ['#ETF', '#퇴직연금', '#자산배분']",
     "검수 승인 (자동승인(데모))"
   ],
-  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/6ef0f3c2a7239424656cf93bde797266",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/dc6638071d2126c420241e0948c5f522",
   "original_copy": "40일 동안 투자자산이 지난 방문일과 비슷하게 유지되고 있어요. 시장의 움직임은 어떤지 확인해 볼까요?"
 }
