@@ -23,3 +23,7 @@ langchain-mcp-adapters
 streamlit
 
 # 감사 로그는 표준 라이브러리 sqlite3 를 쓴다 (설치 불필요)
+
+# 배치 API — n8n 이 호출하는 HTTP 계층
+fastapi
+uvicorn[standard]

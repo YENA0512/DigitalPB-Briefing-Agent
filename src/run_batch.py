@@ -145,7 +145,7 @@ def save(path: Path, name: str, data: dict) -> None:
 
 
 def batch(case_ids: list[str], auto_approve: bool) -> dict:
-    app = ba.build_graph()
+    app = ba.get_app()
     llm.reset_stats()
     t0 = time.perf_counter()
     stat = {"approved": 0, "pending": 0, "error": 0,
@@ -211,7 +211,7 @@ def review_pending() -> None:
         print(f"검수 대기건이 없습니다: {PENDING}")
         return
 
-    app = ba.build_graph()
+    app = ba.get_app()
     print(f"검수 대기 {len(files)}건\n")
     for f in files:
         p = json.loads(f.read_text(encoding="utf-8"))

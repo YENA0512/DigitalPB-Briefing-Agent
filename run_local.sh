@@ -29,10 +29,12 @@ case "${1:-agent}" in
   trace)   exec "$VENV/bin/python" "$HERE/src/tracing.py" ;;
   obs)     exec "$VENV/bin/python" "$HERE/src/langfuse_api.py" ;;
   refresh) shift; exec "$VENV/bin/python" "$HERE/scripts/refresh_demo.py" "$@" ;;
+  api)     exec "$VENV/bin/python" "$HERE/src/api.py" ;;
+  n8n)     exec npx --yes n8n ;;
   audit)   exec "$VENV/bin/python" "$HERE/src/audit_db.py" ;;
   labels)  exec "$VENV/bin/python" "$HERE/src/case_labels.py" ;;
   meta)    exec "$VENV/bin/python" "$HERE/src/graph_meta.py" ;;
   batch)   shift; exec "$VENV/bin/python" "$HERE/src/run_batch.py" "$@" ;;
   record)  shift; exec bash "$HERE/demo/record_cli.sh" "$@" ;;
-  *) echo "사용법: ./run_local.sh [mcp|app|agent|config|market|news|search|sources|chips|mcptest|batch|record|trace|obs|refresh|audit|labels|meta|cases|reducer|test|lab|viewer]"; exit 1 ;;
+  *) echo "사용법: ./run_local.sh [mcp|app|agent|config|market|news|search|sources|chips|mcptest|batch|record|trace|obs|refresh|api|n8n|audit|labels|meta|cases|reducer|test|lab|viewer]"; exit 1 ;;
 esac

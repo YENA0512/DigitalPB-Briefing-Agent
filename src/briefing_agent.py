@@ -992,6 +992,24 @@ def initial_state(portfolio: dict, profile: dict | None = None,
 
 # ---------------------------------------------------------------- 실행
 
+_shared_app = None
+
+
+def get_app():
+    """프로세스 안에서 **하나의 그래프**를 공유한다.
+
+    `build_graph()` 는 호출할 때마다 새 `InMemorySaver` 를 만든다.
+    배치가 `human_review` 에서 멈춰 둔 건을 API 가 재개하려면 **같은
+    체크포인터**를 봐야 한다. 따로 만들면 `KeyError` 로 재개가 실패한다.
+
+    (운영은 `SqliteSaver` 로 바꿔 프로세스 경계를 넘어야 한다 — README 한계 절)
+    """
+    global _shared_app
+    if _shared_app is None:
+        _shared_app = build_graph()
+    return _shared_app
+
+
 def initial_state_for(name: str) -> dict:
     """케이스 이름 하나로 초기 State 를 만든다. 화면·CLI·배치가 공유한다."""
     i = inputs_for(name)

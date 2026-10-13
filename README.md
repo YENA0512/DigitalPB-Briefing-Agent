@@ -293,6 +293,38 @@ trace 를 열면 `generate` → `review_*` → `optimize` 가 펼쳐지고 **어
 
 ---
 
+## 11-2. n8n — 야간 배치 오케스트레이션
+
+**n8n 은 오케스트레이션이고 Agent 는 판단입니다.**
+
+| n8n | Agent |
+|---|---|
+언제 돌릴지 (평일 18:00) · 살아 있는지 확인 · 진행 폴링 | 무엇을 쓸지 |
+끝나면 누구에게 알릴지 · 실패하면 장애 알림 | 통과시킬지 · 재작성할지 · 폴백할지 |
+
+경계를 흐리면 둘 다 나빠집니다. n8n 안에 판단 로직을 넣으면 테스트할 수 없고,
+Agent 안에 스케줄을 넣으면 운영이 코드 배포에 묶입니다.
+
+```
+평일 18:00 ─┐
+            ├→ /health → 정상? ─┬→ /batch/run → 30초 대기 ⟲ /batch/status
+수동 실행 ──┘                   │                            └→ 끝났나?
+                                │                                 └→ /stats → 알림
+                                └→ 장애 알림
+```
+
+```bash
+./run_local.sh api        # 배치 API — 127.0.0.1:8900 (문서 /docs)
+./run_local.sh n8n        # npx n8n → localhost:5678
+# n8n 에서 ⋯ → Import from File → n8n/briefing_batch.json
+```
+
+Agent 는 HTTP 로 노출됩니다 — `/health` `/batch/run` `/batch/status`
+`/pending` `/approve/{case}` `/reject/{case}` `/stats`.
+
+> **이 API 는 Batch 전용입니다.** 고객 요청 경로가 아닙니다.
+> 자세한 내용과 설계에서 걸린 것들은 [n8n/README.md](n8n/README.md).
+
 ## 12. 실행
 
 Python **3.10 이상** 필요 (PEP 585 빌트인 제네릭).
@@ -342,6 +374,8 @@ Rule 생성 경로도 3축을 통과하도록 만들어 뒀습니다.
 ./run_local.sh trace     # Langfuse 연결 확인
 ./run_local.sh obs       # 심사 품질 집계 (로그인 없이 API 로 조회)
 ./run_local.sh refresh   # ★ 데모 데이터를 오늘 날짜로 갱신 (발표 당일 아침에)
+./run_local.sh api       # 배치 API (n8n 이 호출)
+./run_local.sh n8n       # n8n 워크플로 에디터
 ./run_local.sh labels    # 41케이스가 각각 무슨 상황인지
 ./run_local.sh market    # 실시간 지수·환율
 ./run_local.sh news      # 보유 종목 관련 기사
@@ -362,6 +396,8 @@ LangChain | `init_chat_model` · `with_structured_output` (Pydantic) |
 RAG | `InMemoryVectorStore` + `text-embedding-3-small` · 문단 청킹 · 메타데이터 출처 |
 LLM | `gpt-5.5` (구조화 출력 · temperature 0) |
 MCP | `FastMCP` 서버 도구 9종 + `MultiServerMCPClient` (streamable-http) |
+n8n | 야간 배치 스케줄 · 상태 폴링 · 담당자 알림 (워크플로 12노드) |
+API | FastAPI — n8n 이 호출하는 Batch 계층 (고객 경로 아님) |
 Tool | Yahoo Finance (지수·환율) · Google News RSS (한국어 기사) |
 DB | SQLite 감사 로그 — 승인 이력·품질 지표 |
 Observability | Langfuse — 심사 통과율·재작성·폴백 점수 |
@@ -396,6 +432,10 @@ src/
   llm.py                 LLM 래퍼    content_matcher.py  콘텐츠 매칭
   audit_db.py            감사 로그 (SQLite)  tracing.py   Langfuse 기록
   langfuse_api.py        Langfuse 조회 — 브라우저 로그인 없이 앱에 지표 표시
+  api.py                 배치 API (FastAPI) — n8n 이 호출
+n8n/
+  briefing_batch.json    야간 배치 워크플로 12노드
+  README.md              실행법 · 경계 · 설계에서 걸린 것
   config.py              .env 로딩    run_batch.py  배치 러너 + 검수 CLI
 data/                    41케이스 · 콘텐츠 50건 · 리포트 8건
 demo/viewer.html         백업 뷰어 (단일 HTML)
@@ -411,7 +451,8 @@ lab/pattern_lab.py       패턴 비교
 
 - **월평균 PV 28,870 의 기간 단위 확인 필요** — 일평균 9,623 의 정확히 3배라
   집계 기준이 다른 것으로 보입니다. 발표 전 현업 확인
-- **n8n 미적용** — 배치 스케줄링을 n8n 으로 빼는 것이 다음 단계
+- **n8n 알림이 콘솔 출력** — Slack/Teams 노드로 바꾸면 바로 운영에 쓸 수 있습니다.
+  자격증명만 넣으면 됩니다
 - **뉴스 매체 화이트리스트 없음** — 대고객 노출이라 신뢰도 관리가 필요
 - **뉴스 저작권** — 제목·링크만 쓰므로 인용 범위로 보이나 법무 확인 필요
 - **체크포인터가 `InMemorySaver`** — 프로세스가 바뀌면 검수 대기 상태가 사라짐.
