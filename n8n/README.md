@@ -46,6 +46,28 @@ curl localhost:8900/health
 > 서버가 뜹니다. **자기 터미널에서 돌리세요** — 다른 프로세스가 셸을
 > 정리하면 설치가 중단됩니다.
 
+#### ⚠️ Node 24 가 필요합니다
+
+n8n 2.x 는 `node >= 24` 를 요구합니다. Node 20 에서는 설치는 되지만
+**경고 더미 끝에 이 줄이 뜨고 실행되지 않습니다.**
+
+```
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'n8n@2.43.4',
+npm WARN EBADENGINE   required: { node: '>=24.0.0' },
+npm WARN EBADENGINE   current: { node: 'v20.10.0' }
+```
+
+경고가 수백 줄이라 이 한 줄을 놓치기 쉽습니다. **`EBADENGINE` 만 보세요.**
+
+```bash
+nvm install 24          # 한 번만
+./run_local.sh n8n      # 이후로는 알아서 24 로 바꿔 띄웁니다
+```
+
+`run_local.sh` 가 nvm 을 찾아 Node 24 로 전환하고, 24 가 없으면 설치하라고
+알려줍니다. 시스템 Node 는 20 그대로 둬도 됩니다 — 파이썬 쪽과 무관합니다.
+
 #### npx 가 실패하면 — npm 캐시 손상
 
 ```

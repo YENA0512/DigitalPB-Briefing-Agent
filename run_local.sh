@@ -30,7 +30,25 @@ case "${1:-agent}" in
   obs)     exec "$VENV/bin/python" "$HERE/src/langfuse_api.py" ;;
   refresh) shift; exec "$VENV/bin/python" "$HERE/scripts/refresh_demo.py" "$@" ;;
   api)     exec "$VENV/bin/python" "$HERE/src/api.py" ;;
-  n8n)     exec npx --yes n8n ;;
+  n8n)
+    #  n8n 2.x 는 Node >= 24 를 요구한다. 시스템 node 가 20 이면
+    #  설치는 되지만 EBADENGINE 경고 뒤 실행이 안 된다.
+    #  nvm 이 있으면 24 로 바꿔서 띄운다.
+    if [ -s "$HOME/.nvm/nvm.sh" ]; then
+      export NVM_DIR="$HOME/.nvm"
+      # shellcheck disable=SC1091
+      . "$NVM_DIR/nvm.sh"
+      nvm use 24 >/dev/null 2>&1 || {
+        echo "Node 24 가 없습니다:  nvm install 24"; exit 1; }
+    fi
+    NODE_V="$(node --version)"
+    case "$NODE_V" in
+      v2[4-9]*|v[3-9][0-9]*) ;;
+      *) echo "n8n 2.x 는 Node >= 24 가 필요합니다 (현재 $NODE_V)"
+         echo "  nvm install 24  후 다시 실행하세요"; exit 1 ;;
+    esac
+    echo "node $NODE_V 로 n8n 실행"
+    exec env N8N_DIAGNOSTICS_ENABLED=false N8N_SECURE_COOKIE=false npx --yes n8n ;;
   audit)   exec "$VENV/bin/python" "$HERE/src/audit_db.py" ;;
   labels)  exec "$VENV/bin/python" "$HERE/src/case_labels.py" ;;
   meta)    exec "$VENV/bin/python" "$HERE/src/graph_meta.py" ;;

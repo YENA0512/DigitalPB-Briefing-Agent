@@ -315,7 +315,7 @@ Agent 안에 스케줄을 넣으면 운영이 코드 배포에 묶입니다.
 
 ```bash
 ./run_local.sh api        # 배치 API — 127.0.0.1:8900 (문서 /docs)
-./run_local.sh n8n        # npx n8n → localhost:5678
+./run_local.sh n8n        # npx n8n → localhost:5678  (Node 24 필요)
 # n8n 에서 ⋯ → Import from File → n8n/briefing_batch.json
 ```
 
