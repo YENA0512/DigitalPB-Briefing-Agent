@@ -84,13 +84,25 @@ npm cache clean --force
 #### Docker 로 돌릴 때
 
 ```bash
-docker run -it --rm -p 5678:5678   -e BRIEFING_API=http://host.docker.internal:8900   -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+docker run -it --rm -p 5678:5678 \
+  -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
 ```
 
-컨테이너 안의 `127.0.0.1` 은 호스트가 아닙니다. 워크플로의 주소는
-`BRIEFING_API` 환경변수로 받게 해뒀으니 **워크플로를 고칠 필요가 없습니다.**
-API 도 `0.0.0.0` 으로 열어야 합니다 — `src/api.py` 의 `HOST` 를 바꾸거나
-`API_HOST=0.0.0.0 ./run_local.sh api`.
+컨테이너 안의 `127.0.0.1` 은 호스트가 아닙니다. **HTTP 노드 4개의 주소를
+`host.docker.internal` 로 바꾸세요** — `Agent 살아있나` · `41케이스 배치 실행` ·
+`진행 상태 확인` · `품질 집계`.
+
+API 도 밖으로 열어야 합니다.
+
+```bash
+API_HOST=0.0.0.0 ./run_local.sh api
+```
+
+> 처음엔 주소를 `{{ $env.BRIEFING_API }}` 로 받게 했다가 되돌렸습니다.
+> n8n 은 기본적으로 노드에서 환경변수 접근을 막아
+> **`access to env vars denied`** 가 납니다
+> (`N8N_BLOCK_ENV_ACCESS_IN_NODE`). 플래그를 하나 더 켜게 하느니
+> URL 네 개를 손으로 고치는 쪽이 낫습니다.
 
 ### 3. 워크플로 가져오기
 
