@@ -37,7 +37,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/health",
+        "url": "http://127.0.0.1:8900/health",
         "options": {
           "timeout": 10000
         }
@@ -87,7 +87,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/batch/run",
+        "url": "http://127.0.0.1:8900/batch/run",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\"limit\": 0, \"auto_approve\": false}",
@@ -123,7 +123,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/batch/status",
+        "url": "http://127.0.0.1:8900/batch/status",
         "options": {
           "timeout": 10000
         }
@@ -172,7 +172,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.BRIEFING_API || 'http://127.0.0.1:8900' }}/stats",
+        "url": "http://127.0.0.1:8900/stats",
         "options": {
           "timeout": 10000
         }
@@ -359,6 +359,6 @@
   },
   "pinData": {},
   "meta": {
-    "description": "장 마감 후 브리핑 41건을 생성하고 검수 대기열에 적재한 뒤 담당자에게 알린다. n8n 은 오케스트레이션만 하고 판단은 Agent 가 한다. 주소는 BRIEFING_API 환경변수로 바꿀 수 있다 — Docker 로 n8n 을 돌리면 http://host.docker.internal:8900 을 넣는다."
+    "description": "장 마감 후 브리핑 41건을 생성하고 검수 대기열에 적재한 뒤 담당자에게 알린다. n8n 은 오케스트레이션만 하고 판단은 Agent 가 한다. Docker 로 n8n 을 돌리면 HTTP 노드 4개의 127.0.0.1 을 host.docker.internal 로 바꾼다."
   }
 }
