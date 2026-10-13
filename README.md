@@ -341,6 +341,7 @@ Rule 생성 경로도 3축을 통과하도록 만들어 뒀습니다.
 ./run_local.sh audit     # 감사 로그 조회
 ./run_local.sh trace     # Langfuse 연결 확인
 ./run_local.sh obs       # 심사 품질 집계 (로그인 없이 API 로 조회)
+./run_local.sh refresh   # ★ 데모 데이터를 오늘 날짜로 갱신 (발표 당일 아침에)
 ./run_local.sh labels    # 41케이스가 각각 무슨 상황인지
 ./run_local.sh market    # 실시간 지수·환율
 ./run_local.sh news      # 보유 종목 관련 기사
@@ -399,6 +400,7 @@ src/
 data/                    41케이스 · 콘텐츠 50건 · 리포트 8건
 demo/viewer.html         백업 뷰어 (단일 HTML)
   case_labels.py         CASE19 → "최근 방문 · 자산 감소 · 국내 전망 나쁨"
+scripts/refresh_demo.py  데모 데이터를 오늘 날짜로 — 목 리포트는 날짜가 박혀 있다
 docs/                    DECK(발표대본) · DEMO_SCRIPT(녹화) · FINAL_CHECKLIST
                          LANGFUSE · PLAN_2610 · WORKPLAN
 tests/test_loop.py       루프 회귀 7종

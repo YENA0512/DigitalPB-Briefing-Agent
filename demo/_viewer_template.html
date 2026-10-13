@@ -543,9 +543,19 @@ function wireMarks(spec){
   document.querySelectorAll(".mark").forEach(el=>{
     el.onclick = ()=>{
       const s = (spec.sources||[]).find(x=>x.marker===el.dataset.m);
-      const c = s && $("src-"+s.doc); if(!c) return;
-      document.querySelectorAll(".card").forEach(x=>x.classList.remove("hi"));
-      c.classList.add("hi"); c.scrollIntoView({block:"center",behavior:"smooth"});
+      if(!s) return;
+      const c = $("src-"+s.doc);
+      if(c){
+        document.querySelectorAll(".card").forEach(x=>x.classList.remove("hi"));
+        c.classList.add("hi"); c.scrollIntoView({block:"center",behavior:"smooth"});
+      }
+      //  한 번 더 누르면 원문으로 이동한다. 첫 클릭은 근거를 펼치고,
+      //  두 번째 클릭은 그 콘텐츠로 보낸다.
+      if(el.dataset.armed === "1" && s.url){
+        window.open(s.url, "_blank", "noopener");
+      }
+      el.dataset.armed = "1";
+      setTimeout(()=>{ el.dataset.armed = ""; }, 2500);
     };
   });
 }

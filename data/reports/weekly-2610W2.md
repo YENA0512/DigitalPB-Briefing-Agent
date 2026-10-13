@@ -1,7 +1,7 @@
 ---
 doc: 주간-2610W2
 title: 10월 2주차 주간 금융시장 동향
-date: 2026-10-12
+date: 2026-10-13
 period: weekly
 region: 국내해외
 url: https://kbthink.com/investment/insight/2610/weekly-w2.html

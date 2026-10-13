@@ -121,8 +121,10 @@ st.markdown("""<style>
  color:var(--ink2)}
 .pl.w{background:#FFF8E5;color:#8A6200} .pl.p{background:var(--pp-l);color:var(--pp-d)}
 
-.mk{display:inline-block;background:var(--pp);color:#fff;font-size:10.5px;font-weight:800;
- width:17px;height:17px;line-height:17px;text-align:center;border-radius:50%;vertical-align:2px}
+.mk{display:inline-block;background:var(--pp);color:#fff!important;font-size:10.5px;
+ font-weight:800;width:17px;height:17px;line-height:17px;text-align:center;
+ border-radius:50%;vertical-align:2px;text-decoration:none!important;cursor:pointer}
+a.mk:hover{background:var(--pp-d)}
 
 .hd{display:flex;align-items:center;gap:9px;font-size:12.5px;margin-bottom:9px}
 .hd .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
@@ -283,10 +285,24 @@ def blk_delta(s):
 
 
 def blk_advice(s):
+    """문구 + 출처 마커.
+
+    마커를 `<span>` 으로 두면 **눌러도 아무 일이 없다.** 고객이 ①을 누르는
+    이유는 그 근거를 보려는 것이므로 실제 링크여야 한다.
+    """
     import re
-    txt = re.sub(r"[①②③④⑤⑥⑦⑧⑨]",
-                 lambda mm: f'<span class="mk">{mm.group()}</span>',
-                 s.get("advice_display", ""))
+    url_of = {x["marker"]: x.get("url", "")
+              for x in (s.get("sources") or []) if isinstance(x, dict)}
+
+    def mark(mm):
+        m = mm.group()
+        u = url_of.get(m)
+        if not u:
+            return f'<span class="mk">{m}</span>'
+        return (f'<a class="mk" href="{u}" target="_blank" rel="noopener" '
+                f'title="출처 열기">{m}</a>')
+
+    txt = re.sub(r"[①②③④⑤⑥⑦⑧⑨]", mark, s.get("advice_display", ""))
     src = "gpt-5.5" if s.get("llm", {}).get("used") else "Rule 생성"
     return (f'<div class="b"><div class="mh"><span class="d"></span>무슨 일이 있었나요'
             f'<span class="r">{src}</span></div>'
@@ -855,7 +871,9 @@ if not hitl:
       else:
           #  질문 칩을 누르면 **앞부분이 자동으로 접힌다.** 토글로 두면
           #  고객이 설정을 만져야 하는 꼴이고, 실제 메신저는 그러지 않는다.
-          KEEP = 2
+          #  칩을 누르는 순간 접혀야 한다. 2로 두면 세 번째부터 접혀서
+          #  "눌렀는데 그대로"로 보인다.
+          KEEP = 1
           items = st.session_state.shown
           base = len(followups.DEFAULT_BLOCKS)
           asked = items[base:]

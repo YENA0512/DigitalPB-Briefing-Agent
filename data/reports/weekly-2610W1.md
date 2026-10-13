@@ -1,7 +1,7 @@
 ---
 doc: 주간-2610W1
 title: 10월 1주차 주간 금융시장 동향
-date: 2026-10-05
+date: 2026-10-06
 period: weekly
 region: 국내해외
 url: https://kbthink.com/investment/insight/2610/weekly-w1.html
