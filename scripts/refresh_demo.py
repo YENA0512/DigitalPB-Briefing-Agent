@@ -10,12 +10,17 @@
 시황 지표와 뉴스는 Tool 이 **실시간으로** 가져오므로 늘 오늘이다.
 문제는 목데이터(리포트)와 그걸로 만든 승인본뿐이다.
 
+예전에는 ①에서 **날짜만** 옮겼다. 그러면 "오늘 일간 리포트"가 며칠 전 숫자를
+말하고, 같은 evidence 안의 시세 Tool 은 오늘 숫자를 가져와 근거끼리 어긋났다.
+이제 ①은 `report_builder` 로 **본문 숫자까지 Yahoo 종가에서 다시 계산**한다.
+시세 조회가 실패할 때만 예전 방식(날짜만 갱신)으로 떨어진다.
+
 ## 하는 일
 
-    1. data/reports/*.md 를 오늘 기준으로 다시 날짜 매김
-       daily  : 오늘, -1일, -2일, -3일, -4일  (영업일 무시 — 목데이터다)
+    1. data/reports/*.md 를 실제 종가로 다시 생성 (report_builder.py)
+       daily  : 최근 5거래일 (휴장일 제외, 장 마감 전 오늘 제외)
        weekly : 이번 주, 지난 주
-       monthly: 이번 달
+       monthly: 이번 달 House View (시장 수치 문단만 자동)
     2. 승인본 5건 재생성 (LLM 사용)
     3. demo/viewer.html 다시 빌드
 
@@ -23,7 +28,7 @@
 
     python scripts/refresh_demo.py            # 전체
     python scripts/refresh_demo.py --dry-run  # 무엇이 바뀌는지만
-    python scripts/refresh_demo.py --no-llm   # 리포트 날짜만 (빠름)
+    python scripts/refresh_demo.py --no-llm   # 리포트만 (빠름)
 
 **발표 당일 아침에 한 번 돌리면 됩니다.**
 """
@@ -97,16 +102,28 @@ def rewrite(f: Path, new_name: str, new_date: str, new_doc: str,
 def main() -> int:
     ap = argparse.ArgumentParser(description="데모 데이터를 오늘 날짜로 갱신")
     ap.add_argument("--dry-run", action="store_true", help="바뀔 내용만 출력")
-    ap.add_argument("--no-llm", action="store_true", help="리포트 날짜만 갱신")
+    ap.add_argument("--no-llm", action="store_true", help="리포트만 갱신 (승인본·뷰어 건너뜀)")
     ap.add_argument("--date", default="", help="기준일 (기본 오늘). 예 2026-10-17")
     args = ap.parse_args()
 
     today = date.fromisoformat(args.date) if args.date else date.today()
     print(f"기준일 {today.isoformat()}\n")
 
-    print("① 리포트 날짜")
-    for f, name, d, doc in plan(today):
-        print(f"   {rewrite(f, name, d, doc, args.dry_run):<34} {doc}")
+    print("① 리포트 — 실제 종가로 다시 생성")
+    try:
+        import report_builder
+        files = report_builder.build(today)
+        if args.dry_run:
+            for name in sorted(files):
+                print(f"   {name}")
+        else:
+            for name in report_builder.write(files):
+                print(f"   {name}")
+    except Exception as exc:                     # noqa: BLE001 — 데모 준비는 멈추지 않는다
+        print(f"   ⚠ 시세 조회 실패({type(exc).__name__}) — 날짜만 갱신합니다.")
+        print("     본문 수치와 실시간 시세가 다를 수 있습니다. 네트워크 확인 후 다시 실행하세요.")
+        for f, name, d, doc in plan(today):
+            print(f"   {rewrite(f, name, d, doc, args.dry_run):<34} {doc}")
 
     if args.dry_run:
         print("\n(dry-run — 아무것도 바꾸지 않았습니다)")

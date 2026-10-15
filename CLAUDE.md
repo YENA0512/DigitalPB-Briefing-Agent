@@ -239,6 +239,7 @@ src/
   market_tool.py       시황 Tool (Yahoo Finance) — 지수·환율·VIX 7종
   news_tool.py         뉴스 Tool (Google News RSS) — 보유 종목·섹터 기사
   retriever.py         리포트 벡터 검색 + 키워드 폴백
+  report_builder.py    목 리포트 생성 — 본문 수치를 실제 종가로 (시세 Tool 과 불일치 방지)
   prompts.py           프롬프트 분리 — 코드에 하드코딩하지 않는다
   llm.py               LLM 래퍼. 예외를 밖으로 던지지 않고 호출 수를 센다
   content_matcher.py   KB Think 콘텐츠 스코어링 매칭
@@ -246,7 +247,7 @@ src/
 data/
   cases_41.json        41케이스 원문 + 서비스 8종 + 슬롯/글자수 제한
   kbthink_contents.json 콘텐츠 50건 + 태그 19종 (목데이터, 2026-10 최신화)
-  reports/             시황 목 리포트 8건 — frontmatter 에 url·summary
+  reports/             시황 목 리포트 8건 — 숫자는 report_builder.py 가 Yahoo 종가로 생성
 tests/test_loop.py     루프 회귀 6종
 lab/pattern_lab.py     패턴 비교 — chaining / parallel / reducer 없는 버그 / orchestrator
 demo/
