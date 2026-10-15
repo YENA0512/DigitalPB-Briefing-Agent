@@ -15,6 +15,8 @@ case "${1:-agent}" in
   config)  exec "$VENV/bin/python" "$HERE/src/config.py" ;;
   market)  exec "$VENV/bin/python" "$HERE/src/market_tool.py" ;;
   search)  exec "$VENV/bin/python" "$HERE/src/retriever.py" ;;
+  reports) "$VENV/bin/python" "$HERE/src/kbthink_briefing.py"
+           shift; exec "$VENV/bin/python" "$HERE/src/report_builder.py" "$@" ;;
   cases)   exec "$VENV/bin/python" "$HERE/src/case_router.py" ;;
   reducer) exec "$VENV/bin/python" "$HERE/src/reducers.py" ;;
   test)    exec "$VENV/bin/python" "$HERE/tests/test_loop.py" ;;
@@ -54,5 +56,5 @@ case "${1:-agent}" in
   meta)    exec "$VENV/bin/python" "$HERE/src/graph_meta.py" ;;
   batch)   shift; exec "$VENV/bin/python" "$HERE/src/run_batch.py" "$@" ;;
   record)  shift; exec bash "$HERE/demo/record_cli.sh" "$@" ;;
-  *) echo "사용법: ./run_local.sh [mcp|app|agent|config|market|news|search|sources|chips|mcptest|batch|record|trace|obs|refresh|api|n8n|audit|labels|meta|cases|reducer|test|lab|viewer]"; exit 1 ;;
+  *) echo "사용법: ./run_local.sh [mcp|app|agent|config|market|news|search|reports|sources|chips|mcptest|batch|record|trace|obs|refresh|api|n8n|audit|labels|meta|cases|reducer|test|lab|viewer]"; exit 1 ;;
 esac

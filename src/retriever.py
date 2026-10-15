@@ -28,6 +28,8 @@ from pathlib import Path
 import config
 
 REPORTS_DIR = Path(__file__).resolve().parent.parent / "data" / "reports"
+#  KB Think 1분 브리핑 실제 글 (kbthink_briefing.sync 가 채운다 · .gitignore 대상)
+LIVE_DIR = Path(__file__).resolve().parent.parent / "data" / "reports_live"
 CHUNK_MIN = 40          # 이보다 짧은 문단은 독립 청크로 두지 않는다
 
 
@@ -48,10 +50,27 @@ def _parse(path: Path) -> dict:
     return meta
 
 
+def _report_files() -> list[Path]:
+    """일간은 KB Think 실제 글을 우선한다. 단 목 리포트보다 오래됐으면 목을 쓴다.
+
+    live 파일은 배치·refresh 때 내려받는다. 네트워크가 막혀 며칠 묵은 live 가
+    남아 있으면, 오늘 종가로 만든 목 리포트가 더 정확하다.
+    """
+    mock = sorted(REPORTS_DIR.glob("*.md"))
+    live = sorted(LIVE_DIR.glob("daily-*.md")) if LIVE_DIR.exists() else []
+    if not live:
+        return mock
+    newest = lambda files: max((_parse(f).get("date", "") for f in files), default="")
+    mock_daily = [f for f in mock if f.name.startswith("daily-")]
+    if newest(live) < newest(mock_daily):
+        return mock
+    return [f for f in mock if not f.name.startswith("daily-")] + live
+
+
 def load_documents() -> list[dict]:
     """문단 단위 청킹. 메타데이터에 doc/title/date/period/region 을 심는다."""
     chunks = []
-    for path in sorted(REPORTS_DIR.glob("*.md")):
+    for path in _report_files():
         meta = _parse(path)
         paras = [p.strip() for p in re.split(r"\n\s*\n", meta["body"]) if p.strip()]
         merged: list[str] = []
@@ -114,15 +133,47 @@ def mode() -> str:
     return _mode
 
 
+def reload() -> None:
+    """리포트를 새로 받은 뒤 같은 프로세스에서 다시 읽는다 (배치 시작 시)."""
+    global DOCS, _store, _mode
+    DOCS = load_documents()
+    _store, _mode = None, "미초기화"
+
+
+def daily_source() -> str:
+    """지금 일간 근거가 어디서 왔는지 — 로그용."""
+    live = any(d["doc"].count("-") >= 2 for d in DOCS if d["period"] == "daily")
+    return "KB Think 1분 브리핑" if live else "목 리포트(종가 기반)"
+
+
 # ---------------------------------------------------------------- 검색
+
+#  일간은 최근 거래일만 본다. 5거래일치를 다 검색하면 키워드가 더 많이 겹친
+#  일주일 전 시황이 뽑힌다 — "오늘 브리핑"의 근거는 최근 것이어야 한다.
+RECENT_DAILY_DATES = 2
+
+
+def _recent_dates(period: str) -> set[str] | None:
+    if period != "daily":
+        return None
+    dates = sorted({d["date"] for d in DOCS if d["period"] == "daily"}, reverse=True)
+    return set(dates[:RECENT_DAILY_DATES])
+
 
 def _keyword_search(period: str, query: str, k: int) -> list[dict]:
     """임베딩 없이 돌아가는 폴백. 어절 겹침 점수."""
     terms = [t for t in re.split(r"[\s,·]+", query) if len(t) >= 2]
-    pool = [d for d in DOCS if d["period"] == period] or DOCS
+    recent = _recent_dates(period)
+    pool = [d for d in DOCS if d["period"] == period
+            and (recent is None or d["date"] in recent)] or DOCS
     scored = []
     for d in pool:
         hit = sum(d["text"].count(t) for t in terms)
+        #  질의의 지역(국내/해외)과 리포트 지역이 같으면 가점 — 모닝은 해외, 장마감은 국내다
+        if d.get("region") and d["region"] in terms:
+            hit += 3
+        if recent and d["date"] == max(recent):     # 같은 조건이면 가장 최근 글
+            hit += 1
         scored.append((hit, -d["chunk"], d))
     scored.sort(key=lambda x: (-x[0], x[1]))
     return [d for _, _, d in scored[:k]]
@@ -136,11 +187,13 @@ def search(period: str, query: str, k: int = 2) -> list[dict]:
     """
     store = build_index()
     results: list[dict] = []
+    recent = _recent_dates(period)
 
     if store is not None:
         try:
             hits = store.similarity_search(
-                query, k=k, filter=lambda d: d.metadata.get("period") == period)
+                query, k=k, filter=lambda d: d.metadata.get("period") == period
+                and (recent is None or d.metadata.get("date") in recent))
             results = [{"text": h.page_content, **h.metadata} for h in hits]
         except Exception:                        # noqa: BLE001
             results = []

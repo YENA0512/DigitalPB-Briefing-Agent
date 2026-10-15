@@ -25,6 +25,9 @@ output/pending/
 # 벡터 인덱스
 .chroma/
 
+# KB Think 1분 브리핑 원문 — KB증권 리서치 저작물. 배치 때 받아서 쓰고 올리지 않는다
+data/reports_live/
+
 # macOS
 .DS_Store
 
