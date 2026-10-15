@@ -17,8 +17,9 @@
 
 ## 하는 일
 
-    1. data/reports/*.md 를 실제 종가로 다시 생성 (report_builder.py)
-       daily  : 최근 5거래일 (휴장일 제외, 장 마감 전 오늘 제외)
+    1. 일간: KB Think 1분 브리핑 실제 글 수집 → data/reports_live/ (kbthink_briefing.py)
+       data/reports/*.md 를 실제 종가로 다시 생성 (report_builder.py)
+       daily  : 최근 5거래일 (KB Think 수집 실패 시 대체용)
        weekly : 이번 주, 지난 주
        monthly: 이번 달 House View (시장 수치 문단만 자동)
     2. 승인본 5건 재생성 (LLM 사용)
@@ -109,7 +110,10 @@ def main() -> int:
     today = date.fromisoformat(args.date) if args.date else date.today()
     print(f"기준일 {today.isoformat()}\n")
 
-    print("① 리포트 — 실제 종가로 다시 생성")
+    print("① 리포트 — KB Think 1분 브리핑 수집 + 주간·월간은 실제 종가로 생성")
+    import kbthink_briefing
+    _, msg = kbthink_briefing.sync(dry_run=args.dry_run)
+    print(f"   {msg}")
     try:
         import report_builder
         files = report_builder.build(today)

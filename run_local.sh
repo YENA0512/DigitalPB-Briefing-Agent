@@ -15,7 +15,8 @@ case "${1:-agent}" in
   config)  exec "$VENV/bin/python" "$HERE/src/config.py" ;;
   market)  exec "$VENV/bin/python" "$HERE/src/market_tool.py" ;;
   search)  exec "$VENV/bin/python" "$HERE/src/retriever.py" ;;
-  reports) shift; exec "$VENV/bin/python" "$HERE/src/report_builder.py" "$@" ;;
+  reports) "$VENV/bin/python" "$HERE/src/kbthink_briefing.py"
+           shift; exec "$VENV/bin/python" "$HERE/src/report_builder.py" "$@" ;;
   cases)   exec "$VENV/bin/python" "$HERE/src/case_router.py" ;;
   reducer) exec "$VENV/bin/python" "$HERE/src/reducers.py" ;;
   test)    exec "$VENV/bin/python" "$HERE/tests/test_loop.py" ;;

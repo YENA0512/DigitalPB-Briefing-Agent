@@ -144,7 +144,20 @@ def save(path: Path, name: str, data: dict) -> None:
         json.dumps(data, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
 
 
+def refresh_daily_reports() -> str:
+    """배치 시작 전에 KB Think 1분 브리핑을 받아 일간 근거를 오늘 것으로 바꾼다.
+
+    실패해도 배치는 돈다 — 기존 live 파일이나 목 리포트로 떨어진다.
+    """
+    import kbthink_briefing
+    import retriever
+    _, msg = kbthink_briefing.sync()
+    retriever.reload()
+    return f"{msg} → 일간 근거: {retriever.daily_source()}"
+
+
 def batch(case_ids: list[str], auto_approve: bool) -> dict:
+    print(f"리포트 : {refresh_daily_reports()}")
     app = ba.get_app()
     llm.reset_stats()
     t0 = time.perf_counter()
