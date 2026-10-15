@@ -14,12 +14,22 @@
     "fx": 1.76,
     "content": 0.0
   },
-  "advice": "고객님 투자자산은 지난 방문 이후 2,500,000원 늘어 +2.12% 변했어요 [portfolio]. KB미국대표성장ETF와 KB글로벌AI펀드가 2,200,000원 보탰어요 [portfolio]. 10월13일 기사에선 미국 증시 주도주 변화가 KB미국대표성장ETF 관련 이슈로 다뤄졌어요 [뉴스-1]. 해외 보유가 67%라 미국 성장주 흐름이 자산 변동에 더 크게 반영됐어요 [portfolio].",
-  "advice_display": "고객님 투자자산은 지난 방문 이후 2,500,000원 늘어 +2.12% 변했어요. KB미국대표성장ETF와 KB글로벌AI펀드가 2,200,000원 보탰어요. 10월13일 기사에선 미국 증시 주도주 변화가 KB미국대표성장ETF 관련 이슈로 다뤄졌어요 ①. 해외 보유가 67%라 미국 성장주 흐름이 자산 변동에 더 크게 반영됐어요.",
-  "advice_plain": "고객님 투자자산은 지난 방문 이후 2,500,000원 늘어 +2.12% 변했어요. KB미국대표성장ETF와 KB글로벌AI펀드가 2,200,000원 보탰어요. 10월13일 기사에선 미국 증시 주도주 변화가 KB미국대표성장ETF 관련 이슈로 다뤄졌어요. 해외 보유가 67%라 미국 성장주 흐름이 자산 변동에 더 크게 반영됐어요.",
+  "advice": "고객님의 투자자산은 지난 방문 때보다 2,500,000원 늘었어요 [portfolio]. 변동 기여 1위로 집계된 KODEX 200이 300,000원 보탰어요 [portfolio]. 그날 코스피는 기관 수급에 힘입어 상승 마감했고, 외국인 자금도 유입 전환했어요 [일간-261014]. 고객님 자산은 해외 비중이 67%예요 [portfolio]. KB미국대표성장ETF 관련 기사에서는 미국 증시 주도주 변화가 다뤄졌어요 [뉴스-1].",
+  "advice_display": "고객님의 투자자산은 지난 방문 때보다 2,500,000원 늘었어요. 변동 기여 1위로 집계된 KODEX 200이 300,000원 보탰어요. 그날 코스피는 기관 수급에 힘입어 상승 마감했고, 외국인 자금도 유입 전환했어요 ①. 고객님 자산은 해외 비중이 67%예요. KB미국대표성장ETF 관련 기사에서는 미국 증시 주도주 변화가 다뤄졌어요 ②.",
+  "advice_plain": "고객님의 투자자산은 지난 방문 때보다 2,500,000원 늘었어요. 변동 기여 1위로 집계된 KODEX 200이 300,000원 보탰어요. 그날 코스피는 기관 수급에 힘입어 상승 마감했고, 외국인 자금도 유입 전환했어요. 고객님 자산은 해외 비중이 67%예요. KB미국대표성장ETF 관련 기사에서는 미국 증시 주도주 변화가 다뤄졌어요.",
   "sources": [
     {
       "marker": "①",
+      "doc": "일간-261014",
+      "kind": "리포트",
+      "title": "코스피 상승 마감, 외국인 순매수 전환",
+      "summary": "외국인이 8거래일 만에 순매수로 전환한 날의 국내 증시 정리.",
+      "publisher": "KB Think",
+      "url": "https://kbthink.com/investment/today-pick/2610/261009-1.html",
+      "date": "2026-10-14"
+    },
+    {
+      "marker": "②",
       "doc": "뉴스-1",
       "kind": "뉴스",
       "title": "\"잘나가는 반도체는 옛말\"…'신고가' 미국 증시 '진짜 주도주'는",
@@ -158,66 +168,90 @@
   "review": {
     "compliance": {
       "axis": "compliance",
-      "revision": 0,
+      "revision": 1,
       "passed": true,
       "issues": [],
       "stage": "llm",
-      "reason": "과거 자산 변동과 기여 종목, 관련 뉴스 및 포트폴리오 구조를 설명하는 내용으로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+      "reason": "과거 자산 변동과 기여 종목, 시장 동향 및 포트폴리오 비중을 사실적으로 서술한 내용으로, 행동 유도나 미래 수익 기대를 심는 표현은 보이지 않습니다."
     },
     "format": {
       "axis": "format",
-      "revision": 0,
+      "revision": 1,
       "passed": true,
       "issues": [],
-      "length": 180,
-      "sentences": 4
+      "length": 187,
+      "sentences": 5
     },
     "grounding": {
       "axis": "grounding",
-      "revision": 0,
+      "revision": 1,
       "passed": true,
       "issues": [],
-      "tags_checked": 1
+      "tags_checked": 2
     }
   },
-  "review_rounds": 1,
+  "review_rounds": 2,
   "review_history": [
     {
       "axis": "compliance",
       "revision": 0,
-      "passed": true,
-      "issues": [],
-      "stage": "llm",
-      "reason": "과거 자산 변동과 기여 종목, 관련 뉴스 및 포트폴리오 구조를 설명하는 내용으로 투자 행동 유도나 미래 수익 기대를 암시하지 않습니다."
+      "passed": false,
+      "issues": [
+        "금지어 '매수'"
+      ],
+      "stage": "rule"
     },
     {
       "axis": "format",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "length": 180,
-      "sentences": 4
+      "length": 194,
+      "sentences": 5
     },
     {
       "axis": "grounding",
       "revision": 0,
       "passed": true,
       "issues": [],
-      "tags_checked": 1
+      "tags_checked": 2
+    },
+    {
+      "axis": "compliance",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "stage": "llm",
+      "reason": "과거 자산 변동과 기여 종목, 시장 동향 및 포트폴리오 비중을 사실적으로 서술한 내용으로, 행동 유도나 미래 수익 기대를 심는 표현은 보이지 않습니다."
+    },
+    {
+      "axis": "format",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "length": 187,
+      "sentences": 5
+    },
+    {
+      "axis": "grounding",
+      "revision": 1,
+      "passed": true,
+      "issues": [],
+      "tags_checked": 2
     }
   ],
   "fallback_used": false,
   "approval": {
     "action": "approve",
     "by": "자동승인(데모)",
-    "at": "2026-10-13 23:17:42"
+    "at": "2026-10-15 00:20:22"
   },
   "llm": {
     "used": true,
     "model": "gpt-5.5",
-    "calls": 12
+    "calls": 14
   },
-  "generated_at": "2026-10-13 23:17:42",
+  "generated_at": "2026-10-15 00:20:22",
   "logs": [
     "진단: 상승 / 정합 / +2.12% → CASE14 (전망 해외보통 · 시황 MCP)",
     "일간 검색 2건 (벡터(text-embedding-3-small))",
@@ -227,13 +261,18 @@
     "주간 검색 1건",
     "카드 선택: personal_briefing {'personal_briefing': 7.24, 'domestic_market': 0.0, 'fx': 1.76, 'content': 0.0} (제친 카드 3개)",
     "LLM 생성 (gpt-5.5)",
+    "컴플라이언스(Rule): 1건 지적 — 매수",
+    "형식: 통과 (194자 · 5문장)",
+    "근거 결속: 통과 (외부 태그 2개 대조)",
+    "심사 종합(rev 0): 반려 — compliance [3축 판정]",
+    "재작성 1회차 (LLM) — 반영: 1건",
     "컴플라이언스(LLM 2차): 통과",
-    "형식: 통과 (180자 · 4문장)",
-    "근거 결속: 통과 (외부 태그 1개 대조)",
-    "심사 종합(rev 0): 통과 [3축 판정]",
+    "형식: 통과 (187자 · 5문장)",
+    "근거 결속: 통과 (외부 태그 2개 대조)",
+    "심사 종합(rev 1): 통과 [3축 판정]",
     "콘텐츠 2건 (후보 28건 · 당일시황 12건 제외) · 상황태그 ['#국내증시', '#해외증시']",
     "검수 승인 (자동승인(데모))"
   ],
-  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/4bc44a9a9490f5836f2efba8654c6733",
+  "trace_url": "https://cloud.langfuse.com/project/cmtnydiiv07k3ad0dmcofht1y/traces/a63fad323bd89adf7d5efb265b90e62d",
   "original_copy": "미국 시장은 숨고르기 중이에요. 지난 3일 동안 투자자산이 2,500,000원 늘었어요."
 }
