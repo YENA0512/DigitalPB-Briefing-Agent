@@ -4,7 +4,7 @@ title: 10월 2주차 주간 금융시장 동향
 date: 2026-10-08
 period: weekly
 region: 국내해외
-url: https://kbthink.com/investment/insight/2610/weekly-w2.html
+url: 
 summary: 코스피 주간 -5.39% · S&P500 +1.15% · 원/달러 -1.29% (10/5~10/8).
 mock: true
 source: Yahoo Finance 종가로 자동 생성 (report_builder.py)

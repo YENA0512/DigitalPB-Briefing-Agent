@@ -4,7 +4,7 @@ title: KB House View 2026년 10월 — 위험자산 선호도 유지
 date: 2026-10-01
 period: monthly
 region: 전체
-url: https://kbthink.com/investment/houseview/2610.html
+url: 
 summary: 10월 자산배분 방향 — 위험자산 선호도 유지, 지역·업종 분산 강화 권고.
 mock: true
 source: Yahoo Finance 종가로 자동 생성 (report_builder.py)

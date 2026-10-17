@@ -86,10 +86,11 @@ def rewrite(f: Path, new_name: str, new_date: str, new_doc: str,
     s = f.read_text(encoding="utf-8")
     s2 = re.sub(r"^doc:.*$", f"doc: {new_doc}", s, count=1, flags=re.M)
     s2 = re.sub(r"^date:.*$", f"date: {new_date}", s2, count=1, flags=re.M)
-    #  본문 안의 URL 경로에 박힌 연월도 맞춘다
-    ym = new_date[2:4] + new_date[5:7]
-    s2 = re.sub(r"(today-pick|insight|houseview)/\d{4}/", rf"\1/{ym}/", s2)
-    s2 = re.sub(r"houseview/\d{4}\.html", f"houseview/{ym}.html", s2)
+    #  날짜만 옮긴 목 리포트에 원래 글 주소를 남기면, 제목·날짜는 오늘인데
+    #  "원문 보기"가 며칠 전 글을 연다 (10/16 refresh 에서 실제로 그랬다).
+    #  일간은 1분 브리핑 목록으로, 주간·월간은 링크를 비운다.
+    url = "https://kbthink.com/investment/today-pick.html" if new_doc.startswith("일간-") else ""
+    s2 = re.sub(r"^url:.*$", f"url: {url}", s2, count=1, flags=re.M)
 
     note = "변경 없음" if (f.name == new_name and s2 == s) else f"{f.name} → {new_name}"
     if dry:
