@@ -16,6 +16,7 @@ API 키만으로 같은 데이터를 읽어 앱 안에서 보여준다. 대시�
 import base64
 import json
 import statistics
+import http_util
 import urllib.parse
 import urllib.request
 from collections import Counter, defaultdict
@@ -48,7 +49,7 @@ def _get(path: str) -> dict | None:
     req = urllib.request.Request(f"{config.LANGFUSE_HOST}{path}",
                                  headers={"Authorization": f"Basic {_auth()}"})
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+        with http_util.urlopen(req, timeout=TIMEOUT) as r:
             return json.load(r)
     except Exception:                            # noqa: BLE001
         return None

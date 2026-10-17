@@ -30,6 +30,7 @@ import argparse
 import html
 import re
 import time
+import http_util
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -53,7 +54,7 @@ _ARTICLE = re.compile(r'href="(/investment/today-pick/(\d{4})/(\d{6})-(\d)\.html
 
 def _get(url: str) -> str:
     req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+    with http_util.urlopen(req, timeout=TIMEOUT) as resp:
         return resp.read().decode("utf-8", "replace")
 
 
@@ -131,7 +132,7 @@ def sync(n: int = N_ARTICLES, dry_run: bool = False) -> tuple[int, str]:
         if not articles:
             return 0, "KB Think 1분 브리핑을 찾지 못했습니다 — 기존 파일 유지"
     except Exception as exc:                     # noqa: BLE001 — 배치는 멈추지 않는다
-        return 0, f"KB Think 수집 실패({type(exc).__name__}) — 기존 파일 유지"
+        return 0, f"KB Think 수집 실패({type(exc).__name__}: {str(exc)[:80]}) — 기존 파일 유지"
 
     if dry_run:
         for a in articles:
