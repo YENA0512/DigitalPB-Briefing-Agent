@@ -114,13 +114,14 @@ def _project_id() -> str:
         return ""
     import base64
     import json as _json
+    import http_util
     import urllib.request
     auth = base64.b64encode(
         f"{config.LANGFUSE_PUBLIC_KEY}:{config.LANGFUSE_SECRET_KEY}".encode()).decode()
     req = urllib.request.Request(f"{config.LANGFUSE_HOST}/api/public/projects",
                                  headers={"Authorization": f"Basic {auth}"})
     try:
-        with urllib.request.urlopen(req, timeout=10) as r:
+        with http_util.urlopen(req, timeout=10) as r:
             _pid_cache = _json.load(r)["data"][0]["id"]
     except Exception:                            # noqa: BLE001
         _pid_cache = ""

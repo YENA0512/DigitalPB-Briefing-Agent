@@ -24,6 +24,7 @@ FMP(Financial Modeling Prep) 무료 등급으로는 이 프로젝트가 필요�
 """
 
 import json
+import http_util
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -58,7 +59,7 @@ _cache: dict[str, dict] = {}
 def _fetch(symbol: str, rng: str = "1mo") -> dict:
     url = f"{BASE}{urllib.parse.quote(symbol)}?range={rng}&interval=1d"
     req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+    with http_util.urlopen(req, timeout=TIMEOUT) as resp:
         return json.load(resp)
 
 

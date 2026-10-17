@@ -35,6 +35,12 @@ from pathlib import Path
 import market_tool
 
 REPORTS_DIR = Path(__file__).resolve().parent.parent / "data" / "reports"
+
+#  목 리포트의 "원문 보기" 대상.
+#  본문은 종가로 생성한 것이라 **특정 KB Think 글과 내용이 다르다.**
+#  날짜만 맞춘 글 주소를 걸면 제목·내용과 다른 글이 열린다 (실제로 그랬다).
+#  일간은 1분 브리핑 목록으로 보내고, 주간·월간은 링크를 비운다(클릭 불가로 렌더).
+MOCK_DAILY_URL = "https://kbthink.com/investment/today-pick.html"
 N_DAILY, N_WEEKLY = 5, 2
 
 KR = ("^KS11", "^KQ11")
@@ -215,7 +221,7 @@ def daily(data, d: date) -> tuple[str, str]:
                + (f" · 원/달러 {_sgn(fx[1])}" if fx else "") + f" — {_md(d)} 국내 증시 정리.")
     fm = _frontmatter(doc=f"일간-{_ymd(d)}", title=title, date=d.isoformat(), period="daily",
                       region="국내",
-                      url=f"https://kbthink.com/investment/today-pick/{_ymd(d)[:4]}/{_ymd(d)}-1.html",
+                      url=MOCK_DAILY_URL,
                       summary=summary)
     return f"daily-{_ymd(d)}.md", fm + "\n\n".join(paras) + "\n"
 
@@ -281,7 +287,7 @@ def weekly(data, monday: date) -> tuple[str, str]:
               + (f" · 원/달러 {_sgn(fx_w)}" if fx_w is not None else "") + f" ({span})."
     fm = _frontmatter(doc=f"주간-{tag}", title=title, date=last.isoformat(), period="weekly",
                       region="국내해외",
-                      url=f"https://kbthink.com/investment/insight/{tag[:4]}/weekly-w{n}.html",
+                      url="",
                       summary=summary)
     return f"weekly-{tag}.md", fm + "\n\n".join(paras) + "\n"
 
@@ -321,7 +327,7 @@ def monthly(data, asof: date) -> tuple[str, str]:
     tag = f"{asof.year % 100:02d}{m:02d}"
     fm = _frontmatter(doc=f"월간-{tag}", title=f"KB House View {asof.year}년 {m}월 — 위험자산 선호도 유지",
                       date=asof.replace(day=1).isoformat(), period="monthly", region="전체",
-                      url=f"https://kbthink.com/investment/houseview/{tag}.html",
+                      url="",
                       summary=f"{m}월 자산배분 방향 — 위험자산 선호도 유지, 지역·업종 분산 강화 권고.")
     return f"monthly-{tag}.md", fm + "\n\n".join(paras) + "\n"
 

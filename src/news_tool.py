@@ -32,6 +32,7 @@
 
 import html
 import re
+import http_util
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -118,7 +119,7 @@ def search(query: str, limit: int = 3) -> list[dict]:
            f"&hl=ko&gl=KR&ceid=KR:ko&when=7d")
     try:
         req = urllib.request.Request(url, headers=UA)
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+        with http_util.urlopen(req, timeout=TIMEOUT) as resp:
             items = _parse_rss(resp.read().decode("utf-8", "replace"), limit)
     except Exception:                            # noqa: BLE001 — 뉴스는 없어도 된다
         items = []

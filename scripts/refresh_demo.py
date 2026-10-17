@@ -35,69 +35,15 @@
 """
 
 import argparse
-import re
 import subprocess
 import sys
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REPORTS = ROOT / "data" / "reports"
 sys.path.insert(0, str(ROOT / "src"))
 
-#  리포트 파일 → 오늘로부터 며칠 전인지
-DAILY_OFFSETS = [0, 1, 2, 3, 4]      # 최신순
 DEMO_CASES = ["반도체편중", "안정형과보수", "해외분산상승", "신규고객", "첫투자시작"]
-
-
-def ymd(d: date) -> str:
-    """261013 형식 — 파일명·doc ID 에 쓰는 2자리 연도."""
-    return f"{d.year % 100:02d}{d.month:02d}{d.day:02d}"
-
-
-def week_tag(d: date) -> str:
-    """2610W2 — 그 달의 몇 번째 주인지."""
-    return f"{d.year % 100:02d}{d.month:02d}W{(d.day - 1) // 7 + 1}"
-
-
-def plan(today: date) -> list[tuple[Path, str, str, str]]:
-    """(현재 파일, 새 파일명, 새 날짜, 새 doc ID) 목록."""
-    out = []
-    dailies = sorted(REPORTS.glob("daily-*.md"), reverse=True)
-    for f, off in zip(dailies, DAILY_OFFSETS):
-        d = today - timedelta(days=off)
-        out.append((f, f"daily-{ymd(d)}.md", d.isoformat(), f"일간-{ymd(d)}"))
-
-    weeklies = sorted(REPORTS.glob("weekly-*.md"), reverse=True)
-    for f, off in zip(weeklies, [0, 7]):
-        d = today - timedelta(days=off)
-        out.append((f, f"weekly-{week_tag(d)}.md", d.isoformat(),
-                    f"주간-{week_tag(d)}"))
-
-    for f in sorted(REPORTS.glob("monthly-*.md")):
-        tag = f"{today.year % 100:02d}{today.month:02d}"
-        out.append((f, f"monthly-{tag}.md", today.replace(day=1).isoformat(),
-                    f"월간-{tag}"))
-    return out
-
-
-def rewrite(f: Path, new_name: str, new_date: str, new_doc: str,
-            dry: bool) -> str:
-    s = f.read_text(encoding="utf-8")
-    s2 = re.sub(r"^doc:.*$", f"doc: {new_doc}", s, count=1, flags=re.M)
-    s2 = re.sub(r"^date:.*$", f"date: {new_date}", s2, count=1, flags=re.M)
-    #  본문 안의 URL 경로에 박힌 연월도 맞춘다
-    ym = new_date[2:4] + new_date[5:7]
-    s2 = re.sub(r"(today-pick|insight|houseview)/\d{4}/", rf"\1/{ym}/", s2)
-    s2 = re.sub(r"houseview/\d{4}\.html", f"houseview/{ym}.html", s2)
-
-    note = "변경 없음" if (f.name == new_name and s2 == s) else f"{f.name} → {new_name}"
-    if dry:
-        return note
-    f.write_text(s2, encoding="utf-8")
-    if f.name != new_name:
-        f.rename(f.parent / new_name)
-    return note
 
 
 def main() -> int:
@@ -124,10 +70,11 @@ def main() -> int:
             for name in report_builder.write(files):
                 print(f"   {name}")
     except Exception as exc:                     # noqa: BLE001 — 데모 준비는 멈추지 않는다
-        print(f"   ⚠ 시세 조회 실패({type(exc).__name__}) — 날짜만 갱신합니다.")
-        print("     본문 수치와 실시간 시세가 다를 수 있습니다. 네트워크 확인 후 다시 실행하세요.")
-        for f, name, d, doc in plan(today):
-            print(f"   {rewrite(f, name, d, doc, args.dry_run):<34} {doc}")
+        #  예전에는 여기서 목 리포트의 **날짜만** 오늘로 옮겼다. 그러면 며칠 전
+        #  내용이 오늘 시황처럼 보이고, KB Think 실제 글보다 "최신"이 되어 검색에서
+        #  이겼다 (10/17 발표 PC 에서 실제로 그랬다). 이제는 건드리지 않는다.
+        print(f"   ⚠ 시세 조회 실패({type(exc).__name__}: {str(exc)[:80]})")
+        print("     목 리포트는 그대로 둡니다. 네트워크 확인 후 다시 실행하세요.")
 
     if args.dry_run:
         print("\n(dry-run — 아무것도 바꾸지 않았습니다)")

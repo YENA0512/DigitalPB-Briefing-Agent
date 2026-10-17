@@ -61,9 +61,13 @@ def _report_files() -> list[Path]:
     if not live:
         return mock
     newest = lambda files: max((_parse(f).get("date", "") for f in files), default="")
-    mock_daily = [f for f in mock if f.name.startswith("daily-")]
+    #  종가로 생성한 목 리포트만 비교 대상이다. 예전 refresh 가 **날짜만 옮긴**
+    #  목 리포트(source 표시 없음)는 날짜가 최신이어도 내용은 며칠 전 것이라
+    #  실제 글을 이기면 안 된다 (10/17 발표 PC 에서 그랬다).
+    mock_daily = [f for f in mock if f.name.startswith("daily-")
+                  and "report_builder" in _parse(f).get("source", "")]
     if newest(live) < newest(mock_daily):
-        return mock
+        return [f for f in mock if not f.name.startswith("daily-")] + mock_daily
     return [f for f in mock if not f.name.startswith("daily-")] + live
 
 
